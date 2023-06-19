@@ -1,5 +1,6 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from sqlalchemy.orm import relationship
+from datetime import datetime
 
 class Vote(db.Model):
     __tablename__ = 'votes'
@@ -20,6 +21,6 @@ class Vote(db.Model):
             'user_id': self.user_id,
             'review_id': self.review_id,
             'vote_type': self.vote_type,
-            'updated_at': self.updated_at
+            'updated_at': self.updated_at,
             'created_at': self.created_at,
         }
