@@ -9,7 +9,6 @@ API_KEY = os.getenv('API_KEY')
 @google_routes.route('/autocomplete', methods=['GET'])
 def autocomplete():
     input_text = request.args.get('input')
-    console.log(input_text)
 
     url = f'https://maps.googleapis.com/maps/api/place/autocomplete/json'
     params = {
@@ -30,19 +29,27 @@ def autocomplete():
 
 @google_routes.route('/details', methods=['GET'])
 def place_details():
-    place_id = request.args.get('place_id')
+    place_id_input = request.args.get('place_id')
 
-    url = 'https://maps.googleapis.com/maps/api/place/details/json'
+    print("----------------------------", place_id_input)
+
+    url = f'https://maps.googleapis.com/maps/api/place/details/json'
     params = {
-        'place_id': place_id,
-        'key': API_KEY
+        'place_id': place_id_input,
+        'key': API_KEY,
     }
 
     response = requests.get(url, params=params)
     data = response.json()
 
     if data['status'] == 'OK':
-        place_details = data['result']
+        place_details = {
+            'name': data['result']['name'],
+            'formatted_address': data['result']['formatted_address'],
+            'phone_number': data['result'].get('formatted_phone_number', ''),
+            'latitude': data['result']['geometry']['location']['lat'],
+            'longitude': data['result']['geometry']['location']['lng']
+        }
         return jsonify(place_details)
     else:
         return jsonify({'error': 'Failed to fetch place details'})
