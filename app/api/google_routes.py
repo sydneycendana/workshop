@@ -26,3 +26,23 @@ def autocomplete():
     place_ids = [prediction['place_id'] for prediction in predictions]
 
     return jsonify(place_ids)
+
+
+@google_routes.route('/details', methods=['GET'])
+def place_details():
+    place_id = request.args.get('place_id')
+
+    url = 'https://maps.googleapis.com/maps/api/place/details/json'
+    params = {
+        'place_id': place_id,
+        'key': API_KEY
+    }
+
+    response = requests.get(url, params=params)
+    data = response.json()
+
+    if data['status'] == 'OK':
+        place_details = data['result']
+        return jsonify(place_details)
+    else:
+        return jsonify({'error': 'Failed to fetch place details'})
