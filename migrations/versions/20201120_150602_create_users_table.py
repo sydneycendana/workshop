@@ -27,6 +27,7 @@ def upgrade():
     sa.Column('last_name', sa.String(length=255), nullable=False),
     sa.Column('email', sa.String(length=255), nullable=False),
     sa.Column('hashed_password', sa.String(length=255), nullable=False),
+    sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
     )
@@ -95,3 +96,4 @@ def downgrade():
     op.drop_table('reviews')
     op.drop_table('workshops')
     op.drop_table('users')
+    # ### end Alembic commands ###

@@ -1,20 +1,34 @@
 from app.models import db, User, environment, SCHEMA
 from sqlalchemy.sql import text
 
-
-# Adds a demo user, you can add other users here if you want
 def seed_users():
-    demo = User(
-        username='Demo', email='demo@aa.io', password='password')
-    marnie = User(
-        username='marnie', email='marnie@aa.io', password='password')
-    bobbie = User(
-        username='bobbie', email='bobbie@aa.io', password='password')
+    john = User(
+        first_name='John',
+        last_name='Doe',
+        email='johndoe@example.com',
+        password='password'
+    )
 
-    db.session.add(demo)
-    db.session.add(marnie)
-    db.session.add(bobbie)
+    jane = User(
+        first_name='Jane',
+        last_name='Smith',
+        email='janesmith@example.com',
+        password='password'
+    )
+
+    michael = User(
+        first_name='Michael',
+        last_name='Johnson',
+        email='michaeljohnson@example.com',
+        password='password'
+    )
+
+    db.session.add(john)
+    db.session.add(jane)
+    db.session.add(michael)
+
     db.session.commit()
+
 
 
 # Uses a raw SQL query to TRUNCATE or DELETE the users table. SQLAlchemy doesn't
@@ -28,5 +42,5 @@ def undo_users():
         db.session.execute(f"TRUNCATE table {SCHEMA}.users RESTART IDENTITY CASCADE;")
     else:
         db.session.execute(text("DELETE FROM users"))
-        
+
     db.session.commit()
