@@ -15,8 +15,11 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    reviews = db.relationship('Review', back_populates='user', cascade='all, delete-orphan')
+    votes = db.relationship('Vote', back_populates='user', cascade='all, delete-orphan')
+
 
     @property
     def password(self):
