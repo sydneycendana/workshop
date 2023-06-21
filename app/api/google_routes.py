@@ -31,8 +31,6 @@ def autocomplete():
 def place_details():
     place_id_input = request.args.get('place_id')
 
-    print("----------------------------", place_id_input)
-
     url = f'https://maps.googleapis.com/maps/api/place/details/json'
     params = {
         'place_id': place_id_input,
@@ -42,6 +40,7 @@ def place_details():
     response = requests.get(url, params=params)
     data = response.json()
 
+
     if data['status'] == 'OK':
         place_details = {
             'name': data['result']['name'],
@@ -50,6 +49,7 @@ def place_details():
             'latitude': data['result']['geometry']['location']['lat'],
             'longitude': data['result']['geometry']['location']['lng']
         }
+
         return jsonify(place_details)
     else:
         return jsonify({'error': 'Failed to fetch place details'})

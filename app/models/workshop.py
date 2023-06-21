@@ -8,17 +8,17 @@ class Workshop(db.Model):
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
 
-    id = db.Column(db.Integer, primary_key=True)
-    google_id = db.Column(db.String(255))
-    name = db.Column(db.String(255))
-    lat = db.Column(db.Float)
-    lng = db.Column(db.Float)
-    formatted_address = db.Column(db.String(255))
-    phone_number = db.Column(db.String(255))
-    preview_image = db.Column(db.Integer, db.ForeignKey('review_images.id'))
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    google_id = db.Column(db.String(255), nullable=False, unique=True)
+    name = db.Column(db.String(255), nullable=False)
+    lat = db.Column(db.Numeric(precision=10, scale=7), nullable=False)
+    lng = db.Column(db.Numeric(precision=10, scale=7), nullable=False)
+    formatted_address = db.Column(db.String(255), nullable=False)
+    phone_number = db.Column(db.String(255), nullable=True)
+    preview_image_url = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    reviews = relationship('Review', backref='review', cascade='all, delete', lazy=True)
+    reviews = relationship('Review', back_populates='workshop', cascade='all, delete-orphan')
 
     def to_dict(self):
         average_wifi = self.calculate_average_rating('wifi')
@@ -33,7 +33,7 @@ class Workshop(db.Model):
             'lng': self.lng,
             'formatted_address': self.formatted_address,
             'phone_number': self.phone_number,
-            'preview_image': self.preview_image,
+            'preview_image_url': self.preview_image_url,
             'average_wifi': average_wifi,
             'average_pet_friendliness': average_pet_friendliness,
             'average_noise_level': average_noise_level,
