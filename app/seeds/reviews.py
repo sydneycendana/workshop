@@ -24,8 +24,8 @@ def seed_reviews():
         wifi= 5.0,
         pet_friendliness= 4.5,
         noise_level= 2.5,
-        updated_at=datetime.utcnow()
-        created_at=datetime.utcnow(),
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow()
     )
 
     review2 = Review(
@@ -35,8 +35,8 @@ def seed_reviews():
         wifi=4.0,
         pet_friendliness=3.5,
         noise_level=3.0,
-        created_at=datetime.utcnow(),
-        updated_at=datetime.utcnow()
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow()
     )
 
     review3 = Review(
@@ -46,8 +46,8 @@ def seed_reviews():
         wifi=5.0,
         pet_friendliness=3.0,
         noise_level=2.0,
-        created_at=datetime.utcnow(),
-        updated_at=datetime.utcnow()
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow()
     )
 
     review4 = Review(
@@ -79,42 +79,42 @@ def seed_reviews():
         wifi=4.5,
         pet_friendliness=3.0,
         noise_level=3.5,
-        created_at=datetime.utcnow(),
-        updated_at=datetime.utcnow()
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow()
     )
 
-review7 = Review(
-    workshop_id=bluestone_lane.id,
-    user_id=emily.id,
-    description="Bluestone Lane has a great ambiance and the coffee is excellent. The interior is beautifully designed with cozy seating areas. It can get a bit crowded during peak hours, so it's best to come early for a quiet working environment.",
-    wifi=4.0,
-    pet_friendliness=3.5,
-    noise_level=3.0,
-    created_at=datetime.utcnow(),
-    updated_at=datetime.utcnow()
-)
+    review7 = Review(
+        workshop_id=bluestone_lane.id,
+        user_id=emily.id,
+        description="Bluestone Lane has a great ambiance and the coffee is excellent. The interior is beautifully designed with cozy seating areas. It can get a bit crowded during peak hours, so it's best to come early for a quiet working environment.",
+        wifi=4.0,
+        pet_friendliness=3.5,
+        noise_level=3.0,
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow()
+    )
 
-review8 = Review(
-    workshop_id=java_man.id,
-    user_id=sarah.id,
-    description="Java Man is a hidden gem for coffee lovers. The coffee is rich and flavorful, and they have a wide selection of blends. The seating area is comfortable and spacious, making it a great place to work or study.",
-    wifi=4.5,
-    pet_friendliness=3.5,
-    noise_level=3.0,
-    created_at=datetime.utcnow(),
-    updated_at=datetime.utcnow()
-)
+    review8 = Review(
+        workshop_id=java_man.id,
+        user_id=sarah.id,
+        description="Java Man is a hidden gem for coffee lovers. The coffee is rich and flavorful, and they have a wide selection of blends. The seating area is comfortable and spacious, making it a great place to work or study.",
+        wifi=4.5,
+        pet_friendliness=3.5,
+        noise_level=3.0,
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow()
+    )
 
-review9 = Review(
-    workshop_id=java_man.id,
-    user_id=john.id,
-    description="Java Man has a cozy and welcoming atmosphere. The staff is friendly and attentive. The coffee is top-notch and they offer a great variety of snacks and pastries. It's a perfect spot for a productive work session.",
-    wifi=4.0,
-    pet_friendliness=3.0,
-    noise_level=2.5,
-    created_at=datetime.utcnow(),
-    updated_at=datetime.utcnow()
-)
+    review9 = Review(
+        workshop_id=java_man.id,
+        user_id=john.id,
+        description="Java Man has a cozy and welcoming atmosphere. The staff is friendly and attentive. The coffee is top-notch and they offer a great variety of snacks and pastries. It's a perfect spot for a productive work session.",
+        wifi=4.0,
+        pet_friendliness=3.0,
+        noise_level=2.5,
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow()
+    )
 
     db.session.add(review1)
     db.session.add(review2)

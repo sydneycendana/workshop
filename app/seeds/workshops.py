@@ -10,7 +10,7 @@ def seed_workshops():
         lat= 33.8854891,
         lng= -118.4091505,
         formatted_address= '321 Manhattan Beach Blvd, Manhattan Beach, CA 90266, USA',
-        phone_number: '(718) 374-6858',
+        phone_number= '(718) 374-6858',
         preview_image_url= 'https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
         created_at= datetime.utcnow(),
     )

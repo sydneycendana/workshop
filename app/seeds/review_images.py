@@ -12,57 +12,57 @@ def seed_review_images():
 
     reviewImage1 = ReviewImage(
         review_id= review1.id,
-        url='https://images.pexels.com/photos/887723/pexels-photo-887723.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
-        updated_at=datetime.utcnow()
-        created_at=datetime.utcnow(),
+        url='https://images.pexels.com/photos/887723/pexels-photo-887723.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow()
     )
     reviewImage2 = ReviewImage(
         review_id= review1.id,
-        url='https://images.pexels.com/photos/1438445/pexels-photo-1438445.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
-        updated_at=datetime.utcnow()
-        created_at=datetime.utcnow(),
+        url='https://images.pexels.com/photos/1438445/pexels-photo-1438445.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow()
     )
     reviewImage3 = ReviewImage(
         review_id= review1.id,
-        url='https://images.pexels.com/photos/1394841/pexels-photo-1394841.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
-        updated_at=datetime.utcnow()
-        created_at=datetime.utcnow(),
+        url='https://images.pexels.com/photos/1394841/pexels-photo-1394841.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow()
     )
     reviewImage4 = ReviewImage(
         review_id= review2.id,
-        url='https://images.pexels.com/photos/996219/pexels-photo-996219.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
-        updated_at=datetime.utcnow()
-        created_at=datetime.utcnow(),
+        url='https://images.pexels.com/photos/996219/pexels-photo-996219.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow()
     )
     reviewImage5 = ReviewImage(
         review_id= review2.id,
-        url='https://images.pexels.com/photos/1833306/pexels-photo-1833306.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
-        updated_at=datetime.utcnow()
-        created_at=datetime.utcnow(),
+        url='https://images.pexels.com/photos/1833306/pexels-photo-1833306.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow()
     )
     reviewImage6 = ReviewImage(
         review_id= review3.id,
-        url='https://images.pexels.com/photos/2041627/pexels-photo-2041627.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
-        updated_at=datetime.utcnow()
-        created_at=datetime.utcnow(),
+        url='https://images.pexels.com/photos/2041627/pexels-photo-2041627.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow()
     )
     reviewImage7 = ReviewImage(
         review_id= review3.id,
-        url='https://images.pexels.com/photos/3316924/pexels-photo-3316924.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
-        updated_at=datetime.utcnow()
-        created_at=datetime.utcnow(),
+        url='https://images.pexels.com/photos/3316924/pexels-photo-3316924.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow()
     )
     reviewImage8 = ReviewImage(
         review_id= review4.id,
-        url='https://images.pexels.com/photos/1137745/pexels-photo-1137745.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
-        updated_at=datetime.utcnow()
-        created_at=datetime.utcnow(),
+        url='https://images.pexels.com/photos/1137745/pexels-photo-1137745.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow()
     )
     reviewImage9 = ReviewImage(
         review_id= review4.id,
-        url='https://images.pexels.com/photos/5461666/pexels-photo-5461666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
-        updated_at=datetime.utcnow()
-        created_at=datetime.utcnow(),
+        url='https://images.pexels.com/photos/5461666/pexels-photo-5461666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow()
     )
 
     db.session.add(reviewImage1)
