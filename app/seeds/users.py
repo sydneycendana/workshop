@@ -23,9 +23,49 @@ def seed_users():
         password='password'
     )
 
+    emily = User(
+        first_name='Emily',
+        last_name='Williams',
+        email='emilywilliams@example.com',
+        password='password'
+    )
+
+    david = User(
+        first_name='David',
+        last_name='Brown',
+        email='davidbrown@example.com',
+        password='password'
+    )
+
+    sarah = User(
+        first_name='Sarah',
+        last_name='Davis',
+        email='sarahdavis@example.com',
+        password='password'
+    )
+
+    andrew = User(
+        first_name='Andrew',
+        last_name='Taylor',
+        email='andrewtaylor@example.com',
+        password='password'
+    )
+
+    olivia = User(
+        first_name='Olivia',
+        last_name='Lee',
+        email='olivialee@example.com',
+        password='password'
+    )
+
     db.session.add(john)
     db.session.add(jane)
     db.session.add(michael)
+    db.session.add(emily)
+    db.session.add(david)
+    db.session.add(sarah)
+    db.session.add(andrew)
+    db.session.add(olivia)
 
     db.session.commit()
 
