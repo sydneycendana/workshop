@@ -50,6 +50,7 @@ def place_details():
             'longitude': data['result']['geometry']['location']['lng']
         }
 
-        return jsonify(place_details)
+        return place_details
+
     else:
         return jsonify({'error': 'Failed to fetch place details'})
