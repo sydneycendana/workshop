@@ -80,3 +80,29 @@ a {
     background-color: transparent;
     cursor: pointer;
 }
+
+/* Autocomplete */
+.autocomplete-input {
+    padding: 10px 20px;
+    min-width: 200px;
+}
+
+.autocomplete-results {
+    position: absolute;
+    border: 1px solid gray;
+}
+
+.autocomplete-result {
+    /* border: 1px solid gray; */
+    padding: 5px;
+}
+
+.autocomplete-result:not(:last-child) {
+    border-bottom: 1px solid gray;
+    /* margin-bottom: 10px; */
+}
+
+.autocomplete-suggestion-address {
+    color: gray;
+    font-size: 12px;
+}

@@ -13,7 +13,6 @@ export const fetchAutocompleteSuggestions = (inputText) => async (dispatch) => {
     const response = await fetch(`/api/google/autocomplete?input=${inputText}`);
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
       dispatch(loadAutocompleteSuggestions(data));
     } else {
       throw new Error("Failed to fetch autocomplete suggestions");
