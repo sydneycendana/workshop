@@ -37,7 +37,6 @@ class Workshop(db.Model):
             'average_wifi': average_wifi,
             'average_pet_friendliness': average_pet_friendliness,
             'average_noise_level': average_noise_level,
-            'updated_at': self.updated_at,
             'created_at': self.created_at
         }
 
