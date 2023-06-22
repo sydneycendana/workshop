@@ -1,1 +1,71 @@
-/* TODO Add site wide styles */
+:root {
+    --font-lobster: 'Lobster', cursive;
+    --font-oswald: 'Oswald', sans-serif;
+    --font-lato: 'Lato', sans-serif;
+
+    --color-red: #FC0909;
+    --color-blue: #17255A;
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #FFF3F3;
+    font-family: var(--font-lato);
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* .inverted-button {
+    color: var(--color-blue);
+    background-color: transparent;
+} */
+
+.modal-container {
+    padding: 40px;
+    min-width: 500px;
+    width: auto;
+
+}
+
+.modal-title {
+    text-align: center;
+    font-family: var(--font-oswald);
+    font-size: 50px;
+    font-weight: 300;
+}
+
+.signup-login-input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin: 20px 0;
+    border-radius: 3px;
+}
+
+.signup-login-input-container input {
+    padding: 10px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.modal-submit {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}

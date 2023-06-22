@@ -5,3 +5,32 @@
 .hidden {
   display: none;
 }
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 800px;
+  margin: 20px auto;
+}
+
+.navbar-button>button {
+  border: none;
+  border: 1px solid var(--color-blue);
+  background-color: var(--color-blue);
+  color: white;
+  padding: 10px 30px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.inverted-button>button {
+  color: var(--color-blue) !important;
+  background-color: transparent !important;
+}
+
+.logo-link {
+  color: var(--color-red);
+  font-family: var(--font-lobster);
+  font-size: 60px;
+}
