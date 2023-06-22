@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { login } from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
-import './LoginForm.css';
+
+import { ReactComponent as Arrow } from "../../assets/icons/arrow.svg";
+
+import "./LoginForm.css";
 
 function LoginFormPage() {
   const dispatch = useDispatch();
@@ -22,35 +25,37 @@ function LoginFormPage() {
   };
 
   return (
-    <>
-      <h1>Log In</h1>
+    <div className="modal-container">
+      <h1 className="modal-title">Log In</h1>
       <form onSubmit={handleSubmit}>
         <ul>
           {errors.map((error, idx) => (
             <li key={idx}>{error}</li>
           ))}
         </ul>
-        <label>
-          Email
+        <div className="signup-login-input-container">
           <input
             type="text"
             value={email}
+            placeholder="email"
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-        </label>
-        <label>
-          Password
           <input
             type="password"
             value={password}
+            placeholder="password"
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </label>
-        <button type="submit">Log In</button>
+        </div>
+        <div className="button-container">
+          <button type="submit" className="modal-submit">
+            <Arrow />
+          </button>
+        </div>
       </form>
-    </>
+    </div>
   );
 }
 
