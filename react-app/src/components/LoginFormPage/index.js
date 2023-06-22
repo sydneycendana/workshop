@@ -26,7 +26,7 @@ function LoginFormPage() {
 
   return (
     <div className="modal-container">
-      <h1 className="modal-title">Log In</h1>
+      <h1 className="modal-title">Welcome back</h1>
       <form onSubmit={handleSubmit}>
         <ul>
           {errors.map((error, idx) => (

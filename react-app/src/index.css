@@ -38,6 +38,7 @@ a {
     min-width: 500px;
     width: auto;
     background-color: #FFF3F3;
+    border: 3px solid var(--color-red);
     border-radius: 3px;
 
 }
