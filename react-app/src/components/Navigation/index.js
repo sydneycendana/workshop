@@ -5,6 +5,7 @@ import OpenModalButton from "../OpenModalButton";
 import SignupFormPage from "../SignupFormPage";
 import LoginFormModal from "../LoginFormPage";
 import ProfileButton from "./ProfileButton";
+import SearchBar from "./SearchBar";
 import "./Navigation.css";
 
 function Navigation({ isLoaded }) {
@@ -12,10 +13,14 @@ function Navigation({ isLoaded }) {
 
   return (
     <ul className="navbar">
-      {!sessionUser && (
+      {sessionUser ? (
+        <li className="navbar-search">
+          <SearchBar />
+        </li>
+      ) : (
         <li className="navbar-button">
           <OpenModalButton
-            buttonText="get started"
+            buttonText="Get Started"
             modalComponent={<SignupFormPage />}
           />
         </li>

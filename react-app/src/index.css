@@ -28,15 +28,18 @@ a {
     text-decoration: none;
 }
 
-/* .inverted-button {
-    color: var(--color-blue);
-    background-color: transparent;
-} */
+.page-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
 
 .modal-container {
     padding: 40px;
     min-width: 500px;
     width: auto;
+    background-color: #FFF3F3;
+    border: 3px solid var(--color-red);
+    border-radius: 3px;
 
 }
 
@@ -57,6 +60,14 @@ a {
 
 .signup-login-input-container input {
     padding: 10px;
+    background-color: #FFF3F3;
+    border-radius: 3px;
+    border: 1px solid gray;
+}
+
+.signup-login-input-container input:focus {
+    outline: none;
+    border: 1px solid var(--color-red);
 }
 
 .button-container {
@@ -68,4 +79,30 @@ a {
     border: none;
     background-color: transparent;
     cursor: pointer;
+}
+
+/* Autocomplete */
+.autocomplete-input {
+    padding: 10px 20px;
+    min-width: 200px;
+}
+
+.autocomplete-results {
+    position: absolute;
+    border: 1px solid gray;
+}
+
+.autocomplete-result {
+    /* border: 1px solid gray; */
+    padding: 5px;
+}
+
+.autocomplete-result:not(:last-child) {
+    border-bottom: 1px solid gray;
+    /* margin-bottom: 10px; */
+}
+
+.autocomplete-suggestion-address {
+    color: gray;
+    font-size: 12px;
 }
