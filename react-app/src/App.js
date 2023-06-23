@@ -4,6 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import SignupFormPage from "./components/SignupFormPage";
 import LoginFormPage from "./components/LoginFormPage";
 import WorkshopDetails from "./components/Workshops/WorkshopDetails";
+import CreateWorkshopForm from "./components/Workshops/CreateWorkshop";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 
@@ -27,6 +28,9 @@ function App() {
           </Route>
           <Route exact path={"/workshops/:workshopId"}>
             <WorkshopDetails />
+          </Route>
+          <Route exact path={"/workshop"}>
+            <CreateWorkshopForm />
           </Route>
         </Switch>
       )}
