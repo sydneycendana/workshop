@@ -28,10 +28,10 @@ const WorkshopDetails = () => {
           style={{ width: "400px", height: "400px" }}
         />
         <div>
-          <p>{workshop.reviews.length} reviews</p>
+          <p>{workshop.reviews && workshop.reviews.length} reviews</p>
           <h2>{workshop.name}</h2>
           <p>{workshop.formatted_address}</p>
-          <p>{workshop.phone_number}</p>
+          {workshop.phone_number && <p>{workshop.phone_number}</p>}
         </div>
       </div>
 
