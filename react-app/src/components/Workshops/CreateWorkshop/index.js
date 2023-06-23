@@ -15,28 +15,11 @@ const CreateWorkshopForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("preview_image", previewImage);
-    formData.append("placeDetails", JSON.stringify(placeDetails));
-
-    dispatch(createWorkshop(formData));
+    dispatch(createWorkshop(placeDetails, previewImage));
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <input type="text" name="name" value={placeDetails.name} readOnly />
-      <input
-        type="text"
-        name="formatted_address"
-        value={placeDetails.formatted_address}
-        readOnly
-      />
-      <input
-        type="text"
-        name="phone_number"
-        value={placeDetails.phone_number}
-        readOnly
-      />
       <input type="file" onChange={handlePreviewImageChange} />
       <button type="submit">Create Workshop</button>
     </form>

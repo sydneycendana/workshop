@@ -28,10 +28,10 @@ a {
     text-decoration: none;
 }
 
-/* .inverted-button {
-    color: var(--color-blue);
-    background-color: transparent;
-} */
+.page-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
 
 .modal-container {
     padding: 40px;
