@@ -90,6 +90,7 @@ a {
 .autocomplete-results {
     position: absolute;
     border: 1px solid gray;
+    background-color: #FFF3F3;
 }
 
 .autocomplete-result {
