@@ -2,10 +2,10 @@ import os
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
 import requests
-from ..config import Config
-from botocore.exceptions import BotoCoreError, ClientError
+from .aws_s3 import (
+    upload_file_to_s3, get_unique_filename)
 
-from app.models import db, Workshop
+from app.models import db, Workshop, Vote, Review
 
 workshop_routes = Blueprint('workshops', __name__)
 
@@ -17,45 +17,45 @@ def create_workshop():
     workshop_form = WorkshopForm()
     workshop_form['csrf_token'].data = request.cookies['csrf_token']
 
-    place_id = request.form.get('place_id')
-    name = request.form.get('name')
-    latitude = request.form.get('latitude')
-    longitude = request.form.get('longitude')
-    formatted_address = request.form.get('formatted_address')
-    phone_number = request.form.get('phone_number')
-    preview_image = request.files.get('preview_image')
+    place_id = request.json.get(place_id)
+    name = request.json.get(name)
+    lat = request.json.get(lat)
+    lng = request.json.get(lng)
+    formatted_address = request.json.get(formatted_address)
+    phone_number = request.json.get(phone_number)
 
-    if workshop_form.validate_on_submit() and place_id and name and latitude and longitude and formatted_address and preview_image:
-        try:
-            preview_image_filename = generate_unique_filename(preview_image.filename)  # Replace with your unique file naming logic
+    if workshop_form.validate_on_submit() and place_id and name and latitude and longitude and formatted_address:
 
-            Config.s3.upload_fileobj(preview_image, 'scworkshopbucket', preview_image_filename)
+        image = form.data["image"]
+        image.filename = get_unique_filename(image.filename)
+        upload = upload_file_to_s3(image)
+        print(upload)
 
-            preview_image_url = f'https://scworkshopbucket.amazonaws.com/{preview_image_filename}'
+        if "url" not in upload:
+        # if the dictionary doesn't have a url key
+        # it means that there was an error when we tried to upload
+        # so we send back that error message (and we printed it above)
+            return render_template("workshop_form.html", form=form, errors=[upload])
 
-            workshop = Workshop(
-                google_id=place_id,
-                name=name,
-                lat=latitude,
-                lng=longitude,
-                formatted_address=formatted_address,
-                phone_number=phone_number,
-                preview_image_url=preview_image_url
-            )
+        url = upload["url"]
+        workshop = Workshop(
+            google_id=place_id,
+            name=name,
+            lat=latitude,
+            lng=longitude,
+            formatted_address=formatted_address,
+            phone_number=phone_number,
+            preview_image_url=url
+        )
+        db.session.add(workshop)
+        db.session.commit()
+        return redirect("/")
 
-            if workshop.validate():
-                db.session.add(workshop)
-                db.session.commit()
+    if form.errors:
+        print(form.errors)
+        return render_template("workshop_form.html", form=form, errors=form.errors)
 
-                return {'workshop': workshop.to_dict()}
-
-        except (BotoCoreError, ClientError) as e:
-            # Handle any errors that occur during AWS S3 operations
-            return {'error': 'Failed to upload preview image to AWS S3.'}, 500
-
-    errors = {}
-    errors.update(validation_errors_to_error_messages(workshop_form.errors))
-    if not place_id or not name or not latitude or not longitude or not formatted_address or not preview_image:
+    if not place_id or not name or not latitude or not longitude or not formatted_address:
         errors['place_details'] = 'Missing or invalid place details.'
     return {'errors': errors}, 400
 
