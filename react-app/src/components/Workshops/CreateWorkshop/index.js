@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { createWorkshop } from "path/to/workshopActions";
+// import { createWorkshop } from "../../../store/workshops";
 
 const CreateWorkshopForm = () => {
   const dispatch = useDispatch();
-  const placeDetails = useSelector((state) => state.google.placeDetails); // Assuming placeDetails is stored in the Redux store
+  const placeDetails = useSelector((state) => state.google.placeDetails);
 
   const [image, setImage] = useState(null);
 
