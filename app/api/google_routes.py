@@ -15,16 +15,26 @@ def autocomplete():
         'input': input_text,
         'key': API_KEY,
         'location': '34.0522,-118.2437',  # Los Angeles coordinates
-        'radius': 160934  # 100 miles in meters
+        'radius': 160934,  # 100 miles in meters
+        'strictbounds': 'true',
+        'types': 'establishment'
     }
 
     response = requests.get(url, params=params)
     data = response.json()
-
     predictions = data['predictions']
-    place_ids = [prediction['place_id'] for prediction in predictions]
+    results = []
+    print(data)
 
-    return jsonify(place_ids)
+    for prediction in predictions:
+        name = prediction['structured_formatting'].get('main_text', '')
+        address = prediction['structured_formatting'].get('secondary_text', '')
+        place_id = prediction['place_id']
+
+
+        result = {'name': name, 'address': address, 'place_id': place_id}
+        results.append(result)
+    return jsonify(results)
 
 
 @google_routes.route('/details', methods=['GET'])
