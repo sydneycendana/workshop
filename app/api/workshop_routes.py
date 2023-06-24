@@ -15,47 +15,50 @@ workshop_routes = Blueprint('workshops', __name__)
 @workshop_routes.route('/', methods=['POST'])
 @login_required
 def create_workshop():
-    print("----------", 1)
+    print("----------", request.form["name"])
 
-    place_id = request.json.get('place_id')
-    name = request.json.get('name')
-    lat = request.json.get('lat')
-    lng = request.json.get('lng')
-    formatted_address = request.json.get('formatted_address')
-    phone_number = request.json.get('phone_number')
 
-    print("----------", place_id)
 
-    if place_id and name and lat and lng and formatted_address:
-        image = request.files.get('image')
-        image.filename = get_unique_filename(image.filename)
-        upload = upload_file_to_s3(image)
-        print(upload)
+    place_id = request.form['place_id']
+    # name = request.json.get('name')
+    # lat = request.json.get('lat')
+    # lng = request.json.get('lng')
+    # formatted_address = request.json.get('formatted_address')
+    # phone_number = request.json.get('phone_number')
 
-        if "url" not in upload:
-            # If the dictionary doesn't have a url key,
-            # it means there was an error when trying to upload,
-            # so we send back that error message (and we printed it above)
-            return {'errors': [upload]}, 400
+    # print("----------", place_id)
 
-        url = upload["url"]
-        workshop = Workshop(
-            google_id=place_id,
-            name=name,
-            lat=lat,
-            lng=lng,
-            formatted_address=formatted_address,
-            phone_number=phone_number,
-            preview_image_url=url
-        )
-        db.session.add(workshop)
-        db.session.commit()
-        return {'message': 'Workshop created successfully'}
+    # if place_id and name and lat and lng and formatted_address:
+    #     image = request.files.get('image')
+    #     image.filename = get_unique_filename(image.filename)
+    #     upload = upload_file_to_s3(image)
+    #     print(upload)
 
-    errors = {}
-    if not place_id or not name or not lat or not lng or not formatted_address:
-        errors['place_details'] = 'Missing or invalid place details.'
-    return {'errors': errors}, 400
+    #     if "url" not in upload:
+    #         # If the dictionary doesn't have a url key,
+    #         # it means there was an error when trying to upload,
+    #         # so we send back that error message (and we printed it above)
+    #         return {'errors': [upload]}, 400
+
+    #     url = upload["url"]
+    #     workshop = Workshop(
+    #         google_id=place_id,
+    #         name=name,
+    #         lat=lat,
+    #         lng=lng,
+    #         formatted_address=formatted_address,
+    #         phone_number=phone_number,
+    #         preview_image_url=url
+    #     )
+    #     db.session.add(workshop)
+    #     db.session.commit()
+    #     return {'message': 'Workshop created successfully'}
+
+    # errors = {}
+    # if not place_id or not name or not lat or not lng or not formatted_address:
+    #     errors['place_details'] = 'Missing or invalid place details.'
+    # return {'errors': errors}, 400
+    return {}
 
 # ------------------------ GET WORKSHOP BY ID ------------------------
 @workshop_routes.route('/<int:workshop_id>', methods=['GET'])
