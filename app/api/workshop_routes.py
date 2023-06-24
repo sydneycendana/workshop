@@ -6,6 +6,7 @@ from .aws_s3 import (
     upload_file_to_s3, get_unique_filename)
 
 from app.models import db, Workshop, Vote, Review
+from ..forms.workshop import WorkshopForm
 
 workshop_routes = Blueprint('workshops', __name__)
 
@@ -14,48 +15,45 @@ workshop_routes = Blueprint('workshops', __name__)
 @workshop_routes.route('/', methods=['POST'])
 @login_required
 def create_workshop():
-    workshop_form = WorkshopForm()
-    workshop_form['csrf_token'].data = request.cookies['csrf_token']
+    print("----------", 1)
 
-    place_id = request.json.get(place_id)
-    name = request.json.get(name)
-    lat = request.json.get(lat)
-    lng = request.json.get(lng)
-    formatted_address = request.json.get(formatted_address)
-    phone_number = request.json.get(phone_number)
+    place_id = request.json.get('place_id')
+    name = request.json.get('name')
+    lat = request.json.get('lat')
+    lng = request.json.get('lng')
+    formatted_address = request.json.get('formatted_address')
+    phone_number = request.json.get('phone_number')
 
-    if workshop_form.validate_on_submit() and place_id and name and latitude and longitude and formatted_address:
+    print("----------", place_id)
 
-        image = form.data["image"]
+    if place_id and name and lat and lng and formatted_address:
+        image = request.files.get('image')
         image.filename = get_unique_filename(image.filename)
         upload = upload_file_to_s3(image)
         print(upload)
 
         if "url" not in upload:
-        # if the dictionary doesn't have a url key
-        # it means that there was an error when we tried to upload
-        # so we send back that error message (and we printed it above)
-            return render_template("workshop_form.html", form=form, errors=[upload])
+            # If the dictionary doesn't have a url key,
+            # it means there was an error when trying to upload,
+            # so we send back that error message (and we printed it above)
+            return {'errors': [upload]}, 400
 
         url = upload["url"]
         workshop = Workshop(
             google_id=place_id,
             name=name,
-            lat=latitude,
-            lng=longitude,
+            lat=lat,
+            lng=lng,
             formatted_address=formatted_address,
             phone_number=phone_number,
             preview_image_url=url
         )
         db.session.add(workshop)
         db.session.commit()
-        return redirect("/")
+        return {'message': 'Workshop created successfully'}
 
-    if form.errors:
-        print(form.errors)
-        return render_template("workshop_form.html", form=form, errors=form.errors)
-
-    if not place_id or not name or not latitude or not longitude or not formatted_address:
+    errors = {}
+    if not place_id or not name or not lat or not lng or not formatted_address:
         errors['place_details'] = 'Missing or invalid place details.'
     return {'errors': errors}, 400
 
