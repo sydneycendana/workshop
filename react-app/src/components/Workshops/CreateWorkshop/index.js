@@ -23,7 +23,7 @@ const CreateWorkshopForm = () => {
     //   <input type="file" onChange={handlePreviewImageChange} />
     //   <button type="submit">Create Workshop</button>
     // </form>
-    <div>Hello</div>
+    <div>{placeDetails.name}</div>
   );
 };
 
