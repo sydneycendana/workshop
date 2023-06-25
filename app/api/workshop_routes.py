@@ -123,6 +123,8 @@ def get_nearby_workshops():
 
     for workshop in workshops_within_radius:
         workshop_dict = workshop.to_dict()
+        distance = calculate_distance(lat, lng, workshop.lat, workshop.lng)
+        workshop_dict['distance'] = distance  # Add the distance to the workshop dictionary
         workshops_list.append(workshop_dict)
 
     return jsonify(workshops_list), 200

@@ -31,4 +31,6 @@ def calculate_distance(lat1, lng1, lat2, lng2):
     c = 2 * atan2(sqrt(a), sqrt(1 - a))
     distance = earth_radius * c
 
-    return distance
+    rounded_distance = round(distance, 1)  # Round distance to 1 decimal point
+
+    return rounded_distance
