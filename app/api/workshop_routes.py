@@ -1,4 +1,5 @@
 import os
+import random
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
 import requests
@@ -88,3 +89,19 @@ def get_workshop(workshop_id):
         return jsonify(workshop_dict), 200
 
     return jsonify({'message': 'Workshop not found'}), 404
+
+    import random
+
+# ------------------------ GET FEATURED WORKSHOPS ------------------------
+@workshop_routes.route('/featured', methods=['GET'])
+def get_featured_workshops():
+    workshops = Workshop.query.all()
+    featured_workshops = random.sample(workshops, k=4) if len(workshops) > 4 else workshops
+
+    featured_workshops_list = []
+
+    for workshop in featured_workshops:
+        workshop_dict = workshop.to_dict()
+        featured_workshops_list.append(workshop_dict)
+
+    return jsonify(featured_workshops_list), 200
