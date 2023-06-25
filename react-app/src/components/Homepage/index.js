@@ -1,31 +1,18 @@
 import WorkshopsList from "../Workshops/WorkshopsList/WorkshopsList";
+import NearbySearch from "./NearbySearch";
 import { useState } from "react";
 
 function Homepage() {
-  const [searchLocation, setSearchLocation] = useState("");
+  const [placeDetails, setPlaceDetails] = useState(null);
 
+  const handleSuggestionClick = (details) => {
+    setPlaceDetails(details);
+  };
   return (
-    // <div>
-    //   <div>
     <>
-      <input
-        type="text"
-        value={searchLocation}
-        //   onChange={this.handleLocationChange}
-      />
+      <NearbySearch onSuggestionClick={handleSuggestionClick} />
       <WorkshopsList />
     </>
-    //     <button onClick={this.handleSearch}>Search</button>
-    //   </div>
-    //   {searched ? (
-    //     <NearbyWorkshops
-    //       workshops={nearbyWorkshops}
-    //       location={searchLocation}
-    //     />
-    //   ) : (
-    //     <FeaturedWorkshops workshops={featuredWorkshops} />
-    //   )}
-    // </div>
   );
 }
 
