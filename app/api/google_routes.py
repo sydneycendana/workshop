@@ -53,6 +53,7 @@ def place_details():
 
     if data['status'] == 'OK':
         place_details = {
+            'place_id': place_id_input,
             'name': data['result']['name'],
             'formatted_address': data['result']['formatted_address'],
             'phone_number': data['result'].get('formatted_phone_number', ''),
