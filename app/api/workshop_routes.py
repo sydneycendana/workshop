@@ -5,6 +5,8 @@ from flask_login import login_required, current_user
 import requests
 from .aws_s3 import (
     upload_file_to_s3, get_unique_filename)
+from .workshop_helpers import find_workshops_within_radius, calculate_distance
+
 
 from app.models import db, Workshop, Vote, Review
 from ..forms.workshop import WorkshopForm
@@ -105,3 +107,22 @@ def get_featured_workshops():
         featured_workshops_list.append(workshop_dict)
 
     return jsonify(featured_workshops_list), 200
+
+# ------------------------ GET NEARBY WORKSHOPS ------------------------
+@workshop_routes.route('/nearby', methods=['GET'])
+def get_nearby_workshops():
+    lat = request.args.get("lat")
+    lng = request.args.get("lng")
+
+    if not lat or not lng:
+        return jsonify({"error": "Latitude and longitude are required."}), 400
+
+    workshops_within_radius = find_workshops_within_radius(lat, lng, 20)
+
+    workshops_list = []
+
+    for workshop in workshops_within_radius:
+        workshop_dict = workshop.to_dict()
+        workshops_list.append(workshop_dict)
+
+    return jsonify(workshops_list), 200

@@ -5,8 +5,8 @@ import { useState } from "react";
 function Homepage() {
   const [placeDetails, setPlaceDetails] = useState(null);
 
-  const handleSuggestionClick = (details) => {
-    setPlaceDetails(details);
+  const handleSuggestionClick = (nearbyPlaceDetails) => {
+    setPlaceDetails(nearbyPlaceDetails);
   };
   return (
     <>
