@@ -1,8 +1,20 @@
 const GET_WORKSHOP_DETAILS = "tasks/getWorkshop";
+const GET_FEATURED_WORKSHOPS = "tasks/getFeaturedWorkshops";
+const GET_NEARBY_WORKSHOPS = "tasks/getNearbyWorkshops";
 const CREATE_WORKSHOP = "tasks/createWorkshop";
 
 const getWorkshop = (payload) => ({
   type: GET_WORKSHOP_DETAILS,
+  payload,
+});
+
+const getFeaturedWorkshops = (payload) => ({
+  type: GET_FEATURED_WORKSHOPS,
+  payload,
+});
+
+const getNearbyWorkshops = (payload) => ({
+  type: GET_NEARBY_WORKSHOPS,
   payload,
 });
 
@@ -16,6 +28,24 @@ export const fetchWorkshopById = (id) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     dispatch(getWorkshop(data));
+    return data;
+  }
+};
+
+export const fetchFeaturedWorkshops = () => async (dispatch) => {
+  const response = await fetch(`/api/workshops/featured`);
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(getFeaturedWorkshops(data));
+    return data;
+  }
+};
+
+export const fetchNearbyWorkshops = () => async (dispatch) => {
+  const response = await fetch(`/api/workshops/nearby`);
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(getNearbyWorkshops(data));
     return data;
   }
 };
@@ -42,6 +72,8 @@ export const createWorkshopThunk =
 
 const initialState = {
   workshopDetails: {},
+  featuredWorkshops: [],
+  nearbyWorkshops: [],
 };
 
 const workshopReducer = (state = initialState, action) => {
@@ -50,6 +82,16 @@ const workshopReducer = (state = initialState, action) => {
       return {
         ...state,
         workshopDetails: action.payload,
+      };
+    case GET_FEATURED_WORKSHOPS:
+      return {
+        ...state,
+        featuredWorkshops: action.payload,
+      };
+    case GET_NEARBY_WORKSHOPS:
+      return {
+        ...state,
+        nearbyWorkshops: action.payload,
       };
     default:
       return state;

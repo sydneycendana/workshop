@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
+import Homepage from "./components/Homepage";
 import SignupFormPage from "./components/SignupFormPage";
 import LoginFormPage from "./components/LoginFormPage";
 import WorkshopDetails from "./components/Workshops/WorkshopDetails";
@@ -20,6 +21,9 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
+          <Route exact path="/">
+            <Homepage />
+          </Route>
           <Route path="/login">
             <LoginFormPage />
           </Route>
