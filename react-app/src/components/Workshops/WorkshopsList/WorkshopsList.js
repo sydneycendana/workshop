@@ -7,19 +7,21 @@ import { ReactComponent as Wifi } from "../../../assets/icons/wifi.svg";
 import { ReactComponent as Pet } from "../../../assets/icons/pet.svg";
 import { ReactComponent as Noise } from "../../../assets/icons/noise.svg";
 
-const FeaturedWorkshops = () => {
+const WorkshopsList = ({ workshops }) => {
   const dispatch = useDispatch();
   const featuredWorkshops = useSelector(
     (state) => state.workshops.featuredWorkshops
   );
 
   useEffect(() => {
-    if (featuredWorkshops.length === 0) {
+    if (workshops === undefined && featuredWorkshops.length === 0) {
       dispatch(fetchFeaturedWorkshops());
     }
-  }, [dispatch, featuredWorkshops]);
+  }, [dispatch, workshops, featuredWorkshops]);
 
-  const isAllRatingsNull = featuredWorkshops.every(
+  const workshopsData = workshops || featuredWorkshops;
+
+  const isAllRatingsNull = workshopsData.every(
     (workshop) =>
       workshop.average_wifi === null &&
       workshop.average_pet_friendliness === null &&
@@ -29,7 +31,7 @@ const FeaturedWorkshops = () => {
   return (
     <div className="page-container">
       <div className="workshops-grid">
-        {featuredWorkshops.map((workshop) => (
+        {workshopsData.map((workshop) => (
           <Link
             to={`/workshops/${workshop.id}`}
             key={workshop.id}
@@ -103,4 +105,4 @@ const FeaturedWorkshops = () => {
   );
 };
 
-export default FeaturedWorkshops;
+export default WorkshopsList;

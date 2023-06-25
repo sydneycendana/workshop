@@ -1,4 +1,4 @@
-import FeaturedWorkshops from "../Workshops/FeaturedWorkshops/FeaturedWorkshops";
+import WorkshopsList from "../Workshops/WorkshopsList/WorkshopsList";
 import { useState } from "react";
 
 function Homepage() {
@@ -13,7 +13,7 @@ function Homepage() {
         value={searchLocation}
         //   onChange={this.handleLocationChange}
       />
-      <FeaturedWorkshops />
+      <WorkshopsList />
     </>
     //     <button onClick={this.handleSearch}>Search</button>
     //   </div>
