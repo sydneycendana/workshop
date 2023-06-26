@@ -10,6 +10,7 @@ from .api.auth_routes import auth_routes
 from .api.google_routes import google_routes
 from .api.workshop_routes import workshop_routes
 from .api.review_routes import review_routes
+from .api.review_images_routes import review_images_routes
 from .seeds import seed_commands
 from .config import Config
 
@@ -34,6 +35,8 @@ app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(google_routes, url_prefix='/api/google')
 app.register_blueprint(workshop_routes, url_prefix='/api/workshops')
 app.register_blueprint(review_routes, url_prefix='/api/reviews')
+app.register_blueprint(review_images_routes, url_prefix='/api/review_images')
+
 
 
 db.init_app(app)
