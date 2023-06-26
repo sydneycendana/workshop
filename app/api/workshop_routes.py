@@ -128,3 +128,20 @@ def get_nearby_workshops():
         workshops_list.append(workshop_dict)
 
     return jsonify(workshops_list), 200
+
+
+# ------------------------ DELETE WORKSHOP ------------------------
+@workshop_routes.route('/<int:workshop_id>', methods=['DELETE'])
+@login_required
+def delete_workshop(workshop_id):
+    workshop = Workshop.query.get(workshop_id)
+    if workshop:
+        if current_user.id != 1:
+            return jsonify({'error': 'Unauthorized'}), 401
+
+        db.session.delete(workshop)
+        db.session.commit()
+
+        return jsonify({'message': 'Workshop deleted successfully'}), 200
+
+    return jsonify({'message': 'Workshop not found'}), 404
