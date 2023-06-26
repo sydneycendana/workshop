@@ -1,5 +1,6 @@
 import os
 import random
+from sqlalchemy import and_
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
 import requests
@@ -153,3 +154,44 @@ def delete_workshop(workshop_id):
         return jsonify({'message': 'Workshop deleted successfully'}), 200
 
     return jsonify({'message': 'Workshop not found'}), 404
+
+
+# ------------------------ CREATE REVIEW ------------------------
+@workshop_routes.route('/<int:workshop_id>/reviews', methods=['POST'])
+@login_required
+def create_review(workshop_id):
+    description = request.form.get('description', '')
+    wifi = request.form['wifi']
+    pet_friendliness = request.form['pet_friendliness']
+    noise_level = request.form['noise_level']
+
+    if wifi and pet_friendliness and noise_level:
+        workshop = Workshop.query.get(workshop_id)
+        if workshop:
+            existing_review = Review.query.filter(
+                and_(
+                    Review.workshop_id == workshop_id,
+                    Review.user_id == current_user.id
+                )
+            ).first()
+            if existing_review:
+                return jsonify({'error': 'Review by this user already exists for the workshop'}), 400
+
+            review = Review(
+                workshop_id=workshop_id,
+                user_id=current_user.id,
+                description=description,
+                wifi=wifi,
+                pet_friendliness=pet_friendliness,
+                noise_level=noise_level
+            )
+            db.session.add(review)
+            db.session.commit()
+            return jsonify({'message': 'Review created successfully'}), 200
+
+        return jsonify({'error': 'Workshop not found'}), 404
+
+    errors = {}
+    if not workshop_id or not current_user.id or not wifi or not pet_friendliness or not noise_level:
+        errors['review_details'] = 'Missing or invalid review details.'
+    return jsonify({'errors': errors}), 400
