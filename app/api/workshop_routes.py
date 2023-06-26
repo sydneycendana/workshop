@@ -4,7 +4,7 @@ from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
 import requests
 from .aws_s3 import (
-    upload_file_to_s3, get_unique_filename)
+    upload_file_to_s3, get_unique_filename, ALLOWED_EXTENSIONS, remove_file_from_s3)
 from .workshop_helpers import find_workshops_within_radius, calculate_distance
 
 
@@ -26,6 +26,12 @@ def create_workshop():
     formatted_address = request.form['formatted_address']
     phone_number = request.form['phone_number']
     image = request.files['image']
+
+    filename = image.filename
+    if filename and '.' in filename:
+        extension = filename.rsplit('.', 1)[1].lower()
+        if extension not in ALLOWED_EXTENSIONS:
+            return {'errors': ['Invalid file extension. Only images with extensions: {} are allowed.'.format(', '.join(ALLOWED_EXTENSIONS))]}, 400
 
 
     if place_id and name and lat and lng and formatted_address:
@@ -138,6 +144,8 @@ def delete_workshop(workshop_id):
     if workshop:
         if current_user.id != 1:
             return jsonify({'error': 'Unauthorized'}), 401
+
+        remove_file_from_s3(workshop.preview_image_url)
 
         db.session.delete(workshop)
         db.session.commit()
