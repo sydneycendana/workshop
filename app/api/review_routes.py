@@ -37,3 +37,18 @@ def edit_review(review_id):
         return jsonify({'message': 'Review updated successfully'}), 200
 
     return jsonify({'error': 'Review not found'}), 404
+
+
+@review_routes.route('/<int:review_id>', methods=['DELETE'])
+@login_required
+def delete_review(review_id):
+    review = Review.query.get(review_id)
+    if review:
+        if review.user_id != current_user.id:
+            return jsonify({'error': 'You are not authorized to delete this review'}), 403
+
+        db.session.delete(review)
+        db.session.commit()
+        return jsonify({'message': 'Review deleted successfully'}), 200
+
+    return jsonify({'error': 'Review not found'}), 404
