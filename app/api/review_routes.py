@@ -4,7 +4,7 @@ from flask_login import login_required, current_user
 import requests
 from .aws_s3 import upload_file_to_s3, get_unique_filename, ALLOWED_EXTENSIONS, remove_file_from_s3
 
-from app.models import db, Review, ReviewImage
+from app.models import db, Review, ReviewImage, Vote
 
 review_routes = Blueprint('reviews', __name__)
 
@@ -113,3 +113,28 @@ def add_review_images(review_id):
 
     db.session.commit()
     return jsonify({'message': 'Review images added successfully', 'images': [image.url for image in review_images]}), 200
+
+
+# ------------------------ ADD VOTE TO REVIEW ------------------------
+@review_routes.route('/<int:review_id>/votes', methods=['POST'])
+@login_required
+def add_review_vote(review_id):
+    review = Review.query.get(review_id)
+    if not review:
+        return jsonify({'error': 'Review not found'}), 404
+
+    vote_type = request.json.get('vote_type')
+    if vote_type not in [-1, 1]:
+        return jsonify({'error': 'Invalid vote type. Vote type should be either 1 or -1'}), 400
+
+    # Check if the user has already voted for this review
+    existing_vote = Vote.query.filter_by(user_id=current_user.id, review_id=review.id).first()
+    if existing_vote:
+        return jsonify({'error': 'You have already voted for this review'}), 400
+
+    # Create a new vote
+    vote = Vote(user_id=current_user.id, review_id=review.id, vote_type=vote_type)
+    db.session.add(vote)
+    db.session.commit()
+
+    return jsonify({'message': 'Vote added successfully', 'vote': vote.to_dict()}), 201
