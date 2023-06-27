@@ -6,10 +6,10 @@ from .aws_s3 import upload_file_to_s3, get_unique_filename, ALLOWED_EXTENSIONS, 
 
 from app.models import db, Review, ReviewImage
 
-review_images_routes = Blueprint('review_images', __name__)
+review_image_routes = Blueprint('review_images', __name__)
 
 # ------------------------ DELETE REVIEW IMAGES ------------------------
-@review_images_routes.route('/<int:image_id>', methods=['DELETE'])
+@review_image_routes.route('/<int:image_id>', methods=['DELETE'])
 @login_required
 def delete_review_image(image_id):
     review_image = ReviewImage.query.get(image_id)

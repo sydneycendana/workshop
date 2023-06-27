@@ -10,7 +10,8 @@ from .api.auth_routes import auth_routes
 from .api.google_routes import google_routes
 from .api.workshop_routes import workshop_routes
 from .api.review_routes import review_routes
-from .api.review_images_routes import review_images_routes
+from .api.review_image_routes import review_image_routes
+from .api.vote_routes import vote_routes
 from .seeds import seed_commands
 from .config import Config
 
@@ -35,9 +36,8 @@ app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(google_routes, url_prefix='/api/google')
 app.register_blueprint(workshop_routes, url_prefix='/api/workshops')
 app.register_blueprint(review_routes, url_prefix='/api/reviews')
-app.register_blueprint(review_images_routes, url_prefix='/api/review_images')
-
-
+app.register_blueprint(review_image_routes, url_prefix='/api/review_images')
+app.register_blueprint(vote_routes, url_prefix='/api/votes')
 
 db.init_app(app)
 Migrate(app, db)
