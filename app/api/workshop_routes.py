@@ -1,10 +1,11 @@
 import os
 import random
+from sqlalchemy import and_
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
 import requests
 from .aws_s3 import (
-    upload_file_to_s3, get_unique_filename)
+    upload_file_to_s3, get_unique_filename, ALLOWED_EXTENSIONS, remove_file_from_s3)
 from .workshop_helpers import find_workshops_within_radius, calculate_distance
 
 
@@ -26,6 +27,12 @@ def create_workshop():
     formatted_address = request.form['formatted_address']
     phone_number = request.form['phone_number']
     image = request.files['image']
+
+    filename = image.filename
+    if filename and '.' in filename:
+        extension = filename.rsplit('.', 1)[1].lower()
+        if extension not in ALLOWED_EXTENSIONS:
+            return {'errors': ['Invalid file extension. Only images with extensions: {} are allowed.'.format(', '.join(ALLOWED_EXTENSIONS))]}, 400
 
 
     if place_id and name and lat and lng and formatted_address:
@@ -128,3 +135,63 @@ def get_nearby_workshops():
         workshops_list.append(workshop_dict)
 
     return jsonify(workshops_list), 200
+
+
+# ------------------------ DELETE WORKSHOP ------------------------
+@workshop_routes.route('/<int:workshop_id>', methods=['DELETE'])
+@login_required
+def delete_workshop(workshop_id):
+    workshop = Workshop.query.get(workshop_id)
+    if workshop:
+        if current_user.id != 1:
+            return jsonify({'error': 'Unauthorized'}), 401
+
+        remove_file_from_s3(workshop.preview_image_url)
+
+        db.session.delete(workshop)
+        db.session.commit()
+
+        return jsonify({'message': 'Workshop deleted successfully'}), 200
+
+    return jsonify({'message': 'Workshop not found'}), 404
+
+
+# ------------------------ CREATE REVIEW ------------------------
+@workshop_routes.route('/<int:workshop_id>/reviews', methods=['POST'])
+@login_required
+def create_review(workshop_id):
+    description = request.form.get('description', '')
+    wifi = request.form['wifi']
+    pet_friendliness = request.form['pet_friendliness']
+    noise_level = request.form['noise_level']
+
+    if wifi and pet_friendliness and noise_level:
+        workshop = Workshop.query.get(workshop_id)
+        if workshop:
+            existing_review = Review.query.filter(
+                and_(
+                    Review.workshop_id == workshop_id,
+                    Review.user_id == current_user.id
+                )
+            ).first()
+            if existing_review:
+                return jsonify({'error': 'Review by this user already exists for the workshop'}), 400
+
+            review = Review(
+                workshop_id=workshop_id,
+                user_id=current_user.id,
+                description=description,
+                wifi=wifi,
+                pet_friendliness=pet_friendliness,
+                noise_level=noise_level
+            )
+            db.session.add(review)
+            db.session.commit()
+            return jsonify({'message': 'Review created successfully'}), 200
+
+        return jsonify({'error': 'Workshop not found'}), 404
+
+    errors = {}
+    if not workshop_id or not current_user.id or not wifi or not pet_friendliness or not noise_level:
+        errors['review_details'] = 'Missing or invalid review details.'
+    return jsonify({'errors': errors}), 400
