@@ -8,6 +8,7 @@ from app.models import db, Review, ReviewImage
 
 review_images_routes = Blueprint('review_images', __name__)
 
+# ------------------------ DELETE REVIEW IMAGES ------------------------
 @review_images_routes.route('/<int:image_id>', methods=['DELETE'])
 @login_required
 def delete_review_image(image_id):
@@ -22,11 +23,9 @@ def delete_review_image(image_id):
     if review.user_id != current_user.id:
         return jsonify({'error': 'You are not authorized to delete images from this review'}), 403
 
-    # Remove the image file from S3
     if review_image.url:
         remove_file_from_s3(review_image.url)
 
-    # Delete the image from the database
     db.session.delete(review_image)
     db.session.commit()
 

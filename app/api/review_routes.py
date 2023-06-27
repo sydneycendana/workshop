@@ -8,6 +8,19 @@ from app.models import db, Review, ReviewImage
 
 review_routes = Blueprint('reviews', __name__)
 
+
+# ------------------------ GET REVIEW BY ID ------------------------
+@review_routes.route('/<int:review_id>', methods=['GET'])
+@login_required
+def get_review(review_id):
+    review = Review.query.get(review_id)
+    if not review:
+        return jsonify({'error': 'Review not found'}), 404
+
+    return jsonify(review.to_dict()), 200
+
+
+# ------------------------ EDIT REVIEW ------------------------
 @review_routes.route('/<int:review_id>', methods=['PUT'])
 @login_required
 def edit_review(review_id):
@@ -40,6 +53,7 @@ def edit_review(review_id):
     return jsonify({'error': 'Review not found'}), 404
 
 
+# ------------------------ DELETE REVIEW ------------------------
 @review_routes.route('/<int:review_id>', methods=['DELETE'])
 @login_required
 def delete_review(review_id):
@@ -54,6 +68,8 @@ def delete_review(review_id):
 
     return jsonify({'error': 'Review not found'}), 404
 
+
+# ------------------------ ADD REVIEW IMAGES ------------------------
 @review_routes.route('/<int:review_id>/images', methods=['POST'])
 @login_required
 def add_review_images(review_id):
