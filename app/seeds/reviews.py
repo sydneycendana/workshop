@@ -9,6 +9,10 @@ def seed_reviews():
     philz = Workshop.query.filter_by(google_id='ChIJua0_SgS0woARsgW9JuaSljg').first()
     wework = Workshop.query.filter_by(google_id='ChIJWwl0Day7woARVa2km0j80TA').first()
     java_man = Workshop.query.filter_by(google_id='ChIJwWxW1nizwoAR6s3eTYCjUxU').first()
+    urartu_coffee = Workshop.query.filter_by(google_id='ChIJOTGO9P_AwoARYn-ReWkQRf4').first()
+    beachwood_cafe = Workshop.query.filter_by(google_id='ChIJQfrAYG2_woAR_cxTsMpXoAM').first()
+    handlebar_coffee = Workshop.query.filter_by(google_id='ChIJOamt2H4U6YAR9m3k2gQGB2Q').first()
+    beacon_coffee = Workshop.query.filter_by(google_id='ChIJjw1mx2xN6IARv0WshsChW2o').first()
 
     john = User.query.filter_by(email='johndoe@example.com').first()
     jane = User.query.filter_by(email='janesmith@example.com').first()
@@ -115,6 +119,50 @@ def seed_reviews():
         updated_at=datetime.utcnow(),
         created_at=datetime.utcnow()
     )
+    review10 = Review(
+        workshop_id=urartu_coffee.id,
+        user_id=john.id,
+        description="Urartu Coffee has a lovely ambiance and great coffee. The place is cozy and quiet, perfect for working. They also have a good selection of pastries and snacks.",
+        wifi=4.5,
+        pet_friendliness=3.5,
+        noise_level=3.0,
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow()
+    )
+
+    review11 = Review(
+        workshop_id=beachwood_cafe.id,
+        user_id=jane.id,
+        description="Beachwood Cafe is a charming place to work. The food and coffee are delicious, and the staff is friendly. The outdoor seating area is a great addition.",
+        wifi=4.0,
+        pet_friendliness=4.0,
+        noise_level=3.5,
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow()
+    )
+
+    review12 = Review(
+        workshop_id=handlebar_coffee.id,
+        user_id=michael.id,
+        description="Handlebar Coffee Roasters is a hidden gem. The coffee is exceptional, and the staff is knowledgeable. The atmosphere is relaxed and inviting.",
+        wifi=4.5,
+        pet_friendliness=3.5,
+        noise_level=3.0,
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow()
+    )
+
+    review13 = Review(
+        workshop_id=beacon_coffee.id,
+        user_id=emily.id,
+        description="Beacon Coffee Company is a great spot to work. The coffee is delicious, and the atmosphere is cozy. The staff is friendly and welcoming.",
+        wifi=4.0,
+        pet_friendliness=3.5,
+        noise_level=3.0,
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow()
+    )
+
 
     db.session.add(review1)
     db.session.add(review2)
@@ -125,6 +173,10 @@ def seed_reviews():
     db.session.add(review7)
     db.session.add(review8)
     db.session.add(review9)
+    db.session.add(review10)
+    db.session.add(review11)
+    db.session.add(review12)
+    db.session.add(review13)
 
     db.session.commit()
 
