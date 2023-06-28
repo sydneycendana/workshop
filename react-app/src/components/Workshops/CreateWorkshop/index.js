@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { createWorkshop } from "../../../store/workshops";
+import { createWorkshopThunk } from "../../../store/workshops";
 
 const CreateWorkshopForm = () => {
   const dispatch = useDispatch();
@@ -13,21 +13,23 @@ const CreateWorkshopForm = () => {
     setImage(file);
   };
 
+  console.log(placeDetails);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     // Create form data
     const formData = new FormData();
-    formData.append("image", image);
-    formData.append("address", placeDetails.formatted_address);
-    formData.append("latitude", placeDetails.latitude);
-    formData.append("longitude", placeDetails.longitude);
-    formData.append("name", placeDetails.name);
-    formData.append("phone_number", placeDetails.phone_number);
     formData.append("place_id", placeDetails.place_id);
+    formData.append("name", placeDetails.name);
+    formData.append("lat", placeDetails.latitude);
+    formData.append("lng", placeDetails.longitude);
+    formData.append("formatted_address", placeDetails.formatted_address);
+    formData.append("phone_number", placeDetails.phone_number);
+    formData.append("image", image);
 
     // Dispatch action with form data
-    // dispatch(createWorkshop(formData));
+    dispatch(createWorkshopThunk(formData));
   };
 
   return (

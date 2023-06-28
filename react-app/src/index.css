@@ -17,6 +17,7 @@
 body {
     background-color: #FFF3F3;
     font-family: var(--font-lato);
+    color: var(--color-blue);
 }
 
 ul,
@@ -98,13 +99,15 @@ a {
     outline: none;
 }
 
-
-
 .autocomplete-results {
     position: absolute;
     border: 1px solid gray;
     background-color: #FFF3F3;
     z-index: 999;
+    width: 400px;
+    /* height: 100px; */
+    text-align: start;
+    overflow-y: scroll;
 }
 
 .autocomplete-result {

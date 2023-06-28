@@ -17,7 +17,6 @@ workshop_routes = Blueprint('workshops', __name__)
 
 # ------------------------ CREATE WORKSHOP ------------------------
 @workshop_routes.route('/', methods=['POST'])
-@login_required
 def create_workshop():
 
     place_id = request.form['place_id']

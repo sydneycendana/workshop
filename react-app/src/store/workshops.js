@@ -1,7 +1,7 @@
-const GET_WORKSHOP_DETAILS = "tasks/getWorkshop";
-const GET_FEATURED_WORKSHOPS = "tasks/getFeaturedWorkshops";
-const GET_NEARBY_WORKSHOPS = "tasks/getNearbyWorkshops";
-const CREATE_WORKSHOP = "tasks/createWorkshop";
+const GET_WORKSHOP_DETAILS = "getWorkshop";
+const GET_FEATURED_WORKSHOPS = "getFeaturedWorkshops";
+const GET_NEARBY_WORKSHOPS = "getNearbyWorkshops";
+const CREATE_WORKSHOP = "createWorkshop";
 
 const getWorkshop = (payload) => ({
   type: GET_WORKSHOP_DETAILS,
@@ -51,25 +51,19 @@ export const fetchNearbyWorkshops = () => async (dispatch) => {
   }
 };
 
-export const createWorkshopThunk =
-  (placeDetails, image) => async (dispatch) => {
-    const workshopData = {
-      placeDetails: placeDetails,
-      image: image,
-    };
+export const createWorkshopThunk = (formData) => async (dispatch) => {
+  const workshopResponse = await fetch(`/api/workshops/`, {
+    method: "POST",
+    body: formData,
+  });
 
-    const workshopResponse = await fetch(`/api/workshops`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(workshopData),
-    });
-
-    if (workshopResponse.ok) {
-      const data = await workshopResponse.json();
-      dispatch(createWorkshop(data));
-      return data;
-    }
-  };
+  if (workshopResponse.ok) {
+    console.log(formData);
+    const data = await workshopResponse.json();
+    dispatch(createWorkshop(data));
+    return data;
+  }
+};
 
 const initialState = {
   workshopDetails: {},
@@ -93,6 +87,11 @@ const workshopReducer = (state = initialState, action) => {
       return {
         ...state,
         nearbyWorkshops: action.payload,
+      };
+    case CREATE_WORKSHOP:
+      return {
+        ...state,
+        workshopDetails: action.payload,
       };
     default:
       return state;
