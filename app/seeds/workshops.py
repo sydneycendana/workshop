@@ -74,7 +74,55 @@ def seed_workshops():
         preview_image_url= 'https://images.unsplash.com/photo-1582641547274-2770615179ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
         created_at= datetime.utcnow(),
     )
-
+    eightfold = Workshop (
+        google_id = "ChIJjxBGwf3GwoARaszNbZnssKg",
+        name = "Eightfold Coffee",
+        lat = 34.0711802,
+        lng = -118.2508313,
+        formatted_address = "1294 Sunset Blvd, Los Angeles, CA 90026, USA",
+        phone_number = "(213) 947-3500",
+        preview_image_url= 'https://images.unsplash.com/photo-1483648969698-5e7dcaa3444f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80',
+        created_at= datetime.utcnow()
+    )
+    urartu = Workshop(
+        google_id= 'ChIJOTGO9P_AwoARYn-ReWkQRf4',
+        name= 'Urartu Coffee',
+        lat= 34.1470261,
+        lng= -118.2540749,
+        formatted_address= '119 N Artsakh Ave, Glendale, CA 91206, USA',
+        phone_number= '(818) 242-9666',
+        preview_image_url= 'https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2076&q=80',
+        created_at= datetime.utcnow(),
+    )
+    beachwood_cafe = Workshop(
+        google_id= 'ChIJQfrAYG2_woAR_cxTsMpXoAM',
+        name= 'Beachwood Cafe',
+        lat= 34.1199814,
+        lng= -118.32127,
+        formatted_address= '2695 N Beachwood Dr, Los Angeles, CA 90068, USA',
+        phone_number= '(323) 871-1717',
+        preview_image_url= 'https://lh3.googleusercontent.com/p/AF1QipO_jg-kB94fiZmZN5mxzBPE7VZ6Dlo-k6w-vs_b=s1360-w1360-h1020',
+        created_at= datetime.utcnow(),
+    )
+    handlebar = Workshop(
+        google_id= 'ChIJOamt2H4U6YAR9m3k2gQGB2Q',
+        name= 'Handlebar Coffee Roasters',
+        lat= 34.4222976,
+        lng= -119.6984801,
+        formatted_address= '128 E Canon Perdido St, Santa Barbara, CA 93101, USA',
+        phone_number= '(719) 201-3931',
+        preview_image_url= 'https://lh3.googleusercontent.com/p/AF1QipM_d5kiZp7zwGuci8zE6gs9NyJUgwj1UprPun4M=s1360-w1360-h1020',
+        created_at= datetime.utcnow(),
+    )
+    beacon = Workshop(
+        google_id= 'ChIJjw1mx2xN6IARv0WshsChW2o',
+        name= 'Beacon Coffee Company, Inc.',
+        lat= 34.2443189,
+        lng= -119.2097993,
+        formatted_address= '5777 Olivas Park Dr r, Ventura, CA 93003, USA',
+        preview_image_url= 'https://lh3.googleusercontent.com/p/AF1QipNMH9H3p5B_6Pq2i45Dt_CTQ3wCBkcAIx-5zvCo=s1360-w1360-h1020',
+        created_at= datetime.utcnow(),
+    )
 
     db.session.add(bluestone_lane)
     db.session.add(philz)
@@ -83,6 +131,11 @@ def seed_workshops():
     db.session.add(hopsaint)
     db.session.add(juneshine)
     db.session.add(wework)
+    db.session.add(eightfold)
+    db.session.add(urartu)
+    db.session.add(beachwood_cafe)
+    db.session.add(handlebar)
+    db.session.add(beacon)
 
     db.session.commit()
 

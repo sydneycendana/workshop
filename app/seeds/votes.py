@@ -9,6 +9,10 @@ def seed_votes():
     review2 = Review.query.filter_by(id=2).first()
     review3 = Review.query.filter_by(id=3).first()
     review4 = Review.query.filter_by(id=4).first()
+    review10 = Review.query.filter_by(id=10).first()
+    review11 = Review.query.filter_by(id=11).first()
+    review12 = Review.query.filter_by(id=12).first()
+    review13 = Review.query.filter_by(id=13).first()
 
     john = User.query.filter_by(email='johndoe@example.com').first()
     jane = User.query.filter_by(email='janesmith@example.com').first()
@@ -101,7 +105,69 @@ def seed_votes():
         updated_at=datetime.utcnow(),
         created_at=datetime.utcnow(),
     )
-
+    vote13 = Vote(
+        review_id=review10.id,
+        user_id=jane.id,
+        vote_type=-1,
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow(),
+    )
+    vote14 = Vote(
+        review_id=review11.id,
+        user_id=john.id,
+        vote_type=1,
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow(),
+    )
+    vote15 = Vote(
+        review_id=review12.id,
+        user_id=john.id,
+        vote_type=1,
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow(),
+    )
+    vote16 = Vote(
+        review_id=review13.id,
+        user_id=michael.id,
+        vote_type=-1,
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow(),
+    )
+    vote17 = Vote(
+        review_id=review13.id,
+        user_id=michael.id,
+        vote_type=1,
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow(),
+    )
+    vote18 = Vote(
+        review_id=review10.id,
+        user_id=emily.id,
+        vote_type=-1,
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow(),
+    )
+    vote19 = Vote(
+        review_id=review10.id,
+        user_id=michael.id,
+        vote_type=-1,
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow(),
+    )
+    vote20 = Vote(
+        review_id=review10.id,
+        user_id=sarah.id,
+        vote_type=-1,
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow(),
+    )
+    vote21 = Vote(
+        review_id=review10.id,
+        user_id=david.id,
+        vote_type=-1,
+        updated_at=datetime.utcnow(),
+        created_at=datetime.utcnow(),
+    )
 
     db.session.add(vote1)
     db.session.add(vote2)
@@ -115,6 +181,15 @@ def seed_votes():
     db.session.add(vote10)
     db.session.add(vote11)
     db.session.add(vote12)
+    db.session.add(vote13)
+    db.session.add(vote14)
+    db.session.add(vote15)
+    db.session.add(vote16)
+    db.session.add(vote17)
+    db.session.add(vote18)
+    db.session.add(vote19)
+    db.session.add(vote20)
+    db.session.add(vote21)
 
     db.session.commit()
 
