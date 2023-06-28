@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { createWorkshopThunk } from "../../../store/workshops";
 
 const CreateWorkshopForm = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const placeDetails = useSelector((state) => state.google.placeDetails);
 
+  const [errors, setErrors] = useState([]);
   const [image, setImage] = useState(null);
 
   const handleImageUpload = (e) => {
@@ -15,7 +18,7 @@ const CreateWorkshopForm = () => {
 
   console.log(placeDetails);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Create form data
@@ -28,8 +31,14 @@ const CreateWorkshopForm = () => {
     formData.append("phone_number", placeDetails.phone_number);
     formData.append("image", image);
 
-    // Dispatch action with form data
-    dispatch(createWorkshopThunk(formData));
+    const createdWorkshop = await dispatch(createWorkshopThunk(formData))
+      .then((createdWorkshop) => {
+        history.push(`/workshops/${createdWorkshop.id}`);
+      })
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) setErrors(data.errors);
+      });
   };
 
   return (

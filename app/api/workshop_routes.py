@@ -57,7 +57,8 @@ def create_workshop():
         )
         db.session.add(workshop)
         db.session.commit()
-        return {'message': 'Workshop created successfully'}
+        print(workshop.to_dict())
+        return jsonify(workshop.to_dict()), 200
 
     errors = {}
     if not place_id or not name or not lat or not lng or not formatted_address:
@@ -69,36 +70,9 @@ def create_workshop():
 def get_workshop(workshop_id):
     workshop = Workshop.query.get(workshop_id)
     if workshop:
-        reviews = workshop.reviews
-        workshop_dict = workshop.to_dict()
-        reviews_list = []
-
-        for review in reviews:
-            vote = None
-            user_has_voted = False
-            user_vote_type = None
-
-            if current_user.is_authenticated:
-                vote = Vote.query.filter_by(user_id=current_user.id, review_id=review.id).first()
-                if vote:
-                    user_has_voted = True
-                    user_vote_type = vote.vote_type
-
-            review_dict = review.to_dict()
-            review_dict['votes'] = {
-                'userHasVoted': user_has_voted,
-                'userVoteType': user_vote_type
-            }
-            review_dict['images'] = [image.to_dict() for image in review.images]
-            reviews_list.append(review_dict)
-
-        workshop_dict['reviews'] = reviews_list
-
-        return jsonify(workshop_dict), 200
+        return jsonify(workshop.to_dict()), 200
 
     return jsonify({'message': 'Workshop not found'}), 404
-
-    import random
 
 # ------------------------ GET FEATURED WORKSHOPS ------------------------
 @workshop_routes.route('/featured', methods=['GET'])
