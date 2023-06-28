@@ -45,6 +45,7 @@ export const fetchNearbyWorkshops = () => async (dispatch) => {
   const response = await fetch(`/api/workshops/nearby`);
   if (response.ok) {
     const data = await response.json();
+    console.log(data);
     dispatch(getNearbyWorkshops(data));
     return data;
   }

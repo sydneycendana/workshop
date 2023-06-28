@@ -2,21 +2,40 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import WorkshopsList from "../Workshops/WorkshopsList/WorkshopsList";
 import NearbySearch from "./NearbySearch";
-import { fetchNearbySuggestions } from "../../store/google";
+import { fetchNearbyWorkshops } from "../../store/google";
 
 function Homepage() {
   const dispatch = useDispatch();
-  const [placeDetails, setPlaceDetails] = useState(null);
+  const [location, setLocation] = useState(null);
+  const [isLocationSet, setIsLocationSet] = useState(false);
+  const [workshopsListKey, setWorkshopsListKey] = useState(Date.now());
 
-  const handleSuggestionClick = (nearbyPlaceDetails) => {
-    setPlaceDetails(nearbyPlaceDetails);
-    // fetchNearbySuggestions(placeDetails.lat, placeDetails.lng);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (location) {
+          await dispatch(
+            fetchNearbyWorkshops(location.latitude, location.longitude)
+          );
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [location]);
+
+  const handleSuggestionClick = (locationDetails) => {
+    setLocation(locationDetails);
+    setIsLocationSet(true);
+    setWorkshopsListKey(Date.now());
   };
 
   return (
     <>
       <NearbySearch onSuggestionClick={handleSuggestionClick} />
-      <WorkshopsList />
+      <WorkshopsList key={workshopsListKey} isLocationSet={isLocationSet} />
     </>
   );
 }

@@ -7,19 +7,20 @@ import { ReactComponent as Wifi } from "../../../assets/icons/wifi.svg";
 import { ReactComponent as Pet } from "../../../assets/icons/pet.svg";
 import { ReactComponent as Noise } from "../../../assets/icons/noise.svg";
 
-const WorkshopsList = ({ workshops }) => {
+const WorkshopsList = ({ isLocationSet }) => {
   const dispatch = useDispatch();
+  const nearbyWorkshops = useSelector((state) => state.google.nearbyWorkshops);
   const featuredWorkshops = useSelector(
     (state) => state.workshops.featuredWorkshops
   );
 
   useEffect(() => {
-    if (workshops === undefined && featuredWorkshops.length === 0) {
+    if (nearbyWorkshops.length === 0 && featuredWorkshops.length === 0) {
       dispatch(fetchFeaturedWorkshops());
     }
-  }, [dispatch, workshops, featuredWorkshops]);
+  }, [dispatch, nearbyWorkshops, featuredWorkshops]);
 
-  const workshopsData = workshops || featuredWorkshops;
+  const workshopsData = isLocationSet ? nearbyWorkshops : featuredWorkshops;
 
   const isAllRatingsNull = workshopsData.every(
     (workshop) =>

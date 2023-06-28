@@ -2,6 +2,7 @@
 const LOAD_AUTOCOMPLETE_SUGGESTIONS = "search/loadAutocompleteSuggestions";
 const LOAD_NEARBY_SUGGESTIONS = "search/loadNearbySuggestions";
 const LOAD_PLACE_DETAILS = "search/loadPlaceDetails";
+const LOAD_NEARBY_WORKSHOPS = "search/loadNearbyWorkshops";
 
 // Action creators
 const loadAutocompleteSuggestions = (suggestions) => ({
@@ -16,6 +17,11 @@ const loadNearbySuggestions = (suggestions) => ({
 
 const loadPlaceDetails = (payload) => ({
   type: LOAD_PLACE_DETAILS,
+  payload,
+});
+
+const loadNearbyWorkshops = (payload) => ({
+  type: LOAD_NEARBY_WORKSHOPS,
   payload,
 });
 
@@ -41,6 +47,7 @@ export const fetchNearbySuggestions = (inputText) => async (dispatch) => {
     if (response.ok) {
       const data = await response.json();
       dispatch(loadNearbySuggestions(data));
+      return data;
     } else {
       throw new Error("Failed to fetch nearby suggestions");
     }
@@ -56,8 +63,31 @@ export const fetchPlaceDetails = (placeId) => async (dispatch) => {
     if (response.ok) {
       const data = await response.json();
       dispatch(loadPlaceDetails(data));
+      return data;
     } else {
       throw new Error("Failed to fetch place details");
+    }
+  } catch (error) {
+    console.error(error);
+    // Handle error if needed
+  }
+};
+
+export const fetchNearbyWorkshops = (lat, lng) => async (dispatch) => {
+  try {
+    if (!lat || !lng) {
+      throw new Error("Latitude and longitude are required.");
+    }
+    console.log(lat, lng);
+
+    const response = await fetch(`/api/workshops/nearby?lat=${lat}&lng=${lng}`);
+    if (response.ok) {
+      const data = await response.json();
+      console.log("FETCHHHH", data);
+      dispatch(loadNearbyWorkshops(data));
+      return data;
+    } else {
+      throw new Error("Failed to fetch nearby workshops");
     }
   } catch (error) {
     console.error(error);
@@ -69,6 +99,7 @@ export const fetchPlaceDetails = (placeId) => async (dispatch) => {
 const initialState = {
   autocompleteSuggestions: [],
   placeDetails: [],
+  nearbyWorkshops: [],
 };
 
 // Reducer
@@ -88,6 +119,11 @@ export default function searchReducer(state = initialState, action) {
       return {
         ...state,
         placeDetails: action.payload,
+      };
+    case LOAD_NEARBY_WORKSHOPS:
+      return {
+        ...state,
+        nearbyWorkshops: action.payload,
       };
     default:
       return state;
