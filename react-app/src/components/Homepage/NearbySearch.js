@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { fetchNearbySuggestions, fetchPlaceDetails } from "../../store/google";
+import "./Homepage.css";
 
 function NearbySearch({ onSuggestionClick }) {
   const dispatch = useDispatch();
@@ -34,13 +35,17 @@ function NearbySearch({ onSuggestionClick }) {
   };
 
   return (
-    <>
+    <div className="nearby-search-container">
+      <div className="search-heading-container">
+        <h4>Let's get out of the house</h4>
+        <p>find a place to work near you</p>
+      </div>
       <input
         type="text"
         value={inputText}
         onChange={handleChange}
-        placeholder="search"
-        className="autocomplete-input"
+        placeholder="city, town or postcode"
+        className="nearby-autocomplete-input"
       />
       {inputText && (
         <ul ref={ulRef} className="autocomplete-results">
@@ -56,7 +61,7 @@ function NearbySearch({ onSuggestionClick }) {
             ))}
         </ul>
       )}
-    </>
+    </div>
   );
 }
 

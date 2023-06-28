@@ -32,7 +32,9 @@ function Navigation({ isLoaded }) {
       </li>
       {isLoaded && sessionUser ? (
         <li>
-          <ProfileButton user={sessionUser} />
+          <div className="profile-button-icon">
+            <ProfileButton user={sessionUser} />
+          </div>
         </li>
       ) : (
         <li className="navbar-button inverted-button">
