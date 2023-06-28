@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { fetchNearbySuggestions, fetchPlaceDetails } from "../../store/google";
+import { ReactComponent as Arrow } from "../../assets/icons/arrow.svg";
 import "./Homepage.css";
 
 function NearbySearch({ onSuggestionClick }) {
@@ -40,13 +41,18 @@ function NearbySearch({ onSuggestionClick }) {
         <h4>Let's get out of the house</h4>
         <p>find a place to work near you</p>
       </div>
-      <input
-        type="text"
-        value={inputText}
-        onChange={handleChange}
-        placeholder="city, town or postcode"
-        className="nearby-autocomplete-input"
-      />
+      <div
+        className="autocomplete-input"
+        style={{ width: "400px", marginTop: "50px" }}
+      >
+        <input
+          type="text"
+          value={inputText}
+          onChange={handleChange}
+          placeholder="city, town or postcode"
+        />
+        <Arrow />
+      </div>
       {inputText && (
         <ul ref={ulRef} className="autocomplete-results">
           {autocompleteSuggestions &&

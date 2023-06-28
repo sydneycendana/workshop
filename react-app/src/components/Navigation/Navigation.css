@@ -15,7 +15,11 @@
 }
 
 .navbar li {
-  min-width: 200px;
+  min-width: 300px;
+}
+
+.navbar-logo {
+  text-align: center;
 }
 
 .profile-button-icon {

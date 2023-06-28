@@ -83,9 +83,22 @@ a {
 
 /* Autocomplete */
 .autocomplete-input {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding: 10px 20px;
-    min-width: 200px;
+    width: 200px;
+    border: 1px solid gray;
+
 }
+
+.autocomplete-input input {
+    border: none;
+    background-color: transparent;
+    outline: none;
+}
+
+
 
 .autocomplete-results {
     position: absolute;

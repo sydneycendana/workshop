@@ -25,7 +25,7 @@ function Navigation({ isLoaded }) {
           />
         </li>
       )}
-      <li>
+      <li className="navbar-logo">
         <NavLink exact to="/" className="logo-link">
           Workshop
         </NavLink>
