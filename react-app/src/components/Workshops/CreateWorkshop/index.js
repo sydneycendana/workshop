@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { createWorkshop } from "../../../store/workshops";
+import { useHistory } from "react-router-dom";
+import { createWorkshopThunk } from "../../../store/workshops";
 
 const CreateWorkshopForm = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const placeDetails = useSelector((state) => state.google.placeDetails);
 
+  const [errors, setErrors] = useState([]);
   const [image, setImage] = useState(null);
 
   const handleImageUpload = (e) => {
@@ -13,21 +16,29 @@ const CreateWorkshopForm = () => {
     setImage(file);
   };
 
-  const handleSubmit = (e) => {
+  console.log(placeDetails);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Create form data
     const formData = new FormData();
-    formData.append("image", image);
-    formData.append("address", placeDetails.formatted_address);
-    formData.append("latitude", placeDetails.latitude);
-    formData.append("longitude", placeDetails.longitude);
-    formData.append("name", placeDetails.name);
-    formData.append("phone_number", placeDetails.phone_number);
     formData.append("place_id", placeDetails.place_id);
+    formData.append("name", placeDetails.name);
+    formData.append("lat", placeDetails.latitude);
+    formData.append("lng", placeDetails.longitude);
+    formData.append("formatted_address", placeDetails.formatted_address);
+    formData.append("phone_number", placeDetails.phone_number);
+    formData.append("image", image);
 
-    // Dispatch action with form data
-    // dispatch(createWorkshop(formData));
+    const createdWorkshop = await dispatch(createWorkshopThunk(formData))
+      .then((createdWorkshop) => {
+        history.push(`/workshops/${createdWorkshop.id}`);
+      })
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) setErrors(data.errors);
+      });
   };
 
   return (

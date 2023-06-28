@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-
 import {
   fetchAutocompleteSuggestions,
   fetchPlaceDetails,
 } from "../../store/google";
+
+import { ReactComponent as Arrow } from "../../assets/icons/arrow.svg";
 
 function SearchBar() {
   const dispatch = useDispatch();
@@ -40,13 +41,15 @@ function SearchBar() {
 
   return (
     <>
-      <input
-        type="text"
-        value={inputText}
-        onChange={handleChange}
-        placeholder="search"
-        className="autocomplete-input"
-      />
+      <div className="autocomplete-input">
+        <input
+          type="text"
+          value={inputText}
+          onChange={handleChange}
+          placeholder="add a new workshop"
+        />
+        <Arrow />
+      </div>
       {inputText && (
         <ul ref={ulRef} className="autocomplete-results">
           {autocompleteSuggestions &&

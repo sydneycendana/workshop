@@ -1,0 +1,20 @@
+.nearby-search-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 150px;
+    /* border: 2px solid var(--color-red); */
+}
+
+.search-heading-container h4 {
+    font-family: var(--font-oswald);
+    font-weight: 300;
+    font-size: 50px;
+}
+
+.nearby-autocomplete-input {
+    padding: 10px 20px;
+    min-width: 400px;
+}

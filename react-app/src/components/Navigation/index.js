@@ -25,14 +25,16 @@ function Navigation({ isLoaded }) {
           />
         </li>
       )}
-      <li>
+      <li className="navbar-logo">
         <NavLink exact to="/" className="logo-link">
           Workshop
         </NavLink>
       </li>
       {isLoaded && sessionUser ? (
         <li>
-          <ProfileButton user={sessionUser} />
+          <div className="profile-button-icon">
+            <ProfileButton user={sessionUser} />
+          </div>
         </li>
       ) : (
         <li className="navbar-button inverted-button">

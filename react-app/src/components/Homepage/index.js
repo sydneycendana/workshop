@@ -35,6 +35,7 @@ function Homepage() {
   return (
     <>
       <NearbySearch onSuggestionClick={handleSuggestionClick} />
+      {isLocationSet && <h1>Places near {location.name}</h1>}
       <WorkshopsList key={workshopsListKey} isLocationSet={isLocationSet} />
     </>
   );

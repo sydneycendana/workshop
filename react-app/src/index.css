@@ -17,6 +17,7 @@
 body {
     background-color: #FFF3F3;
     font-family: var(--font-lato);
+    color: var(--color-blue);
 }
 
 ul,
@@ -83,8 +84,19 @@ a {
 
 /* Autocomplete */
 .autocomplete-input {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding: 10px 20px;
-    min-width: 200px;
+    width: 200px;
+    border: 1px solid gray;
+
+}
+
+.autocomplete-input input {
+    border: none;
+    background-color: transparent;
+    outline: none;
 }
 
 .autocomplete-results {
@@ -92,6 +104,10 @@ a {
     border: 1px solid gray;
     background-color: #FFF3F3;
     z-index: 999;
+    width: 400px;
+    /* height: 100px; */
+    text-align: start;
+    overflow-y: scroll;
 }
 
 .autocomplete-result {

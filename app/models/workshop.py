@@ -1,6 +1,9 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
+from flask_login import current_user
 from sqlalchemy.orm import relationship
 from datetime import datetime
+
+from .vote import Vote
 
 class Workshop(db.Model):
     __tablename__ = 'workshops'
@@ -25,6 +28,27 @@ class Workshop(db.Model):
         average_pet_friendliness = self.calculate_average_rating('pet_friendliness')
         average_noise_level = self.calculate_average_rating('noise_level')
 
+        reviews_list = []
+
+        for review in self.reviews:
+            vote = None
+            user_has_voted = False
+            user_vote_type = None
+
+            if current_user.is_authenticated:
+                vote = Vote.query.filter_by(user_id=current_user.id, review_id=review.id).first()
+                if vote:
+                    user_has_voted = True
+                    user_vote_type = vote.vote_type
+
+            review_dict = review.to_dict()
+            review_dict['votes'] = {
+                'userHasVoted': user_has_voted,
+                'userVoteType': user_vote_type
+            }
+            review_dict['images'] = [image.to_dict() for image in review.images]
+            reviews_list.append(review_dict)
+
         return {
             'id': self.id,
             'google_id': self.google_id,
@@ -37,8 +61,10 @@ class Workshop(db.Model):
             'average_wifi': average_wifi,
             'average_pet_friendliness': average_pet_friendliness,
             'average_noise_level': average_noise_level,
-            'created_at': self.created_at
+            'created_at': self.created_at,
+            'reviews': reviews_list
         }
+
 
     def calculate_average_rating(self, rating_type):
         total_ratings = len(self.reviews)
