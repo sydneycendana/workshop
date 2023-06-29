@@ -21,7 +21,7 @@ function SearchBar() {
   );
 
   useEffect(() => {
-    if (inputText.length > 3) {
+    if (inputText.length > 2) {
       clearTimeout(debounceTimeoutRef.current);
       debounceTimeoutRef.current = setTimeout(() => {
         dispatch(fetchAutocompleteSuggestions(inputText));

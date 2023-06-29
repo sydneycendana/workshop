@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { createWorkshopThunk } from "../../../store/workshops";
+
+import { ReactComponent as Add } from "../../../assets/icons/add.svg";
+import "./CreateWorkshop.css";
 
 const CreateWorkshopForm = () => {
   const dispatch = useDispatch();
@@ -10,13 +13,19 @@ const CreateWorkshopForm = () => {
 
   const [errors, setErrors] = useState([]);
   const [image, setImage] = useState(null);
+  const [selectedFileName, setSelectedFileName] = useState("");
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     setImage(file);
+    setSelectedFileName(file.name);
   };
 
-  console.log(placeDetails);
+  useEffect(() => {
+    if (placeDetails.length === 0) {
+      history.push("/");
+    }
+  }, [placeDetails, history]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,16 +52,27 @@ const CreateWorkshopForm = () => {
 
   return (
     <div className="page-container">
-      <div>Address: {placeDetails.formatted_address}</div>
-      <div>Latitude: {placeDetails.latitude}</div>
-      <div>Longitude: {placeDetails.longitude}</div>
-      <div>Name: {placeDetails.name}</div>
-      <div>Phone Number: {placeDetails.phone_number}</div>
-
-      <form onSubmit={handleSubmit}>
-        <input type="file" onChange={handleImageUpload} />
-        <button type="submit">Create Workshop</button>
-      </form>
+      <div className="create-workshop-container">
+        <h5>Found a new workshop?</h5>
+        <form onSubmit={handleSubmit} className="create-workshop-form">
+          <div>Name: {placeDetails.name}</div>
+          <div>{placeDetails.formatted_address}</div>
+          <div>Phone Number: {placeDetails.phone_number}</div>
+          <label htmlFor="upload-file" className="custom-file-upload">
+            <input
+              type="file"
+              id="upload-file"
+              onChange={handleImageUpload}
+              className="hidden-file-input"
+            />
+            Choose File
+          </label>
+          <div>{selectedFileName}</div>
+          <button type="submit" className="create-workshop-button">
+            <Add className="add-button" />
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
