@@ -61,7 +61,7 @@ def create_workshop():
         return jsonify(workshop.to_dict()), 200
 
     errors = {}
-    if not place_id or not name or not lat or not lng or not formatted_address:
+    if not place_id or not name or not lat or not lng or not formatted_address or not preview_image_url:
         errors['place_details'] = 'Missing or invalid place details.'
     return {'errors': errors}, 400
 

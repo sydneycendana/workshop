@@ -4,4 +4,28 @@
     align-items: center;
     justify-content: space-between;
     text-align: center;
+    margin-bottom: 30px;
+}
+
+.workshop-details-container h2 {
+    font-family: var(--font-oswald);
+    font-size: 50px;
+    font-weight: 400;
+}
+
+.line {
+    border-bottom: 1px solid var(--color-blue);
+}
+
+.reviews-section-title {
+    margin: 0 auto;
+    width: fit-content;
+    font-family: var(--font-oswald);
+    font-size: 40px;
+    font-weight: 300;
+    margin-bottom: 40px;
+}
+
+.review-container {
+    margin: 10px 0;
 }
