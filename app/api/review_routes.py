@@ -81,6 +81,7 @@ def add_review_images(review_id):
         return jsonify({'error': 'You are not authorized to add images to this review'}), 403
 
     images = request.files.getlist('images')
+    print("------------------------------------", images)
     if not images:
         return jsonify({'error': 'No images provided'}), 400
 
@@ -112,7 +113,7 @@ def add_review_images(review_id):
         review_images.append(review_image)
 
     db.session.commit()
-    return jsonify({'message': 'Review images added successfully', 'images': [image.url for image in review_images]}), 200
+    return jsonify({'message': 'Review images added successfully', 'images': {image.id : image.to_dict() for image in review_images}}), 200
 
 
 # ------------------------ ADD VOTE TO REVIEW ------------------------

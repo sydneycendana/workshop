@@ -160,7 +160,7 @@ def create_review(workshop_id):
             )
             db.session.add(review)
             db.session.commit()
-            return jsonify({'message': 'Review created successfully'}), 200
+            return review.to_dict(), 200
 
         return jsonify({'error': 'Workshop not found'}), 404
 

@@ -19,10 +19,12 @@ const AddReview = ({ workshopId }) => {
 
     console.log("IMAGES ARRAY", images);
 
-    const imageList = new FormData();
-    images.forEach((image, index) => {
-      imageList.append(`image${index}`, image);
-    });
+    // const imageList = new FormData();
+    // images.forEach((image, index) => {
+    //   imageList.append(`image${index}`, image);
+    // });
+
+    // imageList.append("images", images);
 
     const reviewData = new FormData();
     reviewData.append("description", description);
@@ -30,11 +32,12 @@ const AddReview = ({ workshopId }) => {
     reviewData.append("pet_friendliness", petFriendliness);
     reviewData.append("noise_level", noiseLevel);
 
-    console.log("FORM DATA", imageList);
+    // console.log("FORM DATA", imageList);
+    console.log("REVIE DATA", reviewData);
 
     try {
       const createdReview = await dispatch(
-        createReviewThunk(workshopId, reviewData, imageList)
+        createReviewThunk(workshopId, reviewData, images)
       );
       history.push(`/workshops/${workshopId}`);
     } catch (error) {
@@ -116,6 +119,7 @@ const AddReview = ({ workshopId }) => {
           accept="image/*"
           onChange={(event) => handleImageChange(1, event)}
         />
+        {images[1] && <img src={URL.createObjectURL(images[1])}></img>}
       </div>
       <div>
         <label>Image 3:</label>

@@ -1,3 +1,5 @@
+import { CREATE_REVIEW } from "./reviews";
+
 const GET_WORKSHOP_DETAILS = "getWorkshop";
 const GET_FEATURED_WORKSHOPS = "getFeaturedWorkshops";
 const CREATE_WORKSHOP = "createWorkshop";
@@ -69,6 +71,14 @@ const workshopReducer = (state = initialState, action) => {
       return {
         ...state,
         workshopDetails: action.payload,
+      };
+    case CREATE_REVIEW:
+      return {
+        ...state,
+        workshopDetails: {
+          ...state.workshopDetails,
+          reviews: [...state.workshopDetails.reviews, action.payload],
+        },
       };
     default:
       return state;

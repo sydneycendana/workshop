@@ -1,4 +1,4 @@
-const CREATE_REVIEW = "createReview";
+export const CREATE_REVIEW = "createReview";
 
 const createReview = (payload) => ({
   type: CREATE_REVIEW,
@@ -14,25 +14,25 @@ export const createReviewThunk =
 
     if (reviewResponse.ok) {
       const reviewData = await reviewResponse.json();
+      console.log(reviewData);
 
       if (images) {
-        console.log(images);
-        const imageResponses = await Promise.all(
-          images.map((image) =>
-            fetch(`/api/reviews/${reviewData.id}/images`, {
-              method: "POST",
-              body: image,
-            })
-          )
-        );
+        const imagesForm = new FormData();
 
-        const imageData = await Promise.all(
-          imageResponses.map((response) => response.json())
-        );
+        images.forEach((image) => {
+          imagesForm.append("images", image);
+        });
 
-        reviewData.images = [];
+        const res = await fetch(`/api/reviews/${reviewData.id}/images`, {
+          method: "POST",
+          body: imagesForm,
+        });
+        console.log(imagesForm);
 
-        if (imageData) reviewData.images = imageData;
+        if (res.ok) {
+          const newImageData = await res.json();
+          reviewData.images = newImageData[images];
+        }
       }
 
       dispatch(createReview(reviewData));
