@@ -55,7 +55,11 @@ function NearbySearch({ onSuggestionClick }) {
           <Arrow />
         </div>
         {inputText && (
-          <ul ref={ulRef} className="autocomplete-results">
+          <ul
+            ref={ulRef}
+            className="autocomplete-results"
+            style={{ width: "400px" }}
+          >
             {autocompleteSuggestions &&
               autocompleteSuggestions.map((suggestion, index) => (
                 <li
