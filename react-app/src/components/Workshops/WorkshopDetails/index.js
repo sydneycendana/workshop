@@ -8,22 +8,31 @@ import "./WorkshopDetails.css";
 const WorkshopDetails = () => {
   const dispatch = useDispatch();
   const workshop = useSelector((state) => state.workshops.workshopDetails);
+  const user = useSelector((state) => state.session.user);
 
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const { workshopId } = useParams();
 
   useEffect(() => {
-    setIsLoaded(false);
-    dispatch(fetchWorkshopById(workshopId));
-    setIsLoaded(true);
-  }, []);
+    dispatch(fetchWorkshopById(workshopId))
+      .then(() => setLoading(false))
+      .catch((error) => {
+        console.error("Error fetching workshop details:", error);
+        setLoading(false);
+      });
+  }, [dispatch, workshopId]);
 
-  if (!isLoaded) {
+  if (loading) {
     return <div>Loading...</div>;
   }
 
   const hasReviews = workshop.reviews && workshop.reviews.length > 0;
+  const userHasReviewed = workshop.reviews.some(
+    (review) => review.user_id === user.id
+  );
+
+  console.log(userHasReviewed);
 
   return (
     <div className="page-container">
