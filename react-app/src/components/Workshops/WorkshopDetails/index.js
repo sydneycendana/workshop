@@ -3,16 +3,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchWorkshopById } from "../../../store/workshops";
 import OpenModalButton from "../../OpenModalButton";
+import AddReview from "../../Reviews/AddReview";
 import "./WorkshopDetails.css";
 
 const WorkshopDetails = () => {
+  const { workshopId } = useParams();
   const dispatch = useDispatch();
+
   const workshop = useSelector((state) => state.workshops.workshopDetails);
   const user = useSelector((state) => state.session.user);
 
   const [loading, setLoading] = useState(true);
-
-  const { workshopId } = useParams();
 
   useEffect(() => {
     dispatch(fetchWorkshopById(workshopId))
@@ -29,7 +30,7 @@ const WorkshopDetails = () => {
 
   const hasReviews = workshop.reviews && workshop.reviews.length > 0;
   const userHasReviewed = workshop.reviews.some(
-    (review) => review.user_id === user.id
+    (review) => user && user.id && review.user_id === user.id
   );
 
   console.log(userHasReviewed);
@@ -55,7 +56,13 @@ const WorkshopDetails = () => {
           {workshop.phone_number && <p>{workshop.phone_number}</p>}
         </div>
       </div>
-      {workshop.reviews && <h3 className="reviews-section-title">Reviews</h3>}
+      <h3 className="reviews-section-title">Reviews</h3>
+      {!userHasReviewed && (
+        <OpenModalButton
+          buttonText="Add review"
+          modalComponent={<AddReview workshopId={workshopId} />}
+        />
+      )}
       <div className="line"></div>
 
       {workshop.reviews &&

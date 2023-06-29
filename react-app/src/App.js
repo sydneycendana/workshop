@@ -8,6 +8,7 @@ import WorkshopDetails from "./components/Workshops/WorkshopDetails";
 import CreateWorkshopForm from "./components/Workshops/CreateWorkshop";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
+import AddReview from "./components/Reviews/AddReview";
 
 function App() {
   const dispatch = useDispatch();

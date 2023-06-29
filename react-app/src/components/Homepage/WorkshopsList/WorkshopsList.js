@@ -32,16 +32,10 @@ const WorkshopsList = ({ isLocationSet }) => {
   }, [dispatch, nearbyWorkshops, featuredWorkshops]);
 
   useEffect(() => {
-    if (nearbyWorkshops.length === 0 && featuredWorkshops.length > 0) {
+    if (nearbyWorkshops.length > 0 || featuredWorkshops.length > 0) {
       setLoading(false);
     }
-  });
-
-  useEffect(() => {
-    if (nearbyWorkshops.length > 0 && featuredWorkshops.length > 0) {
-      setLoading(false);
-    }
-  });
+  }, [nearbyWorkshops.length, featuredWorkshops.length]);
 
   const workshopsData =
     nearbyWorkshops.length > 0 ? nearbyWorkshops : featuredWorkshops;
