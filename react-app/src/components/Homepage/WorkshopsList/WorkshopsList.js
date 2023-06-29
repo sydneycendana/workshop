@@ -20,7 +20,8 @@ const WorkshopsList = ({ isLocationSet }) => {
     }
   }, [dispatch, nearbyWorkshops, featuredWorkshops]);
 
-  const workshopsData = isLocationSet ? nearbyWorkshops : featuredWorkshops;
+  const workshopsData =
+    nearbyWorkshops.length > 0 ? nearbyWorkshops : featuredWorkshops;
 
   const isAllRatingsNull = workshopsData.every(
     (workshop) =>
@@ -31,6 +32,7 @@ const WorkshopsList = ({ isLocationSet }) => {
 
   return (
     <div className="page-container">
+      {nearbyWorkshops.length > 0 && <h3>Near</h3>}
       <div className="workshops-grid">
         {workshopsData.map((workshop) => (
           <Link
