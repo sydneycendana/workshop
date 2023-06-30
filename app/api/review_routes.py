@@ -142,4 +142,4 @@ def add_review_vote(review_id):
     db.session.add(vote)
     db.session.commit()
 
-    return jsonify({'message': 'Vote added successfully', 'vote': vote.to_dict()}), 201
+    return vote.to_dict(), 201

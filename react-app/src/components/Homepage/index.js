@@ -24,7 +24,7 @@ function Homepage() {
     };
 
     fetchData();
-  }, [location]);
+  }, [dispatch, location]);
 
   const handleSuggestionClick = (locationDetails) => {
     setLocation(locationDetails);

@@ -14,7 +14,6 @@ export const createReviewThunk =
 
     if (reviewResponse.ok) {
       const reviewData = await reviewResponse.json();
-      console.log(reviewData);
 
       if (images) {
         const imagesForm = new FormData();

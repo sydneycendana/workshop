@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { createReviewThunk } from "../../../store/reviews";
 
@@ -12,19 +12,26 @@ const AddReview = ({ workshopId }) => {
   const [petFriendliness, setPetFriendliness] = useState("");
   const [noiseLevel, setNoiseLevel] = useState("");
   const [images, setImages] = useState([]);
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState({});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("IMAGES ARRAY", images);
+    const validationErrors = {};
+    if (wifi === "") {
+      validationErrors.wifi = "Wifi rating is required.";
+    }
+    if (petFriendliness === "") {
+      validationErrors.petFriendliness = "Pet friendliness rating is required.";
+    }
+    if (noiseLevel === "") {
+      validationErrors.noiseLevel = "Noise level rating is required.";
+    }
 
-    // const imageList = new FormData();
-    // images.forEach((image, index) => {
-    //   imageList.append(`image${index}`, image);
-    // });
-
-    // imageList.append("images", images);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
 
     const reviewData = new FormData();
     reviewData.append("description", description);
@@ -32,21 +39,14 @@ const AddReview = ({ workshopId }) => {
     reviewData.append("pet_friendliness", petFriendliness);
     reviewData.append("noise_level", noiseLevel);
 
-    // console.log("FORM DATA", imageList);
-    console.log("REVIE DATA", reviewData);
-
     try {
-      const createdReview = await dispatch(
-        createReviewThunk(workshopId, reviewData, images)
-      );
+      dispatch(createReviewThunk(workshopId, reviewData, images));
       history.push(`/workshops/${workshopId}`);
     } catch (error) {
       if (error.response) {
-        const data = await error.response.json();
-        if (data && data.errors) setErrors(data.errors);
-      } else {
         console.error("Error creating review:", error);
-        // Handle other types of errors (e.g., network errors)
+      } else {
+        console.error("Network error:", error);
       }
     }
   };
@@ -65,7 +65,6 @@ const AddReview = ({ workshopId }) => {
         <textarea
           value={description}
           onChange={(event) => setDescription(event.target.value)}
-          required
         />
       </div>
       <div>
@@ -79,6 +78,7 @@ const AddReview = ({ workshopId }) => {
           onChange={(event) => setWifi(event.target.value)}
           required
         />
+        {errors.wifi && <div>{errors.wifi}</div>}
       </div>
       <div>
         <label>Pet Friendliness:</label>
@@ -91,6 +91,7 @@ const AddReview = ({ workshopId }) => {
           onChange={(event) => setPetFriendliness(event.target.value)}
           required
         />
+        {errors.petFriendliness && <div>{errors.petFriendliness}</div>}
       </div>
       <div>
         <label>Noise Level:</label>
@@ -103,6 +104,7 @@ const AddReview = ({ workshopId }) => {
           onChange={(event) => setNoiseLevel(event.target.value)}
           required
         />
+        {errors.noiseLevel && <div>{errors.noiseLevel}</div>}
       </div>
       <div>
         <label>Image 1:</label>
@@ -111,6 +113,7 @@ const AddReview = ({ workshopId }) => {
           accept="image/*"
           onChange={(event) => handleImageChange(0, event)}
         />
+        {images[0] && <img src={URL.createObjectURL(images[0])}></img>}
       </div>
       <div>
         <label>Image 2:</label>
@@ -128,6 +131,7 @@ const AddReview = ({ workshopId }) => {
           accept="image/*"
           onChange={(event) => handleImageChange(2, event)}
         />
+        {images[2] && <img src={URL.createObjectURL(images[2])}></img>}
       </div>
       <button type="submit">Submit Review</button>
     </form>
