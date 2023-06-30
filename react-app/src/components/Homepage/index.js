@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import WorkshopsList from "../Workshops/WorkshopsList/WorkshopsList";
+import WorkshopsList from "./WorkshopsList/WorkshopsList";
 import NearbySearch from "./NearbySearch";
 import { fetchNearbyWorkshops } from "../../store/google";
 
@@ -24,7 +24,7 @@ function Homepage() {
     };
 
     fetchData();
-  }, [location]);
+  }, [dispatch, location]);
 
   const handleSuggestionClick = (locationDetails) => {
     setLocation(locationDetails);
@@ -35,7 +35,6 @@ function Homepage() {
   return (
     <>
       <NearbySearch onSuggestionClick={handleSuggestionClick} />
-      {isLocationSet && <h1>Places near {location.name}</h1>}
       <WorkshopsList key={workshopsListKey} isLocationSet={isLocationSet} />
     </>
   );

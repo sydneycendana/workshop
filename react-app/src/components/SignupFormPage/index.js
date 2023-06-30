@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { signUp } from "../../store/session";
+import { useModal } from "../../context/Modal";
 
 import { ReactComponent as Arrow } from "../../assets/icons/arrow.svg";
 
@@ -9,6 +10,7 @@ import "./SignupForm.css";
 
 function SignupFormPage() {
   const dispatch = useDispatch();
+  const { closeModal } = useModal();
   const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");
   const [first_name, setFirstName] = useState("");
@@ -28,9 +30,7 @@ function SignupFormPage() {
         setErrors(data);
       }
     } else {
-      setErrors([
-        "Confirm Password field must be the same as the Password field",
-      ]);
+      closeModal();
     }
   };
 

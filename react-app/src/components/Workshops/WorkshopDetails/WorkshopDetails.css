@@ -29,3 +29,18 @@
 .review-container {
     margin: 10px 0;
 }
+
+/* Votes */
+
+.votes-container {
+    display: flex;
+    align-items: center;
+}
+
+.highlighted-thumbs-down-icon path[fill="gray"] {
+    fill: #8B0000;
+}
+
+.highlighted-thumbs-up-icon path[fill="gray"] {
+    fill: green;
+}

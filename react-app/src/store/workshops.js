@@ -1,6 +1,7 @@
+import { CREATE_REVIEW } from "./reviews";
+
 const GET_WORKSHOP_DETAILS = "getWorkshop";
 const GET_FEATURED_WORKSHOPS = "getFeaturedWorkshops";
-const GET_NEARBY_WORKSHOPS = "getNearbyWorkshops";
 const CREATE_WORKSHOP = "createWorkshop";
 
 const getWorkshop = (payload) => ({
@@ -10,11 +11,6 @@ const getWorkshop = (payload) => ({
 
 const getFeaturedWorkshops = (payload) => ({
   type: GET_FEATURED_WORKSHOPS,
-  payload,
-});
-
-const getNearbyWorkshops = (payload) => ({
-  type: GET_NEARBY_WORKSHOPS,
   payload,
 });
 
@@ -41,16 +37,6 @@ export const fetchFeaturedWorkshops = () => async (dispatch) => {
   }
 };
 
-export const fetchNearbyWorkshops = () => async (dispatch) => {
-  const response = await fetch(`/api/workshops/nearby`);
-  if (response.ok) {
-    const data = await response.json();
-    console.log(data);
-    dispatch(getNearbyWorkshops(data));
-    return data;
-  }
-};
-
 export const createWorkshopThunk = (formData) => async (dispatch) => {
   const workshopResponse = await fetch(`/api/workshops/`, {
     method: "POST",
@@ -67,7 +53,6 @@ export const createWorkshopThunk = (formData) => async (dispatch) => {
 const initialState = {
   workshopDetails: {},
   featuredWorkshops: [],
-  nearbyWorkshops: [],
 };
 
 const workshopReducer = (state = initialState, action) => {
@@ -82,15 +67,18 @@ const workshopReducer = (state = initialState, action) => {
         ...state,
         featuredWorkshops: action.payload,
       };
-    case GET_NEARBY_WORKSHOPS:
-      return {
-        ...state,
-        nearbyWorkshops: action.payload,
-      };
     case CREATE_WORKSHOP:
       return {
         ...state,
         workshopDetails: action.payload,
+      };
+    case CREATE_REVIEW:
+      return {
+        ...state,
+        workshopDetails: {
+          ...state.workshopDetails,
+          reviews: [...state.workshopDetails.reviews, action.payload],
+        },
       };
     default:
       return state;
