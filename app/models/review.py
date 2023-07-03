@@ -12,9 +12,9 @@ class Review(db.Model):
     workshop_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('workshops.id')), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     description = db.Column(db.Text)
-    wifi = db.Column(db.Numeric(precision=3, scale=1), nullable=False)
-    pet_friendliness = db.Column(db.Numeric(precision=3, scale=1), nullable=False)
-    noise_level = db.Column(db.Numeric(precision=3, scale=1), nullable=False)
+    wifi = db.Column(db.Float, nullable=False)
+    pet_friendliness = db.Column(db.Float, nullable=False)
+    noise_level = db.Column(db.Float, nullable=False)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 

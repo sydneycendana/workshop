@@ -34,17 +34,20 @@ class Workshop(db.Model):
             vote = None
             user_has_voted = False
             user_vote_type = None
+            vote_id = None
 
             if current_user.is_authenticated:
                 vote = Vote.query.filter_by(user_id=current_user.id, review_id=review.id).first()
                 if vote:
                     user_has_voted = True
                     user_vote_type = vote.vote_type
+                    vote_id = vote.id
 
             review_dict = review.to_dict()
             review_dict['votes'] = {
                 'userHasVoted': user_has_voted,
-                'userVoteType': user_vote_type
+                'userVoteType': user_vote_type,
+                'voteId': vote_id
             }
             review_dict['images'] = [image.to_dict() for image in review.images]
             reviews_list.append(review_dict)
