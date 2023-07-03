@@ -81,7 +81,6 @@ def add_review_images(review_id):
         return jsonify({'error': 'You are not authorized to add images to this review'}), 403
 
     images = request.files.getlist('images')
-    print("------------------------------------", images)
     if not images:
         return jsonify({'error': 'No images provided'}), 400
 
