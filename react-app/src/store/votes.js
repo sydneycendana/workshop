@@ -11,10 +11,17 @@ const editVote = (payload) => ({
   payload,
 });
 
-export const createVoteThunk = (reviewId, vote) => async (dispatch) => {
+export const createVoteThunk = (reviewId, voteType) => async (dispatch) => {
+  const votePayload = {
+    vote_type: voteType,
+  };
+
   const voteResponse = await fetch(`/api/reviews/${reviewId}/votes`, {
     method: "POST",
-    body: vote,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(votePayload),
   });
 
   if (voteResponse.ok) {

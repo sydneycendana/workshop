@@ -141,16 +141,16 @@ const WorkshopDetails = () => {
                 </div>
                 <div className="votes-container">
                   <Upvote
-                    className={
+                    className={`${
                       userVoteType === 1 ? "highlighted-thumbs-up-icon" : ""
-                    }
+                    } upvote-icon`}
                     onClick={handleUpvote}
                   />
                   {review.total_votes}
                   <Downvote
-                    className={
+                    className={`${
                       userVoteType === -1 ? "highlighted-thumbs-down-icon" : ""
-                    }
+                    } downvote-icon`}
                     onClick={handleDownvote}
                   />
                 </div>

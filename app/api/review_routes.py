@@ -119,15 +119,17 @@ def add_review_images(review_id):
 @review_routes.route('/<int:review_id>/votes', methods=['POST'])
 @login_required
 def add_review_vote(review_id):
+
+    vote_type = request.json.get('vote_type')
+
     review = Review.query.get(review_id)
+    print(review)
     if not review:
         return jsonify({'error': 'Review not found'}), 404
 
     if review.user_id == current_user.id:
         return jsonify({'error': 'You cannot vote for your own review'}), 403
 
-
-    vote_type = request.json.get('vote_type')
     if vote_type not in [-1, 1]:
         return jsonify({'error': 'Invalid vote type. Vote type should be either 1 or -1'}), 400
 

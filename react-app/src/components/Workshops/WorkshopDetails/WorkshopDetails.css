@@ -44,3 +44,13 @@
 .highlighted-thumbs-up-icon path[fill="gray"] {
     fill: green;
 }
+
+.upvote-icon,
+.downvote-icon {
+    cursor: pointer;
+}
+
+.highlighted-thumbs-up-icon,
+.highlighted-thumbs-down-icon {
+    cursor: pointer;
+}
