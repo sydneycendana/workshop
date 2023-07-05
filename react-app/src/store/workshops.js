@@ -82,33 +82,51 @@ const workshopReducer = (state = initialState, action) => {
         },
       };
 
-    case EDIT_VOTE: {
+    case CREATE_VOTE: {
       const { review_id, vote_type } = action.payload;
 
-      console.log("Review ID:", review_id);
-      console.log("Reviews Array:", state.workshopDetails.reviews);
-
-      // 1. Find the index of the review within the reviews array
       const reviewIndex = state.workshopDetails.reviews.findIndex(
         (review) => review.id === review_id
       );
 
-      // 2. Create a copy of the workshopDetails object and the review object
+      if (reviewIndex === -1) {
+        return state;
+      }
+
       const updatedWorkshopDetails = { ...state.workshopDetails };
       const updatedReview = { ...updatedWorkshopDetails.reviews[reviewIndex] };
 
-      // 3. Update the total_votes in the copied review object based on the new vote type
+      updatedReview.total_votes += vote_type;
+      updatedReview.votes = updatedReview.votes || {};
+
+      updatedReview.votes.userVoteType = vote_type;
+
+      updatedWorkshopDetails.reviews[reviewIndex] = updatedReview;
+
+      return {
+        ...state,
+        workshopDetails: updatedWorkshopDetails,
+      };
+    }
+
+    case EDIT_VOTE: {
+      const { review_id, vote_type } = action.payload;
+
+      const reviewIndex = state.workshopDetails.reviews.findIndex(
+        (review) => review.id === review_id
+      );
+
+      const updatedWorkshopDetails = { ...state.workshopDetails };
+      const updatedReview = { ...updatedWorkshopDetails.reviews[reviewIndex] };
+
       updatedReview.total_votes += vote_type;
 
       updatedReview.votes = updatedReview.votes || {};
 
-      // 4. Update the votes object within the copied review object to reflect the new vote type
       updatedReview.votes.userVoteType = vote_type;
 
-      // 5. Replace the old review object with the updated review object within the copied workshopDetails object
       updatedWorkshopDetails.reviews[reviewIndex] = updatedReview;
 
-      // 6. Return the updated workshopDetails object as the new state
       return {
         ...state,
         workshopDetails: updatedWorkshopDetails,
@@ -117,39 +135,30 @@ const workshopReducer = (state = initialState, action) => {
 
     case DELETE_VOTE: {
       const { reviewId, voteId } = action.payload;
-      console.log("Review ID:", reviewId);
-      console.log("Reviews Array:", state.workshopDetails.reviews);
 
-      // Find the index of the review within the reviews array
       const reviewIndex = state.workshopDetails.reviews.findIndex(
         (review) => review.id === reviewId
       );
 
       if (reviewIndex === -1) {
-        // Review not found, return the current state
         return state;
       }
-      // Create a copy of the workshopDetails object and the review object
+
       const updatedWorkshopDetails = { ...state.workshopDetails };
       const updatedReview = { ...updatedWorkshopDetails.reviews[reviewIndex] };
 
-      // Get the previous vote type
       const previousVoteType = updatedReview.votes?.userVoteType || 0;
 
-      // Subtract the previous vote type from the total_votes in the copied review object
       updatedReview.total_votes -= previousVoteType;
 
-      // Reset the userHasVoted, userVoteType, and voteId values to their initial state
       updatedReview.votes = {
         userHasVoted: false,
         userVoteType: null,
         voteId: null,
       };
 
-      // Replace the old review object with the updated review object within the copied workshopDetails object
       updatedWorkshopDetails.reviews[reviewIndex] = updatedReview;
 
-      // Return the updated workshopDetails object as the new state
       return {
         ...state,
         workshopDetails: updatedWorkshopDetails,
