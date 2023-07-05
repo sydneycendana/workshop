@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchWorkshopById } from "../../../store/workshops";
-import { editVoteThunk, createVoteThunk } from "../../../store/votes";
+import {
+  editVoteThunk,
+  createVoteThunk,
+  deleteVoteThunk,
+} from "../../../store/votes";
 import OpenModalButton from "../../OpenModalButton";
 import AddReview from "../../Reviews/AddReview";
 import { ReactComponent as Upvote } from "../../../assets/icons/upvote.svg";
@@ -67,6 +71,8 @@ const WorkshopDetails = () => {
       )}
       <div className="line"></div>
 
+      {/* ------------ CURRENT USERS REVIEW ------------ */}
+
       {userReview && (
         <div key={userReview.id}>
           <div className="review-container">
@@ -92,6 +98,8 @@ const WorkshopDetails = () => {
           <div className="line"></div>
         </div>
       )}
+
+      {/* ------------ OTHER REVIEWS ------------ */}
       {workshop.reviews &&
         workshop.reviews
           .filter((review) => !(userReview && review.id === userReview.id)) // Exclude the user's review from the list
@@ -100,7 +108,7 @@ const WorkshopDetails = () => {
 
             const handleUpvote = () => {
               if (userVoteType === 1) {
-                return; // User has already upvoted, do nothing
+                dispatch(deleteVoteThunk(review.id, review.votes.voteId));
               }
 
               if (userVoteType === -1) {
@@ -112,7 +120,7 @@ const WorkshopDetails = () => {
 
             const handleDownvote = () => {
               if (userVoteType === -1) {
-                return; // User has already downvoted, do nothing
+                dispatch(deleteVoteThunk(review.id, review.votes.voteId));
               }
 
               if (userVoteType === 1) {

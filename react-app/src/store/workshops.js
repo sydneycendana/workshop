@@ -1,5 +1,5 @@
 import { CREATE_REVIEW } from "./reviews";
-import { EDIT_VOTE } from "./votes";
+import { EDIT_VOTE, CREATE_VOTE, DELETE_VOTE } from "./votes";
 
 const GET_WORKSHOP_DETAILS = "getWorkshop";
 const GET_FEATURED_WORKSHOPS = "getFeaturedWorkshops";
@@ -114,6 +114,48 @@ const workshopReducer = (state = initialState, action) => {
         workshopDetails: updatedWorkshopDetails,
       };
     }
+
+    case DELETE_VOTE: {
+      const { reviewId, voteId } = action.payload;
+      console.log("Review ID:", reviewId);
+      console.log("Reviews Array:", state.workshopDetails.reviews);
+
+      // Find the index of the review within the reviews array
+      const reviewIndex = state.workshopDetails.reviews.findIndex(
+        (review) => review.id === reviewId
+      );
+
+      if (reviewIndex === -1) {
+        // Review not found, return the current state
+        return state;
+      }
+      // Create a copy of the workshopDetails object and the review object
+      const updatedWorkshopDetails = { ...state.workshopDetails };
+      const updatedReview = { ...updatedWorkshopDetails.reviews[reviewIndex] };
+
+      // Get the previous vote type
+      const previousVoteType = updatedReview.votes?.userVoteType || 0;
+
+      // Subtract the previous vote type from the total_votes in the copied review object
+      updatedReview.total_votes -= previousVoteType;
+
+      // Reset the userHasVoted, userVoteType, and voteId values to their initial state
+      updatedReview.votes = {
+        userHasVoted: false,
+        userVoteType: null,
+        voteId: null,
+      };
+
+      // Replace the old review object with the updated review object within the copied workshopDetails object
+      updatedWorkshopDetails.reviews[reviewIndex] = updatedReview;
+
+      // Return the updated workshopDetails object as the new state
+      return {
+        ...state,
+        workshopDetails: updatedWorkshopDetails,
+      };
+    }
+
     default:
       return state;
   }
