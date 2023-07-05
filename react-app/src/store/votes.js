@@ -1,14 +1,20 @@
 export const CREATE_VOTE = "createVote";
 export const EDIT_VOTE = "editVote";
+export const DELETE_VOTE = "deleteVote";
 
-const createVote = (payload) => ({
+const createVote = (review_id, vote_type) => ({
   type: CREATE_VOTE,
-  payload,
+  payload: { review_id, vote_type },
 });
 
 const editVote = (payload) => ({
   type: EDIT_VOTE,
   payload,
+});
+
+const deleteVote = (reviewId, voteId) => ({
+  type: DELETE_VOTE,
+  payload: { reviewId, voteId },
 });
 
 export const createVoteThunk = (reviewId, voteType) => async (dispatch) => {
@@ -26,7 +32,8 @@ export const createVoteThunk = (reviewId, voteType) => async (dispatch) => {
 
   if (voteResponse.ok) {
     const voteData = await voteResponse.json();
-    dispatch(createVote(voteData));
+    const { review_id, vote_type } = voteData; // Extract review_id and vote_type from the response
+    dispatch(createVote(review_id, vote_type));
     return voteData;
   }
 };
@@ -52,5 +59,21 @@ export const editVoteThunk = (voteId, voteType) => async (dispatch) => {
     }
   } catch (error) {
     // Handle network or other errors
+  }
+};
+
+export const deleteVoteThunk = (reviewId, voteId) => async (dispatch) => {
+  try {
+    const voteResponse = await fetch(`/api/votes/${voteId}`, {
+      method: "DELETE",
+    });
+
+    if (!voteResponse.ok) {
+      throw new Error("Failed to delete vote");
+    }
+
+    dispatch(deleteVote(reviewId, voteId));
+  } catch (error) {
+    console.log(error);
   }
 };

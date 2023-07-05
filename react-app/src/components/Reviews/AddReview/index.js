@@ -1,16 +1,18 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { createReviewThunk } from "../../../store/reviews";
+import { useModal } from "../../../context/Modal";
+import MySlider from "../../MySlider";
+import "./AddReview.css";
 
 const AddReview = ({ workshopId }) => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const { closeModal } = useModal();
 
   const [description, setDescription] = useState("");
-  const [wifi, setWifi] = useState("");
-  const [petFriendliness, setPetFriendliness] = useState("");
-  const [noiseLevel, setNoiseLevel] = useState("");
+  const [wifi, setWifi] = useState(0);
+  const [petFriendliness, setPetFriendliness] = useState(0);
+  const [noiseLevel, setNoiseLevel] = useState(0);
   const [images, setImages] = useState([]);
   const [errors, setErrors] = useState({});
 
@@ -18,13 +20,13 @@ const AddReview = ({ workshopId }) => {
     e.preventDefault();
 
     const validationErrors = {};
-    if (wifi === "") {
+    if (wifi === 0) {
       validationErrors.wifi = "Wifi rating is required.";
     }
-    if (petFriendliness === "") {
+    if (petFriendliness === 0) {
       validationErrors.petFriendliness = "Pet friendliness rating is required.";
     }
-    if (noiseLevel === "") {
+    if (noiseLevel === 0) {
       validationErrors.noiseLevel = "Noise level rating is required.";
     }
 
@@ -41,7 +43,7 @@ const AddReview = ({ workshopId }) => {
 
     try {
       dispatch(createReviewThunk(workshopId, reviewData, images));
-      history.push(`/workshops/${workshopId}`);
+      closeModal();
     } catch (error) {
       if (error.response) {
         console.error("Error creating review:", error);
@@ -59,81 +61,90 @@ const AddReview = ({ workshopId }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="review-form-container">
+      <h3 className="review-form-title">Add Review</h3>
       <div>
-        <label>Description:</label>
+        <div>
+          <MySlider
+            value={parseFloat(wifi)}
+            onChange={(event, value) => setWifi(value)}
+            name="Wifi"
+            required
+          />
+          {errors.wifi && <div>{errors.wifi}</div>}
+        </div>
+        <div>
+          <MySlider
+            value={parseFloat(petFriendliness)}
+            onChange={(event, value) => setPetFriendliness(value)}
+            name="Pet Friendliness"
+            required
+          />
+          {errors.petFriendliness && <div>{errors.petFriendliness}</div>}
+        </div>
+        <div>
+          <MySlider
+            value={parseFloat(noiseLevel)}
+            onChange={(event, value) => setNoiseLevel(value)}
+            name="Noise Level"
+            required
+          />
+          {errors.noiseLevel && <div>{errors.noiseLevel}</div>}
+        </div>
+      </div>
+      <div className="add-review-description-container">
+        <label>Tell us more:</label>
         <textarea
           value={description}
           onChange={(event) => setDescription(event.target.value)}
         />
       </div>
-      <div>
-        <label>Wifi:</label>
-        <input
-          type="number"
-          min="0"
-          max="5"
-          step="0.1"
-          value={wifi}
-          onChange={(event) => setWifi(event.target.value)}
-          required
-        />
-        {errors.wifi && <div>{errors.wifi}</div>}
+      <div className="add-reviews-images">
+        <div>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(event) => handleImageChange(0, event)}
+          />
+        </div>
+        <div>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(event) => handleImageChange(1, event)}
+          />
+        </div>
+        <div>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(event) => handleImageChange(2, event)}
+          />
+        </div>
+        <div className="preview-images-container">
+          {images[0] && (
+            <img
+              className="preview-image"
+              src={URL.createObjectURL(images[0])}
+            ></img>
+          )}
+          {images[1] && (
+            <img
+              className="preview-image"
+              src={URL.createObjectURL(images[1])}
+            ></img>
+          )}
+          {images[2] && (
+            <img
+              className="preview-image"
+              src={URL.createObjectURL(images[2])}
+            ></img>
+          )}
+        </div>
       </div>
-      <div>
-        <label>Pet Friendliness:</label>
-        <input
-          type="number"
-          min="0"
-          max="5"
-          step="0.1"
-          value={petFriendliness}
-          onChange={(event) => setPetFriendliness(event.target.value)}
-          required
-        />
-        {errors.petFriendliness && <div>{errors.petFriendliness}</div>}
-      </div>
-      <div>
-        <label>Noise Level:</label>
-        <input
-          type="number"
-          min="0"
-          max="5"
-          step="0.1"
-          value={noiseLevel}
-          onChange={(event) => setNoiseLevel(event.target.value)}
-          required
-        />
-        {errors.noiseLevel && <div>{errors.noiseLevel}</div>}
-      </div>
-      <div>
-        <label>Image 1:</label>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(event) => handleImageChange(0, event)}
-        />
-        {images[0] && <img src={URL.createObjectURL(images[0])}></img>}
-      </div>
-      <div>
-        <label>Image 2:</label>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(event) => handleImageChange(1, event)}
-        />
-        {images[1] && <img src={URL.createObjectURL(images[1])}></img>}
-      </div>
-      <div>
-        <label>Image 3:</label>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(event) => handleImageChange(2, event)}
-        />
-        {images[2] && <img src={URL.createObjectURL(images[2])}></img>}
-      </div>
-      <button type="submit">Submit Review</button>
+      <button type="submit" className="add-review-submit">
+        Submit Review
+      </button>
     </form>
   );
 };

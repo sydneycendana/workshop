@@ -69,7 +69,7 @@ const WorkshopsList = ({ isLocationSet }) => {
                   />
                 </div>
                 <h3>{workshop.name}</h3>
-                <div className="average-ratings-container">
+                <div className="review-ratings-container">
                   {isAllRatingsNull ? (
                     <div className="new-rating-container">
                       <span className="new-rating">NEW</span>
@@ -84,7 +84,7 @@ const WorkshopsList = ({ isLocationSet }) => {
                         </div>
                       ) : (
                         <>
-                          <div className="average-rating-container">
+                          <div className="rating-container">
                             {workshop.average_wifi === null ? (
                               <Wifi />
                             ) : (
@@ -94,7 +94,7 @@ const WorkshopsList = ({ isLocationSet }) => {
                               </>
                             )}
                           </div>
-                          <div className="average-rating-container">
+                          <div className="rating-container">
                             {workshop.average_pet_friendliness === null ? (
                               <Pet />
                             ) : (
@@ -104,7 +104,7 @@ const WorkshopsList = ({ isLocationSet }) => {
                               </>
                             )}
                           </div>
-                          <div className="average-rating-container">
+                          <div className="rating-container">
                             {workshop.average_noise_level === null ? (
                               <Noise />
                             ) : (

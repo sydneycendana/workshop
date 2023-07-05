@@ -2,9 +2,19 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchWorkshopById } from "../../../store/workshops";
-import { editVoteThunk, createVoteThunk } from "../../../store/votes";
+import {
+  editVoteThunk,
+  createVoteThunk,
+  deleteVoteThunk,
+} from "../../../store/votes";
 import OpenModalButton from "../../OpenModalButton";
 import AddReview from "../../Reviews/AddReview";
+
+import { ReactComponent as Wifi } from "../../../assets/icons/wifi.svg";
+import { ReactComponent as Noise } from "../../../assets/icons/noise.svg";
+import { ReactComponent as Pet } from "../../../assets/icons/pet.svg";
+import { ReactComponent as More } from "../../../assets/icons/more.svg";
+
 import { ReactComponent as Upvote } from "../../../assets/icons/upvote.svg";
 import { ReactComponent as Downvote } from "../../../assets/icons/downvote.svg";
 
@@ -18,6 +28,8 @@ const WorkshopDetails = () => {
   const user = useSelector((state) => state.session.user);
 
   const [loading, setLoading] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
   useEffect(() => {
     dispatch(fetchWorkshopById(workshopId))
@@ -45,7 +57,26 @@ const WorkshopDetails = () => {
           alt={workshop.name}
           style={{ width: "400px", height: "400px" }}
         />
-        <div>
+        <div className="workshop-info-container">
+          {workshop.average_noise_level !== null &&
+            workshop.average_pet_friendliness !== null &&
+            workshop.average_wifi !== null && (
+              <div className="review-average-ratings-container">
+                <div className="rating-container">
+                  <Noise />
+                  <p>{workshop.average_noise_level}</p>
+                </div>
+                <div className="rating-container">
+                  <Pet />
+                  <p>{workshop.average_pet_friendliness}</p>
+                </div>
+                <div className="rating-container">
+                  <Wifi />
+                  <p>{workshop.average_wifi}</p>
+                </div>
+              </div>
+            )}
+
           {hasReviews && (
             <p>
               {workshop.reviews.length}{" "}
@@ -58,40 +89,86 @@ const WorkshopDetails = () => {
           {workshop.phone_number && <p>{workshop.phone_number}</p>}
         </div>
       </div>
-      <h3 className="reviews-section-title">Reviews</h3>
-      {!userReview && (
-        <OpenModalButton
-          buttonText="Add review"
-          modalComponent={<AddReview workshopId={workshopId} />}
-        />
+      <div className="reviews-section-container">
+        <h3 className="reviews-section-title">Reviews</h3>
+        {!userReview && (
+          <OpenModalButton
+            buttonText="Add review"
+            modalComponent={<AddReview workshopId={workshopId} />}
+            buttonClassName="add-review-button"
+          />
+        )}
+      </div>
+      <div className="line"></div>
+
+      {/* ------------ CURRENT USERS REVIEW ------------ */}
+
+      {userReview && (
+        <div
+          key={userReview.id}
+          className="user-review-container"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => {
+            setIsHovered(false);
+            setIsDropdownVisible(false);
+          }}
+        >
+          <div>
+            <div className="review-container">
+              <p>
+                By {userReview.user_first_name} on{" "}
+                {new Date(userReview.created_at).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </p>
+              <div className="review-ratings-container">
+                <div className="rating-container">
+                  <Noise />
+                  <p>{userReview.noise_level}</p>
+                </div>
+                <div className="rating-container">
+                  <Pet />
+                  <p>{userReview.pet_friendliness}</p>
+                </div>
+                <div className="rating-container">
+                  <Wifi />
+                  <p>{userReview.wifi}</p>
+                </div>
+              </div>
+              <p>Description: {userReview.description}</p>
+              {/* Render images here if available */}
+            </div>
+            <div className="votes-container">
+              <Upvote />
+              {userReview.total_votes}
+              <Downvote className="thumbs-down-icon" />
+            </div>
+          </div>
+          <div className="review-actions-container">
+            {isHovered && (
+              <div className="review-actions">
+                <button
+                  className="dropdown-button"
+                  onClick={() => setIsDropdownVisible(!isDropdownVisible)}
+                >
+                  <More />
+                </button>
+              </div>
+            )}
+            {isDropdownVisible && (
+              <div className="dropdown-menu">
+                <button>Edit</button>
+                <button style={{ color: "red" }}>Delete</button>
+              </div>
+            )}
+          </div>
+        </div>
       )}
       <div className="line"></div>
 
-      {userReview && (
-        <div key={userReview.id}>
-          <div className="review-container">
-            <p>
-              By {userReview.user_first_name} on{" "}
-              {new Date(userReview.created_at).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-              })}
-            </p>
-            <p>Description: {userReview.description}</p>
-            <p>Noise Level: {userReview.noise_level}</p>
-            <p>Pet Friendliness: {userReview.pet_friendliness}</p>
-            <p>Wifi: {userReview.wifi}</p>
-            {/* Render images here if available */}
-          </div>
-          <div className="votes-container">
-            <Upvote />
-            {userReview.total_votes}
-            <Downvote className="thumbs-down-icon" />
-          </div>
-          <div className="line"></div>
-        </div>
-      )}
+      {/* ------------ OTHER REVIEWS ------------ */}
       {workshop.reviews &&
         workshop.reviews
           .filter((review) => !(userReview && review.id === userReview.id)) // Exclude the user's review from the list
@@ -100,7 +177,7 @@ const WorkshopDetails = () => {
 
             const handleUpvote = () => {
               if (userVoteType === 1) {
-                return; // User has already upvoted, do nothing
+                dispatch(deleteVoteThunk(review.id, review.votes.voteId));
               }
 
               if (userVoteType === -1) {
@@ -112,7 +189,7 @@ const WorkshopDetails = () => {
 
             const handleDownvote = () => {
               if (userVoteType === -1) {
-                return; // User has already downvoted, do nothing
+                dispatch(deleteVoteThunk(review.id, review.votes.voteId));
               }
 
               if (userVoteType === 1) {
@@ -133,10 +210,21 @@ const WorkshopDetails = () => {
                       year: "numeric",
                     })}
                   </p>
+                  <div className="review-ratings-container">
+                    <div className="rating-container">
+                      <Noise />
+                      <p>{review.noise_level}</p>
+                    </div>
+                    <div className="rating-container">
+                      <Pet />
+                      <p>{review.pet_friendliness}</p>
+                    </div>
+                    <div className="rating-container">
+                      <Wifi />
+                      <p>{review.wifi}</p>
+                    </div>
+                  </div>
                   <p>Description: {review.description}</p>
-                  <p>Noise Level: {review.noise_level}</p>
-                  <p>Pet Friendliness: {review.pet_friendliness}</p>
-                  <p>Wifi: {review.wifi}</p>
                   {/* Render images here if available */}
                 </div>
                 <div className="votes-container">
