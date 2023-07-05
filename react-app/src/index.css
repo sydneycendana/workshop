@@ -18,6 +18,12 @@ body {
     background-color: #FFF3F3;
     font-family: var(--font-lato);
     color: var(--color-blue);
+    display: flex;
+    justify-content: center;
+    /* Horizontally center the content */
+    align-items: center;
+    /* Vertically center the content */
+    min-height: 100vh;
 }
 
 ul,

@@ -1,0 +1,55 @@
+.review-form-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px;
+    gap: 20px;
+    border-radius: 10px;
+}
+
+.review-form-title {
+    text-align: center;
+}
+
+.add-review-description-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-review-description-container textarea {
+    height: 100px;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.add-review-description-container textarea:focus {
+    outline-color: var(--color-blue);
+    /* Replace "blue" with your desired color */
+}
+
+.add-reviews-images>* {
+    padding: 10px 0;
+}
+
+.preview-images-container {
+    display: flex;
+    gap: 5px;
+    /* height: 100px; */
+}
+
+.preview-image {
+    max-width: 100px;
+    /* Set the desired width */
+    max-height: 100px;
+    /* Set the desired height */
+}
+
+.add-review-submit {
+    background-color: var(--color-blue);
+    border-radius: 5px;
+    min-width: 200px;
+    padding: 10px 20px;
+    margin: 0 auto;
+    color: white;
+    border: none;
+}

@@ -62,13 +62,16 @@ const WorkshopDetails = () => {
           {workshop.phone_number && <p>{workshop.phone_number}</p>}
         </div>
       </div>
-      <h3 className="reviews-section-title">Reviews</h3>
-      {!userReview && (
-        <OpenModalButton
-          buttonText="Add review"
-          modalComponent={<AddReview workshopId={workshopId} />}
-        />
-      )}
+      <div className="reviews-section-container">
+        <h3 className="reviews-section-title">Reviews</h3>
+        {!userReview && (
+          <OpenModalButton
+            buttonText="Add review"
+            modalComponent={<AddReview workshopId={workshopId} />}
+            buttonClassName="add-review-button"
+          />
+        )}
+      </div>
       <div className="line"></div>
 
       {/* ------------ CURRENT USERS REVIEW ------------ */}
