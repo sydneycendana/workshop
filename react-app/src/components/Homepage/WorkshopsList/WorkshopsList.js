@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFeaturedWorkshops } from "../../../store/workshops";
-
 import { ReactComponent as Wifi } from "../../../assets/icons/wifi.svg";
 import { ReactComponent as Pet } from "../../../assets/icons/pet.svg";
 import { ReactComponent as Noise } from "../../../assets/icons/noise.svg";
@@ -22,11 +21,11 @@ const WorkshopsList = ({ isLocationSet }) => {
     if (nearbyWorkshops.length === 0 && featuredWorkshops.length === 0) {
       dispatch(fetchFeaturedWorkshops())
         .then(() => {
-          setLoading(false); // Set loading to false after fetching workshops
+          setLoading(false);
         })
         .catch((error) => {
           console.error("Error fetching workshops:", error);
-          setLoading(false); // Set loading to false in case of an error
+          setLoading(false);
         });
     }
   }, [dispatch, nearbyWorkshops, featuredWorkshops]);
@@ -49,7 +48,6 @@ const WorkshopsList = ({ isLocationSet }) => {
 
   return (
     <div className="page-container">
-      {nearbyWorkshops.length > 0 && <h3>Near</h3>}
       {loading ? (
         <LoadingSpinner />
       ) : (
@@ -69,6 +67,9 @@ const WorkshopsList = ({ isLocationSet }) => {
                   />
                 </div>
                 <h3>{workshop.name}</h3>
+                {nearbyWorkshops.length > 0 && (
+                  <p>{workshop.distance} miles away</p>
+                )}
                 <div className="review-ratings-container">
                   {isAllRatingsNull ? (
                     <div className="new-rating-container">

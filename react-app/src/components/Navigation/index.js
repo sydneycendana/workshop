@@ -57,13 +57,13 @@ function Navigation({ isLoaded }) {
         </NavLink>
       </li>
       {isLoaded && sessionUser ? (
-        <li>
+        <li className="profile-dropdown-li">
           <div className="profile-button-icon">
             <ProfileButton user={sessionUser} />
           </div>
         </li>
       ) : (
-        <li className="navbar-button inverted-button">
+        <li className="navbar-button inverted-button end-align">
           <OpenModalButton
             buttonText="Log In"
             onItemClick={closeMenu}

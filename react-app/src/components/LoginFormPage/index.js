@@ -28,6 +28,13 @@ function LoginFormPage() {
     }
   };
 
+  const handleDemoUser = async () => {
+    const demoEmail = "johndoe@example.com";
+    const demoPassword = "password";
+    await dispatch(login(demoEmail, demoPassword));
+    closeModal();
+  };
+
   return (
     <div className="modal-container">
       <h1 className="modal-title">Welcome back</h1>
@@ -52,6 +59,11 @@ function LoginFormPage() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+        </div>
+        <div className="center-button">
+          <button className="demo-user-button" onClick={handleDemoUser}>
+            Demo User
+          </button>
         </div>
         <div className="button-container">
           <button type="submit" className="modal-submit">
