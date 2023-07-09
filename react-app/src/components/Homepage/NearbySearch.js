@@ -12,6 +12,8 @@ function NearbySearch({ onSuggestionClick }) {
   const debounceTimeoutRef = useRef(null);
 
   const [inputText, setInputText] = useState("");
+  const [suggestionClicked, setSuggestionClicked] = useState(false);
+
   const autocompleteSuggestions = useSelector(
     (state) => state.google.autocompleteSuggestions
   );
@@ -27,12 +29,15 @@ function NearbySearch({ onSuggestionClick }) {
 
   const handleChange = (event) => {
     setInputText(event.target.value);
+
+    setSuggestionClicked(false);
   };
 
   const handleSuggestionClick = async (placeId) => {
-    setInputText("");
     const placeDetails = await dispatch(fetchPlaceDetails(placeId));
+    setInputText(placeDetails.name);
     onSuggestionClick(placeDetails);
+    setSuggestionClicked(true);
   };
 
   return (
@@ -54,7 +59,7 @@ function NearbySearch({ onSuggestionClick }) {
           />
           <Arrow />
         </div>
-        {inputText && (
+        {inputText && !suggestionClicked && (
           <ul
             ref={ulRef}
             className="autocomplete-results"

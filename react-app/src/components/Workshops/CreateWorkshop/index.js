@@ -17,8 +17,25 @@ const CreateWorkshopForm = () => {
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
-    setImage(file);
-    setSelectedFileName(file.name);
+
+    if (file) {
+      const allowedExtensions = ["jpg", "jpeg", "png", "gif"];
+      const fileExtension = file.name.split(".").pop().toLowerCase();
+
+      if (!allowedExtensions.includes(fileExtension)) {
+        setErrors(["Please upload a valid image file (jpg, jpeg, png, gif)"]);
+        setImage(null);
+        setSelectedFileName("");
+        return;
+      }
+
+      setErrors([]);
+      setImage(file);
+      setSelectedFileName(file.name);
+    } else {
+      setImage(null);
+      setSelectedFileName("");
+    }
   };
 
   useEffect(() => {
@@ -29,6 +46,11 @@ const CreateWorkshopForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!image) {
+      setErrors(["Please upload an image"]);
+      return;
+    }
 
     // Create form data
     const formData = new FormData();
@@ -58,19 +80,22 @@ const CreateWorkshopForm = () => {
           <div>Name: {placeDetails.name}</div>
           <div>{placeDetails.formatted_address}</div>
           <div>Phone Number: {placeDetails.phone_number}</div>
-          <label htmlFor="upload-file" className="custom-file-upload">
+          <label htmlFor="upload-file" className="create-workshop-button">
             <input
               type="file"
               id="upload-file"
               onChange={handleImageUpload}
               className="hidden-file-input"
             />
-            Choose File
+            <Add className="add-button" />
           </label>
           <div>{selectedFileName}</div>
-          <button type="submit" className="create-workshop-button">
-            <Add className="add-button" />
-          </button>
+          <div className="error-message">
+            {errors.map((error, index) => (
+              <p key={index}>{error}</p>
+            ))}
+          </div>
+          <button type="submit">Submit</button>
         </form>
       </div>
     </div>

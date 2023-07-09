@@ -9,15 +9,12 @@ import {
 } from "../../../store/votes";
 import OpenModalButton from "../../OpenModalButton";
 import AddReview from "../../Reviews/AddReview";
-
 import { ReactComponent as Wifi } from "../../../assets/icons/wifi.svg";
 import { ReactComponent as Noise } from "../../../assets/icons/noise.svg";
 import { ReactComponent as Pet } from "../../../assets/icons/pet.svg";
 import { ReactComponent as More } from "../../../assets/icons/more.svg";
-
 import { ReactComponent as Upvote } from "../../../assets/icons/upvote.svg";
 import { ReactComponent as Downvote } from "../../../assets/icons/downvote.svg";
-
 import "./WorkshopDetails.css";
 
 const WorkshopDetails = () => {
@@ -30,6 +27,8 @@ const WorkshopDetails = () => {
   const [loading, setLoading] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const [isAdminDropdownVisible, setIsAdminDropdownVisible] = useState(false);
+  const [isWorkshopInfoHovered, setIsWorkshopInfoHovered] = useState(false);
 
   useEffect(() => {
     dispatch(fetchWorkshopById(workshopId))
@@ -49,15 +48,45 @@ const WorkshopDetails = () => {
     (review) => user && user.id && review.user_id === user.id
   );
 
+  const isAdmin = user?.email === "admin@example.com";
+
   return (
     <div className="page-container">
       <div className="workshop-details-container">
-        <img
-          src={workshop.preview_image_url}
-          alt={workshop.name}
-          style={{ width: "400px", height: "400px" }}
-        />
-        <div className="workshop-info-container">
+        <div className="workshop-details-image-container">
+          <img
+            src={workshop.preview_image_url}
+            alt={workshop.name}
+            style={{ width: "400px", height: "400px" }}
+          />
+        </div>
+        <div
+          className="workshop-info-container"
+          onMouseEnter={() => setIsWorkshopInfoHovered(true)}
+          onMouseLeave={() => {
+            setIsWorkshopInfoHovered(false);
+            setIsAdminDropdownVisible(false);
+          }}
+        >
+          {isAdmin && isWorkshopInfoHovered && (
+            <div className="review-actions-container">
+              <button
+                className="dropdown-button"
+                onClick={() =>
+                  setIsAdminDropdownVisible(!isAdminDropdownVisible)
+                }
+              >
+                <More />
+              </button>
+
+              {isAdminDropdownVisible && (
+                <div className="dropdown-menu">
+                  <button>Edit</button>
+                  <button style={{ color: "red" }}>Delete</button>
+                </div>
+              )}
+            </div>
+          )}
           {workshop.average_noise_level !== null &&
             workshop.average_pet_friendliness !== null &&
             workshop.average_wifi !== null && (
@@ -89,16 +118,14 @@ const WorkshopDetails = () => {
           {workshop.phone_number && <p>{workshop.phone_number}</p>}
         </div>
       </div>
-      <div className="reviews-section-container">
-        <h3 className="reviews-section-title">Reviews</h3>
-        {!userReview && (
-          <OpenModalButton
-            buttonText="Add review"
-            modalComponent={<AddReview workshopId={workshopId} />}
-            buttonClassName="add-review-button"
-          />
-        )}
-      </div>
+      <h3 className="reviews-section-title">Reviews</h3>
+      {!userReview && (
+        <OpenModalButton
+          buttonText="Add review"
+          modalComponent={<AddReview workshopId={workshopId} />}
+          buttonClassName="add-review-button"
+        />
+      )}
       <div className="line"></div>
 
       {/* ------------ CURRENT USERS REVIEW ------------ */}
@@ -113,56 +140,58 @@ const WorkshopDetails = () => {
             setIsDropdownVisible(false);
           }}
         >
-          <div>
-            <div className="review-container">
-              <p>
-                By {userReview.user_first_name} on{" "}
-                {new Date(userReview.created_at).toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                  year: "numeric",
-                })}
-              </p>
-              <div className="review-ratings-container">
-                <div className="rating-container">
-                  <Noise />
-                  <p>{userReview.noise_level}</p>
+          <div className="review">
+            <div className="review-wrapper">
+              <div className="review-container">
+                <p>
+                  By {userReview.user_first_name} on{" "}
+                  {new Date(userReview.created_at).toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </p>
+                <div className="review-ratings-container">
+                  <div className="rating-container">
+                    <Noise />
+                    <p>{userReview.noise_level}</p>
+                  </div>
+                  <div className="rating-container">
+                    <Pet />
+                    <p>{userReview.pet_friendliness}</p>
+                  </div>
+                  <div className="rating-container">
+                    <Wifi />
+                    <p>{userReview.wifi}</p>
+                  </div>
                 </div>
-                <div className="rating-container">
-                  <Pet />
-                  <p>{userReview.pet_friendliness}</p>
-                </div>
-                <div className="rating-container">
-                  <Wifi />
-                  <p>{userReview.wifi}</p>
-                </div>
+                <p>Description: {userReview.description}</p>
+                {/* Render images here if available */}
               </div>
-              <p>Description: {userReview.description}</p>
-              {/* Render images here if available */}
+              <div className="votes-container">
+                <Upvote />
+                {userReview.total_votes}
+                <Downvote className="thumbs-down-icon" />
+              </div>
             </div>
-            <div className="votes-container">
-              <Upvote />
-              {userReview.total_votes}
-              <Downvote className="thumbs-down-icon" />
+            <div>
+              <div className="review-actions-container">
+                {isHovered && (
+                  <button
+                    className="dropdown-button"
+                    onClick={() => setIsDropdownVisible(!isDropdownVisible)}
+                  >
+                    <More />
+                  </button>
+                )}
+                {isDropdownVisible && (
+                  <div className="dropdown-menu">
+                    <button>Edit</button>
+                    <button style={{ color: "red" }}>Delete</button>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-          <div className="review-actions-container">
-            {isHovered && (
-              <div className="review-actions">
-                <button
-                  className="dropdown-button"
-                  onClick={() => setIsDropdownVisible(!isDropdownVisible)}
-                >
-                  <More />
-                </button>
-              </div>
-            )}
-            {isDropdownVisible && (
-              <div className="dropdown-menu">
-                <button>Edit</button>
-                <button style={{ color: "red" }}>Delete</button>
-              </div>
-            )}
           </div>
         </div>
       )}
@@ -200,50 +229,54 @@ const WorkshopDetails = () => {
             };
 
             return (
-              <div key={review.id}>
-                <div className="review-container">
-                  <p>
-                    By {review.user_first_name} on{" "}
-                    {new Date(review.created_at).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
-                  </p>
-                  <div className="review-ratings-container">
-                    <div className="rating-container">
-                      <Noise />
-                      <p>{review.noise_level}</p>
+              <>
+                <div key={review.id} className="review-wrapper">
+                  <div className="review-container">
+                    <p>
+                      By {review.user_first_name} on{" "}
+                      {new Date(review.created_at).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </p>
+                    <div className="review-ratings-container">
+                      <div className="rating-container">
+                        <Noise />
+                        <p>{review.noise_level}</p>
+                      </div>
+                      <div className="rating-container">
+                        <Pet />
+                        <p>{review.pet_friendliness}</p>
+                      </div>
+                      <div className="rating-container">
+                        <Wifi />
+                        <p>{review.wifi}</p>
+                      </div>
                     </div>
-                    <div className="rating-container">
-                      <Pet />
-                      <p>{review.pet_friendliness}</p>
-                    </div>
-                    <div className="rating-container">
-                      <Wifi />
-                      <p>{review.wifi}</p>
-                    </div>
+                    <p>Description: {review.description}</p>
+                    {/* Render images here if available */}
                   </div>
-                  <p>Description: {review.description}</p>
-                  {/* Render images here if available */}
-                </div>
-                <div className="votes-container">
-                  <Upvote
-                    className={`${
-                      userVoteType === 1 ? "highlighted-thumbs-up-icon" : ""
-                    } upvote-icon`}
-                    onClick={handleUpvote}
-                  />
-                  {review.total_votes}
-                  <Downvote
-                    className={`${
-                      userVoteType === -1 ? "highlighted-thumbs-down-icon" : ""
-                    } downvote-icon`}
-                    onClick={handleDownvote}
-                  />
+                  <div className="votes-container">
+                    <Upvote
+                      className={`${
+                        userVoteType === 1 ? "highlighted-thumbs-up-icon" : ""
+                      } upvote-icon`}
+                      onClick={handleUpvote}
+                    />
+                    {review.total_votes}
+                    <Downvote
+                      className={`${
+                        userVoteType === -1
+                          ? "highlighted-thumbs-down-icon"
+                          : ""
+                      } downvote-icon`}
+                      onClick={handleDownvote}
+                    />
+                  </div>
                 </div>
                 <div className="line"></div>
-              </div>
+              </>
             );
           })}
     </div>

@@ -34,21 +34,31 @@ function ProfileButton({ user }) {
     dispatch(logout());
   };
 
+  const getInitials = (name) => {
+    const names = name.split(" ");
+    const initials = names.map((n) => n[0]).join("");
+    return initials;
+  };
+
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
   const closeMenu = () => setShowMenu(false);
 
   return (
-    <>
-      <button onClick={openMenu}>
-        <i className="fas fa-user-circle" />
+    <div className="dropdown-container">
+      <button onClick={openMenu} className="profile-button">
+        <p className="user-initials">
+          {user ? getInitials(user.first_name + " " + user.last_name) : ""}
+        </p>
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
-            <li>{user.username}</li>
+            <p>Hello, {user.first_name}!</p>
             <li>{user.email}</li>
             <li>
-              <button onClick={handleLogout}>Log Out</button>
+              <button className="logout-button" onClick={handleLogout}>
+                Log Out
+              </button>
             </li>
           </>
         ) : (
@@ -67,7 +77,7 @@ function ProfileButton({ user }) {
           </>
         )}
       </ul>
-    </>
+    </div>
   );
 }
 

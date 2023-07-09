@@ -54,3 +54,8 @@ input[type="file"] {
 .add-button path {
     fill: var(--color-red);
 }
+
+.error-message {
+    color: red;
+    margin-top: 8px;
+}
