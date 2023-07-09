@@ -1,10 +1,16 @@
 import { CREATE_REVIEW } from "./reviews";
 import { EDIT_VOTE, CREATE_VOTE, DELETE_VOTE } from "./votes";
 
+const CHECK_PLACE_EXISTENCE = "checkPlaceExistence";
 const GET_WORKSHOP_DETAILS = "getWorkshop";
 const GET_FEATURED_WORKSHOPS = "getFeaturedWorkshops";
 const CREATE_WORKSHOP = "createWorkshop";
 const EDIT_WORKSHOP = "editWorkshop";
+
+const checkPlaceExistence = (workshopId) => ({
+  type: CHECK_PLACE_EXISTENCE,
+  workshopId,
+});
 
 const getWorkshop = (payload) => ({
   type: GET_WORKSHOP_DETAILS,
@@ -25,6 +31,22 @@ const editWorkshop = (payload) => ({
   type: EDIT_WORKSHOP,
   payload,
 });
+
+export const fetchPlaceExistence = (lat, lng) => async (dispatch) => {
+  const response = await fetch("/api/workshops/check-place-existence", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ lat, lng }),
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(checkPlaceExistence(data.workshop_id));
+    return data.workshop_id;
+  }
+};
 
 export const fetchWorkshopById = (id) => async (dispatch) => {
   const response = await fetch(`/api/workshops/${id}`);

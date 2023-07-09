@@ -6,6 +6,8 @@ import {
   fetchPlaceDetails,
 } from "../../store/google";
 
+import { fetchPlaceExistence } from "../../store/workshops";
+
 import { ReactComponent as Arrow } from "../../assets/icons/arrow.svg";
 
 function SearchBar() {
@@ -35,8 +37,15 @@ function SearchBar() {
 
   const handleSuggestionClick = async (placeId) => {
     setInputText("");
-    await dispatch(fetchPlaceDetails(placeId));
-    history.push("/workshop");
+    const details = await dispatch(fetchPlaceDetails(placeId));
+    const existingId = await dispatch(
+      fetchPlaceExistence(details.latitude, details.longitude)
+    );
+    if (existingId) {
+      history.push(`/workshops/${existingId}`);
+    } else {
+      history.push("/workshop");
+    }
   };
 
   return (

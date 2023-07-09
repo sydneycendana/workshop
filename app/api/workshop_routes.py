@@ -103,6 +103,25 @@ def edit_workshop(workshop_id):
     return jsonify({'message': 'Workshop not found'}), 404
 
 
+# ------------------------ CHECK PLACE EXISTENCE ------------------------
+@workshop_routes.route('/check-place-existence', methods=['POST'])
+def check_place_existence():
+    data = request.get_json()
+    lat = data.get('lat')
+    lng = data.get('lng')
+
+    if not lat or not lng:
+        return jsonify({'error': 'Latitude and longitude are required.'}), 400
+
+    workshop = Workshop.query.filter_by(lat=lat, lng=lng).first()
+
+    if workshop:
+        return jsonify({'workshop_id': workshop.id}), 200
+
+    return jsonify({'workshop_id': None}), 200
+
+
+
 # ------------------------ GET WORKSHOP BY ID ------------------------
 @workshop_routes.route('/<int:workshop_id>', methods=['GET'])
 def get_workshop(workshop_id):
