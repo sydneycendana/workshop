@@ -120,11 +120,13 @@ const WorkshopDetails = () => {
       </div>
       <h3 className="reviews-section-title">Reviews</h3>
       {!userReview && (
-        <OpenModalButton
-          buttonText="Add review"
-          modalComponent={<AddReview workshopId={workshopId} />}
-          buttonClassName="add-review-button"
-        />
+        <div className="add-review-button-container">
+          <OpenModalButton
+            buttonText="Add review"
+            modalComponent={<AddReview workshopId={workshopId} />}
+            buttonClassName="add-review-button"
+          />
+        </div>
       )}
       <div className="line"></div>
 
@@ -195,7 +197,6 @@ const WorkshopDetails = () => {
           </div>
         </div>
       )}
-      <div className="line"></div>
 
       {/* ------------ OTHER REVIEWS ------------ */}
       {workshop.reviews &&
@@ -275,7 +276,7 @@ const WorkshopDetails = () => {
                     />
                   </div>
                 </div>
-                <div className="line"></div>
+                {/* <div className="line"></div> */}
               </>
             );
           })}

@@ -4,6 +4,7 @@ import { EDIT_VOTE, CREATE_VOTE, DELETE_VOTE } from "./votes";
 const GET_WORKSHOP_DETAILS = "getWorkshop";
 const GET_FEATURED_WORKSHOPS = "getFeaturedWorkshops";
 const CREATE_WORKSHOP = "createWorkshop";
+const EDIT_WORKSHOP = "editWorkshop";
 
 const getWorkshop = (payload) => ({
   type: GET_WORKSHOP_DETAILS,
@@ -17,6 +18,11 @@ const getFeaturedWorkshops = (payload) => ({
 
 const createWorkshop = (payload) => ({
   type: CREATE_WORKSHOP,
+  payload,
+});
+
+const editWorkshop = (payload) => ({
+  type: EDIT_WORKSHOP,
   payload,
 });
 
@@ -51,6 +57,19 @@ export const createWorkshopThunk = (formData) => async (dispatch) => {
   }
 };
 
+export const editWorkshopThunk = (id, formData) => async (dispatch) => {
+  const workshopResponse = await fetch(`/api/workshops/${id}`, {
+    method: "PUT",
+    body: formData,
+  });
+
+  if (workshopResponse.ok) {
+    const data = await workshopResponse.json();
+    dispatch(createWorkshop(data));
+    return data;
+  }
+};
+
 const initialState = {
   workshopDetails: {},
   featuredWorkshops: [],
@@ -73,6 +92,15 @@ const workshopReducer = (state = initialState, action) => {
         ...state,
         workshopDetails: action.payload,
       };
+    case EDIT_WORKSHOP:
+      return {
+        ...state,
+        workshopDetails: {
+          ...state.workshopDetails,
+          preview_image_url: action.payload.preview_image_url,
+        },
+      };
+
     case CREATE_REVIEW:
       return {
         ...state,
