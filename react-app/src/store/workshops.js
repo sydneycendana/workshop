@@ -87,7 +87,7 @@ export const editWorkshopThunk = (id, formData) => async (dispatch) => {
 
   if (workshopResponse.ok) {
     const data = await workshopResponse.json();
-    dispatch(createWorkshop(data));
+    dispatch(editWorkshop(data));
     return data;
   }
 };
