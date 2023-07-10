@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createReviewThunk } from "../../../store/reviews";
 import { useModal } from "../../../context/Modal";
-import MySlider from "../../MySlider";
 import { ReactComponent as Star } from "../../../assets/icons/star.svg";
 import "./AddReview.css";
 
