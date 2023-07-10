@@ -8,7 +8,11 @@ import {
   deleteVoteThunk,
 } from "../../../store/votes";
 import OpenModalButton from "../../OpenModalButton";
+import EditWorkshop from "../EditWorkshop";
+import DeleteWorkshop from "../DeleteWorkshop";
+import EditReview from "../../Reviews/EditReview";
 import AddReview from "../../Reviews/AddReview";
+import DeleteReview from "../../Reviews/DeleteReview";
 import { ReactComponent as Wifi } from "../../../assets/icons/wifi.svg";
 import { ReactComponent as Noise } from "../../../assets/icons/noise.svg";
 import { ReactComponent as Pet } from "../../../assets/icons/pet.svg";
@@ -81,8 +85,16 @@ const WorkshopDetails = () => {
 
               {isAdminDropdownVisible && (
                 <div className="dropdown-menu">
-                  <button>Edit</button>
-                  <button style={{ color: "red" }}>Delete</button>
+                  <OpenModalButton
+                    buttonText="Edit"
+                    modalComponent={<EditWorkshop workshopId={workshopId} />}
+                    buttonClassName="edit-workshop-button"
+                  />
+                  <OpenModalButton
+                    buttonText="Delete"
+                    modalComponent={<DeleteWorkshop workshopId={workshopId} />}
+                    buttonClassName="edit-workshop-button"
+                  />
                 </div>
               )}
             </div>
@@ -120,11 +132,13 @@ const WorkshopDetails = () => {
       </div>
       <h3 className="reviews-section-title">Reviews</h3>
       {!userReview && (
-        <OpenModalButton
-          buttonText="Add review"
-          modalComponent={<AddReview workshopId={workshopId} />}
-          buttonClassName="add-review-button"
-        />
+        <div className="add-review-button-container">
+          <OpenModalButton
+            buttonText="Add review"
+            modalComponent={<AddReview workshopId={workshopId} />}
+            buttonClassName="add-review-button"
+          />
+        </div>
       )}
       <div className="line"></div>
 
@@ -186,8 +200,16 @@ const WorkshopDetails = () => {
                 )}
                 {isDropdownVisible && (
                   <div className="dropdown-menu">
-                    <button>Edit</button>
-                    <button style={{ color: "red" }}>Delete</button>
+                    <OpenModalButton
+                      buttonText="Edit"
+                      modalComponent={<EditReview userReview={userReview} />}
+                      buttonClassName="edit-workshop-button"
+                    />
+                    <OpenModalButton
+                      buttonText="Delete"
+                      modalComponent={<DeleteReview userReview={userReview} />}
+                      buttonClassName="edit-workshop-button"
+                    />
                   </div>
                 )}
               </div>
@@ -195,7 +217,6 @@ const WorkshopDetails = () => {
           </div>
         </div>
       )}
-      <div className="line"></div>
 
       {/* ------------ OTHER REVIEWS ------------ */}
       {workshop.reviews &&
@@ -275,7 +296,7 @@ const WorkshopDetails = () => {
                     />
                   </div>
                 </div>
-                <div className="line"></div>
+                {/* <div className="line"></div> */}
               </>
             );
           })}

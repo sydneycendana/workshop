@@ -65,6 +65,63 @@ def create_workshop():
         errors['place_details'] = 'Missing or invalid place details.'
     return {'errors': errors}, 400
 
+# ------------------------ EDIT WORKSHOP ------------------------
+@workshop_routes.route('/<int:workshop_id>', methods=['PUT'])
+@login_required
+def edit_workshop(workshop_id):
+    workshop = Workshop.query.get(workshop_id)
+    if workshop:
+        if current_user.id != 9:
+            return jsonify({'error': 'Unauthorized'}), 401
+
+        new_image = request.files.get('image')
+
+        if new_image:
+            filename = new_image.filename
+            if filename and '.' in filename:
+                extension = filename.rsplit('.', 1)[1].lower()
+                if extension not in ALLOWED_EXTENSIONS:
+                    return jsonify({'error': 'Invalid file extension. Only images with extensions: {} are allowed.'.format(', '.join(ALLOWED_EXTENSIONS))}), 400
+
+            remove_file_from_s3(workshop.preview_image_url)  # Remove the old image from S3
+
+            new_image.filename = get_unique_filename(new_image.filename)
+            upload = upload_file_to_s3(new_image)
+
+            if "url" not in upload:
+                # If the dictionary doesn't have a url key,
+                # it means there was an error when trying to upload,
+                # so we send back that error message (and we printed it above)
+                return jsonify({'errors': [upload]}), 400
+
+            workshop.preview_image_url = upload["url"]
+
+        db.session.commit()
+
+        return jsonify(workshop.to_dict()), 200
+
+    return jsonify({'message': 'Workshop not found'}), 404
+
+
+# ------------------------ CHECK PLACE EXISTENCE ------------------------
+@workshop_routes.route('/check-place-existence', methods=['POST'])
+def check_place_existence():
+    data = request.get_json()
+    lat = data.get('lat')
+    lng = data.get('lng')
+
+    if not lat or not lng:
+        return jsonify({'error': 'Latitude and longitude are required.'}), 400
+
+    workshop = Workshop.query.filter_by(lat=lat, lng=lng).first()
+
+    if workshop:
+        return jsonify({'workshop_id': workshop.id}), 200
+
+    return jsonify({'workshop_id': None}), 200
+
+
+
 # ------------------------ GET WORKSHOP BY ID ------------------------
 @workshop_routes.route('/<int:workshop_id>', methods=['GET'])
 def get_workshop(workshop_id):
@@ -116,7 +173,7 @@ def get_nearby_workshops():
 def delete_workshop(workshop_id):
     workshop = Workshop.query.get(workshop_id)
     if workshop:
-        if current_user.id != 1:
+        if current_user.id != 9:
             return jsonify({'error': 'Unauthorized'}), 401
 
         remove_file_from_s3(workshop.preview_image_url)

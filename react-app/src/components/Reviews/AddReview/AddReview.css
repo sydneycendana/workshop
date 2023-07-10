@@ -53,3 +53,50 @@
     color: white;
     border: none;
 }
+
+/* Stars */
+/* .ratings-container {
+    margin: 0 auto;
+} */
+
+.rating-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.rating-container h5 {
+    /* width: 120px; */
+}
+
+.star {
+    width: 24px;
+    height: 24px;
+    fill: #cccccc;
+    /* Default color for stars */
+    transition: fill 0.2s;
+    cursor: pointer;
+}
+
+.star.yellow {
+    fill: #ffc107;
+    /* Yellow color for selected stars */
+}
+
+.stars-container {
+    display: inline-block;
+}
+
+.stars-container .star {
+    margin-right: 5px;
+}
+
+/* Add hover effect */
+.stars-container .star:hover {
+    fill: #ffc107;
+    /* Yellow color for hovered star */
+}
+
+.stars-container .star:hover~.star {
+    fill: #cccccc;
+    /* Revert color for stars to the right of the hovered star */
+}

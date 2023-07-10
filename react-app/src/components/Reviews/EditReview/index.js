@@ -1,24 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { createReviewThunk } from "../../../store/reviews";
+import { editReviewThunk } from "../../../store/reviews";
 import { useModal } from "../../../context/Modal";
-import "./AddReview.css";
+import "../AddReview/AddReview.css";
 
-const AddReview = ({ workshopId }) => {
+const EditReview = ({ userReview }) => {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
 
-  const [description, setDescription] = useState("");
-  const [wifi, setWifi] = useState(0);
-  const [petFriendliness, setPetFriendliness] = useState(0);
-  const [noiseLevel, setNoiseLevel] = useState(0);
+  const {
+    description: initialDescription,
+    wifi: initialWifi,
+    pet_friendliness: initialPetFriendliness,
+    noise_level: initialNoiseLevel,
+    id,
+  } = userReview;
+
+  const [description, setDescription] = useState(initialDescription || "");
+  const [wifi, setWifi] = useState(initialWifi || 0);
+  const [petFriendliness, setPetFriendliness] = useState(
+    initialPetFriendliness || 0
+  );
+  const [noiseLevel, setNoiseLevel] = useState(initialNoiseLevel || 0);
   const [images, setImages] = useState([]);
   const [errors, setErrors] = useState({});
+
+  const [reviewData, setReviewData] = useState(new FormData());
 
   const [wifiHoveredRating, setWifiHoveredRating] = useState(0);
   const [petFriendlinessHoveredRating, setPetFriendlinessHoveredRating] =
     useState(0);
   const [noiseLevelHoveredRating, setNoiseLevelHoveredRating] = useState(0);
+
+  useEffect(() => {
+    updateReviewData();
+  }, [description, wifi, petFriendliness, noiseLevel]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,14 +55,8 @@ const AddReview = ({ workshopId }) => {
       return;
     }
 
-    const reviewData = new FormData();
-    reviewData.append("description", description);
-    reviewData.append("wifi", wifi);
-    reviewData.append("pet_friendliness", petFriendliness);
-    reviewData.append("noise_level", noiseLevel);
-
     try {
-      dispatch(createReviewThunk(workshopId, reviewData, images));
+      dispatch(editReviewThunk(id, reviewData, images));
       closeModal();
     } catch (error) {
       if (error.response) {
@@ -60,13 +70,11 @@ const AddReview = ({ workshopId }) => {
   const handleImageChange = (index, event) => {
     const selectedFile = event.target.files[0];
     const newImages = [...images];
-
     if (selectedFile) {
       newImages[index] = selectedFile;
     } else {
       newImages[index] = null;
     }
-
     setImages(newImages);
   };
 
@@ -77,6 +85,15 @@ const AddReview = ({ workshopId }) => {
   const handleStarClick = (ratingSetter, rating, ratingHoverSetter) => {
     ratingSetter(rating);
     ratingHoverSetter(0); // Reset the hovered rating after clicking
+  };
+
+  const updateReviewData = () => {
+    const updatedReviewData = new FormData();
+    updatedReviewData.append("description", description);
+    updatedReviewData.append("wifi", Number(wifi));
+    updatedReviewData.append("pet_friendliness", Number(petFriendliness));
+    updatedReviewData.append("noise_level", Number(noiseLevel));
+    setReviewData(updatedReviewData);
   };
 
   return (
@@ -238,4 +255,4 @@ const AddReview = ({ workshopId }) => {
   );
 };
 
-export default AddReview;
+export default EditReview;

@@ -7,6 +7,8 @@ import { ReactComponent as Pet } from "../../../assets/icons/pet.svg";
 import { ReactComponent as Noise } from "../../../assets/icons/noise.svg";
 import LoadingSpinner from "../../LoadingSpinner";
 
+import "../Homepage.css";
+
 const WorkshopsList = ({ isLocationSet }) => {
   const dispatch = useDispatch();
 
@@ -66,61 +68,63 @@ const WorkshopsList = ({ isLocationSet }) => {
                     alt={workshop.name}
                   />
                 </div>
-                <h3>{workshop.name}</h3>
-                {nearbyWorkshops.length > 0 && (
-                  <p>{workshop.distance} miles away</p>
-                )}
-                <div className="review-ratings-container">
-                  {isAllRatingsNull ? (
-                    <div className="new-rating-container">
-                      <span className="new-rating">NEW</span>
-                    </div>
-                  ) : (
-                    <>
-                      {workshop.average_wifi === null &&
-                      workshop.average_pet_friendliness === null &&
-                      workshop.average_noise_level === null ? (
-                        <div className="new-rating-container">
-                          <span className="new-rating">NEW</span>
-                        </div>
-                      ) : (
-                        <>
-                          <div className="rating-container">
-                            {workshop.average_wifi === null ? (
-                              <Wifi />
-                            ) : (
-                              <>
-                                <Wifi />
-                                {workshop.average_wifi}
-                              </>
-                            )}
-                          </div>
-                          <div className="rating-container">
-                            {workshop.average_pet_friendliness === null ? (
-                              <Pet />
-                            ) : (
-                              <>
-                                <Pet />
-                                {workshop.average_pet_friendliness}
-                              </>
-                            )}
-                          </div>
-                          <div className="rating-container">
-                            {workshop.average_noise_level === null ? (
-                              <Noise />
-                            ) : (
-                              <>
-                                <Noise />
-                                {workshop.average_noise_level}
-                              </>
-                            )}
-                          </div>
-                        </>
-                      )}
-                    </>
+                <div className="workshop-card-info-container">
+                  <h3>{workshop.name}</h3>
+                  {nearbyWorkshops.length > 0 && (
+                    <p>{workshop.distance} miles away</p>
                   )}
+                  <div className="review-ratings-container">
+                    {isAllRatingsNull ? (
+                      <div className="new-rating-container">
+                        <span className="new-rating">NEW</span>
+                      </div>
+                    ) : (
+                      <>
+                        {workshop.average_wifi === null &&
+                        workshop.average_pet_friendliness === null &&
+                        workshop.average_noise_level === null ? (
+                          <div className="new-rating-container">
+                            <span className="new-rating">NEW</span>
+                          </div>
+                        ) : (
+                          <>
+                            <div className="rating-container">
+                              {workshop.average_wifi === null ? (
+                                <Wifi />
+                              ) : (
+                                <>
+                                  <Wifi />
+                                  {workshop.average_wifi}
+                                </>
+                              )}
+                            </div>
+                            <div className="rating-container">
+                              {workshop.average_pet_friendliness === null ? (
+                                <Pet />
+                              ) : (
+                                <>
+                                  <Pet />
+                                  {workshop.average_pet_friendliness}
+                                </>
+                              )}
+                            </div>
+                            <div className="rating-container">
+                              {workshop.average_noise_level === null ? (
+                                <Noise />
+                              ) : (
+                                <>
+                                  <Noise />
+                                  {workshop.average_noise_level}
+                                </>
+                              )}
+                            </div>
+                          </>
+                        )}
+                      </>
+                    )}
+                  </div>
+                  <p>{workshop.formatted_address}</p>
                 </div>
-                <p>{workshop.formatted_address}</p>
               </div>
             </Link>
           ))}
