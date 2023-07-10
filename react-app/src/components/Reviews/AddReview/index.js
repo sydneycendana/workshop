@@ -60,7 +60,13 @@ const AddReview = ({ workshopId }) => {
   const handleImageChange = (index, event) => {
     const selectedFile = event.target.files[0];
     const newImages = [...images];
-    newImages[index] = selectedFile;
+
+    if (selectedFile) {
+      newImages[index] = selectedFile;
+    } else {
+      newImages[index] = null;
+    }
+
     setImages(newImages);
   };
 
@@ -205,19 +211,19 @@ const AddReview = ({ workshopId }) => {
           />
         </div>
         <div className="preview-images-container">
-          {images[0] && (
+          {images[0] && images[0] !== null && (
             <img
               className="preview-image"
               src={URL.createObjectURL(images[0])}
             ></img>
           )}
-          {images[1] && (
+          {images[1] && images[1] !== null && (
             <img
               className="preview-image"
               src={URL.createObjectURL(images[1])}
             ></img>
           )}
-          {images[2] && (
+          {images[2] && images[2] !== null && (
             <img
               className="preview-image"
               src={URL.createObjectURL(images[2])}

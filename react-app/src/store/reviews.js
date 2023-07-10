@@ -46,7 +46,7 @@ export const createReviewThunk =
         }
       }
 
-      dispatch(editReview(reviewData));
+      dispatch(createReview(reviewData));
       return reviewData;
     }
   };
