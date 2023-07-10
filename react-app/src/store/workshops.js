@@ -256,7 +256,7 @@ const workshopReducer = (state = initialState, action) => {
     }
 
     case DELETE_VOTE: {
-      const { reviewId, voteId } = action.payload;
+      const { reviewId } = action.payload;
 
       const reviewIndex = state.workshopDetails.reviews.findIndex(
         (review) => review.id === reviewId

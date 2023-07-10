@@ -250,7 +250,7 @@ const WorkshopDetails = () => {
             };
 
             return (
-              <>
+              <div key={review.id}>
                 <div key={review.id} className="review-wrapper">
                   <div className="review-container">
                     <p>
@@ -297,7 +297,7 @@ const WorkshopDetails = () => {
                   </div>
                 </div>
                 {/* <div className="line"></div> */}
-              </>
+              </div>
             );
           })}
     </div>

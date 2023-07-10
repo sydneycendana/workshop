@@ -78,12 +78,10 @@ export const fetchNearbyWorkshops = (lat, lng) => async (dispatch) => {
     if (!lat || !lng) {
       throw new Error("Latitude and longitude are required.");
     }
-    console.log(lat, lng);
 
     const response = await fetch(`/api/workshops/nearby?lat=${lat}&lng=${lng}`);
     if (response.ok) {
       const data = await response.json();
-      console.log("FETCHHHH", data);
       dispatch(loadNearbyWorkshops(data));
       return data;
     } else {

@@ -12,7 +12,7 @@ const EditWorkshop = ({ workshopId }) => {
 
   const [errors, setErrors] = useState([]);
   const [image, setImage] = useState(null);
-  const [selectedFileName, setSelectedFileName] = useState("");
+  // const [selectedFileName, setSelectedFileName] = useState("");
   const [previewImageUrl, setPreviewImageUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -33,13 +33,13 @@ const EditWorkshop = ({ workshopId }) => {
       if (!allowedExtensions.includes(fileExtension)) {
         setErrors(["Please upload a valid image file (jpg, jpeg, png, gif)"]);
         setImage(null);
-        setSelectedFileName("");
+        // setSelectedFileName("");
         return;
       }
 
       setErrors([]);
       setImage(file);
-      setSelectedFileName(file.name);
+      // setSelectedFileName(file.name);
 
       const reader = new FileReader();
       reader.onload = () => {
@@ -48,7 +48,7 @@ const EditWorkshop = ({ workshopId }) => {
       reader.readAsDataURL(file);
     } else {
       setImage(null);
-      setSelectedFileName("");
+      // setSelectedFileName("");
       setPreviewImageUrl("");
     }
   };

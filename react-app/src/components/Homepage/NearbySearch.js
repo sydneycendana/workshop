@@ -18,6 +18,8 @@ function NearbySearch({ onSuggestionClick }) {
     (state) => state.google.autocompleteSuggestions
   );
 
+  console.log(inputText.length);
+
   useEffect(() => {
     if (inputText.length > 2) {
       clearTimeout(debounceTimeoutRef.current);
@@ -72,7 +74,9 @@ function NearbySearch({ onSuggestionClick }) {
                   className="autocomplete-result"
                   onClick={() => handleSuggestionClick(suggestion.place_id)}
                 >
-                  <div>{suggestion.name}</div>
+                  <div>
+                    {suggestion.name}, {suggestion.address}
+                  </div>
                 </li>
               ))}
           </ul>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import WorkshopsList from "./WorkshopsList/WorkshopsList";
 import NearbySearch from "./NearbySearch";
 import { fetchNearbyWorkshops } from "../../store/google";
@@ -9,6 +9,10 @@ function Homepage() {
   const [location, setLocation] = useState(null);
   const [isLocationSet, setIsLocationSet] = useState(false);
   const [workshopsListKey, setWorkshopsListKey] = useState(Date.now());
+
+  const nearbyWorkshops = useSelector((state) => state.google.nearbyWorkshops);
+
+  console.log(isLocationSet);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,7 +39,10 @@ function Homepage() {
   return (
     <>
       <NearbySearch onSuggestionClick={handleSuggestionClick} />
-      <WorkshopsList key={workshopsListKey} isLocationSet={isLocationSet} />
+      {!nearbyWorkshops.length && isLocationSet && <p>No workshops found...</p>}
+      {!isLocationSet && (
+        <WorkshopsList key={workshopsListKey} isLocationSet={isLocationSet} />
+      )}
     </>
   );
 }

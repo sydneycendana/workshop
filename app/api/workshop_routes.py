@@ -181,7 +181,7 @@ def delete_workshop(workshop_id):
         db.session.delete(workshop)
         db.session.commit()
 
-        return jsonify({'message': 'Workshop deleted successfully'}), 200
+        return jsonify({'message': 'Workshop deleted successfully', 'id': workshop_id}), 200
 
     return jsonify({'message': 'Workshop not found'}), 404
 

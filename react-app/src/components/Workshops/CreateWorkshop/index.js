@@ -62,7 +62,7 @@ const CreateWorkshopForm = () => {
     formData.append("phone_number", placeDetails.phone_number);
     formData.append("image", image);
 
-    const createdWorkshop = await dispatch(createWorkshopThunk(formData))
+    await dispatch(createWorkshopThunk(formData))
       .then((createdWorkshop) => {
         history.push(`/workshops/${createdWorkshop.id}`);
       })

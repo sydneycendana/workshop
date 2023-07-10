@@ -15,10 +15,10 @@ function Navigation({ isLoaded }) {
 
   const sessionUser = useSelector((state) => state.session.user);
 
-  const openMenu = () => {
-    if (showMenu) return;
-    setShowMenu(true);
-  };
+  // const openMenu = () => {
+  //   if (showMenu) return;
+  //   setShowMenu(true);
+  // };
 
   useEffect(() => {
     if (!showMenu) return;

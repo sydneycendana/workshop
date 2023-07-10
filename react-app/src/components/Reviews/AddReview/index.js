@@ -214,17 +214,20 @@ const AddReview = ({ workshopId }) => {
           {images[0] && images[0] !== null && (
             <img
               className="preview-image"
+              alt="place"
               src={URL.createObjectURL(images[0])}
             ></img>
           )}
           {images[1] && images[1] !== null && (
             <img
               className="preview-image"
+              alt="place"
               src={URL.createObjectURL(images[1])}
             ></img>
           )}
           {images[2] && images[2] !== null && (
             <img
+              alt="place"
               className="preview-image"
               src={URL.createObjectURL(images[2])}
             ></img>
