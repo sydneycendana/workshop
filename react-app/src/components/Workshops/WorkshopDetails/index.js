@@ -12,6 +12,7 @@ import EditWorkshop from "../EditWorkshop";
 import DeleteWorkshop from "../DeleteWorkshop";
 import EditReview from "../../Reviews/EditReview";
 import AddReview from "../../Reviews/AddReview";
+import DeleteReview from "../../Reviews/DeleteReview";
 import { ReactComponent as Wifi } from "../../../assets/icons/wifi.svg";
 import { ReactComponent as Noise } from "../../../assets/icons/noise.svg";
 import { ReactComponent as Pet } from "../../../assets/icons/pet.svg";
@@ -206,9 +207,7 @@ const WorkshopDetails = () => {
                     />
                     <OpenModalButton
                       buttonText="Delete"
-                      modalComponent={
-                        <DeleteWorkshop workshopId={workshopId} />
-                      }
+                      modalComponent={<DeleteReview userReview={userReview} />}
                       buttonClassName="edit-workshop-button"
                     />
                   </div>

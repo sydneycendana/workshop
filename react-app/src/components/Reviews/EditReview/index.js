@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { createReviewThunk } from "../../../store/reviews";
+import { editReviewThunk } from "../../../store/reviews";
 import { useModal } from "../../../context/Modal";
 import "../AddReview/AddReview.css";
 
@@ -57,7 +57,7 @@ const EditReview = ({ userReview }) => {
     reviewData.append("noise_level", noiseLevel);
 
     try {
-      dispatch(createReviewThunk(reviewData, images));
+      dispatch(editReviewThunk(reviewData, images));
       closeModal();
     } catch (error) {
       if (error.response) {

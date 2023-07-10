@@ -1,4 +1,4 @@
-import { CREATE_REVIEW } from "./reviews";
+import { CREATE_REVIEW, EDIT_REVIEW, DELETE_REVIEW } from "./reviews";
 import { EDIT_VOTE, CREATE_VOTE, DELETE_VOTE } from "./votes";
 
 const CHECK_PLACE_EXISTENCE = "checkPlaceExistence";
@@ -149,6 +149,22 @@ const workshopReducer = (state = initialState, action) => {
           reviews: [...state.workshopDetails.reviews, action.payload],
         },
       };
+
+    case DELETE_REVIEW: {
+      const { payload: reviewId } = action;
+
+      const updatedWorkshopDetails = { ...state.workshopDetails };
+      const updatedReviews = updatedWorkshopDetails.reviews.filter(
+        (review) => review.id !== reviewId
+      );
+
+      updatedWorkshopDetails.reviews = updatedReviews;
+
+      return {
+        ...state,
+        workshopDetails: updatedWorkshopDetails,
+      };
+    }
 
     case CREATE_VOTE: {
       const { review_id, vote_type } = action.payload;
