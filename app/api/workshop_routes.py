@@ -173,7 +173,7 @@ def get_nearby_workshops():
 def delete_workshop(workshop_id):
     workshop = Workshop.query.get(workshop_id)
     if workshop:
-        if current_user.id != 'admin@example.com':
+        if current_user.id != 9:
             return jsonify({'error': 'Unauthorized'}), 401
 
         remove_file_from_s3(workshop.preview_image_url)

@@ -6,6 +6,7 @@ const GET_WORKSHOP_DETAILS = "getWorkshop";
 const GET_FEATURED_WORKSHOPS = "getFeaturedWorkshops";
 const CREATE_WORKSHOP = "createWorkshop";
 const EDIT_WORKSHOP = "editWorkshop";
+const DELETE_WORKSHOP = "deleteWorkshop";
 
 const checkPlaceExistence = (workshopId) => ({
   type: CHECK_PLACE_EXISTENCE,
@@ -29,6 +30,11 @@ const createWorkshop = (payload) => ({
 
 const editWorkshop = (payload) => ({
   type: EDIT_WORKSHOP,
+  payload,
+});
+
+const deleteWorkshop = (payload) => ({
+  type: DELETE_WORKSHOP,
   payload,
 });
 
@@ -88,6 +94,18 @@ export const editWorkshopThunk = (id, formData) => async (dispatch) => {
   if (workshopResponse.ok) {
     const data = await workshopResponse.json();
     dispatch(editWorkshop(data));
+    return data;
+  }
+};
+
+export const deleteWorkshopThunk = (id) => async (dispatch) => {
+  const workshopResponse = await fetch(`/api/workshops/${id}`, {
+    method: "DELETE",
+  });
+
+  if (workshopResponse.ok) {
+    const data = await workshopResponse.json();
+    dispatch(deleteWorkshop(data));
     return data;
   }
 };

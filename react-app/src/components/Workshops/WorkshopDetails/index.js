@@ -9,6 +9,7 @@ import {
 } from "../../../store/votes";
 import OpenModalButton from "../../OpenModalButton";
 import EditWorkshop from "../EditWorkshop";
+import DeleteWorkshop from "../DeleteWorkshop";
 import AddReview from "../../Reviews/AddReview";
 import { ReactComponent as Wifi } from "../../../assets/icons/wifi.svg";
 import { ReactComponent as Noise } from "../../../assets/icons/noise.svg";
@@ -87,7 +88,11 @@ const WorkshopDetails = () => {
                     modalComponent={<EditWorkshop workshopId={workshopId} />}
                     buttonClassName="edit-workshop-button"
                   />
-                  <button style={{ color: "red" }}>Delete</button>
+                  <OpenModalButton
+                    buttonText="Delete"
+                    modalComponent={<DeleteWorkshop workshopId={workshopId} />}
+                    buttonClassName="edit-workshop-button"
+                  />
                 </div>
               )}
             </div>
