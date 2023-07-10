@@ -10,6 +10,7 @@ import {
 import OpenModalButton from "../../OpenModalButton";
 import EditWorkshop from "../EditWorkshop";
 import DeleteWorkshop from "../DeleteWorkshop";
+import EditReview from "../../Reviews/EditReview";
 import AddReview from "../../Reviews/AddReview";
 import { ReactComponent as Wifi } from "../../../assets/icons/wifi.svg";
 import { ReactComponent as Noise } from "../../../assets/icons/noise.svg";
@@ -198,8 +199,18 @@ const WorkshopDetails = () => {
                 )}
                 {isDropdownVisible && (
                   <div className="dropdown-menu">
-                    <button>Edit</button>
-                    <button style={{ color: "red" }}>Delete</button>
+                    <OpenModalButton
+                      buttonText="Edit"
+                      modalComponent={<EditReview userReview={userReview} />}
+                      buttonClassName="edit-workshop-button"
+                    />
+                    <OpenModalButton
+                      buttonText="Delete"
+                      modalComponent={
+                        <DeleteWorkshop workshopId={workshopId} />
+                      }
+                      buttonClassName="edit-workshop-button"
+                    />
                   </div>
                 )}
               </div>
