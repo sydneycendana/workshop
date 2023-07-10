@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../../context/Modal";
 import { editWorkshopThunk } from "../../../store/workshops";
+import LoadingSpinner from "../../LoadingSpinner";
 
 const EditWorkshop = ({ workshopId }) => {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ const EditWorkshop = ({ workshopId }) => {
   const [image, setImage] = useState(null);
   const [selectedFileName, setSelectedFileName] = useState("");
   const [previewImageUrl, setPreviewImageUrl] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     // Set the initial preview image URL when the component mounts
@@ -63,8 +65,12 @@ const EditWorkshop = ({ workshopId }) => {
     formData.append("image", image);
 
     try {
+      setIsLoading(true);
       dispatch(editWorkshopThunk(workshopId, formData));
-      closeModal();
+      setTimeout(() => {
+        setIsLoading(false); // Stop loading
+        closeModal();
+      }, 1500);
     } catch (error) {
       if (error.response) {
         console.error("Error creating review:", error);
@@ -77,7 +83,7 @@ const EditWorkshop = ({ workshopId }) => {
   return (
     <form onSubmit={handleSubmit} className="review-form-container">
       <h3 className="review-form-title">Edit Preview Image</h3>
-      {previewImageUrl && (
+      {previewImageUrl && !isLoading && (
         <div className="workshop-details-image-container">
           <img
             src={previewImageUrl}
@@ -86,6 +92,7 @@ const EditWorkshop = ({ workshopId }) => {
           />
         </div>
       )}
+      {isLoading && <LoadingSpinner />}
 
       <input type="file" accept="image/*" onChange={handleImageUpload} />
 
