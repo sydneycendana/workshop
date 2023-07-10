@@ -51,8 +51,9 @@ export const createReviewThunk =
     }
   };
 
-export const editReviewThunk = (review, images) => async (dispatch) => {
-  const reviewResponse = await fetch(`/api/reviews/${review.id}`, {
+export const editReviewThunk = (id, review, images) => async (dispatch) => {
+  console.log(id);
+  const reviewResponse = await fetch(`/api/reviews/${id}`, {
     method: "PUT",
     body: review,
   });
@@ -60,14 +61,14 @@ export const editReviewThunk = (review, images) => async (dispatch) => {
   if (reviewResponse.ok) {
     const reviewData = await reviewResponse.json();
 
-    if (images) {
+    if (images && images.length > 0) {
       const imagesForm = new FormData();
 
       images.forEach((image) => {
         imagesForm.append("images", image);
       });
 
-      const res = await fetch(`/api/reviews/${reviewData.id}/images`, {
+      const res = await fetch(`/api/reviews/${id}/images`, {
         method: "POST",
         body: imagesForm,
       });
@@ -79,7 +80,7 @@ export const editReviewThunk = (review, images) => async (dispatch) => {
       }
     }
 
-    dispatch(createReview(reviewData));
+    dispatch(editReview(reviewData));
     return reviewData;
   }
 };
@@ -91,7 +92,6 @@ export const deleteReviewThunk = (id) => async (dispatch) => {
 
   if (reviewResponse.ok) {
     const data = await reviewResponse.json();
-    console.log(id);
     dispatch(deleteReview(id));
     return data;
   }

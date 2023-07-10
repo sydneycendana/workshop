@@ -1,3 +1,4 @@
+import { calculateNewAverages } from "../utils";
 import { CREATE_REVIEW, EDIT_REVIEW, DELETE_REVIEW } from "./reviews";
 import { EDIT_VOTE, CREATE_VOTE, DELETE_VOTE } from "./votes";
 
@@ -141,14 +142,51 @@ const workshopReducer = (state = initialState, action) => {
         },
       };
 
-    case CREATE_REVIEW:
+    case CREATE_REVIEW: {
+      const updatedWorkshopDetails = {
+        ...state.workshopDetails,
+        reviews: [...state.workshopDetails.reviews, action.payload],
+      };
+
+      const newAverages = calculateNewAverages(
+        updatedWorkshopDetails.reviews,
+        action.payload
+      );
+      const updatedWorkshopDetailsWithAverages = {
+        ...updatedWorkshopDetails,
+        ...newAverages,
+      };
+
       return {
         ...state,
-        workshopDetails: {
-          ...state.workshopDetails,
-          reviews: [...state.workshopDetails.reviews, action.payload],
-        },
+        workshopDetails: updatedWorkshopDetailsWithAverages,
       };
+    }
+
+    case EDIT_REVIEW: {
+      const updatedReview = action.payload;
+
+      const updatedWorkshopDetails = {
+        ...state.workshopDetails,
+        reviews: state.workshopDetails.reviews.map((review) =>
+          review.id === updatedReview.id ? updatedReview : review
+        ),
+      };
+
+      const newAverages = calculateNewAverages(
+        updatedWorkshopDetails.reviews,
+        updatedReview
+      );
+      const updatedWorkshopDetailsWithAverages = {
+        ...updatedWorkshopDetails,
+        ...newAverages,
+      };
+
+      return {
+        ...state,
+        workshopDetails: updatedWorkshopDetailsWithAverages,
+      };
+    }
 
     case DELETE_REVIEW: {
       const { payload: reviewId } = action;

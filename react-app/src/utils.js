@@ -19,3 +19,33 @@ export function calculateDistance(lat1, lng1, lat2, lng2) {
 
   return distance <= radius;
 }
+
+export const calculateNewAverages = (reviews, newReview) => {
+  const totalReviews = reviews.length;
+  const currentNoiseLevel = reviews.reduce(
+    (sum, review) => sum + review.noise_level,
+    0
+  );
+  const currentPetFriendliness = reviews.reduce(
+    (sum, review) => sum + review.pet_friendliness,
+    0
+  );
+  const currentWifi = reviews.reduce((sum, review) => sum + review.wifi, 0);
+
+  const newTotalReviews = totalReviews + 1;
+  const newNoiseLevel = (
+    (currentNoiseLevel + newReview.noise_level) /
+    newTotalReviews
+  ).toFixed(1);
+  const newPetFriendliness = (
+    (currentPetFriendliness + newReview.pet_friendliness) /
+    newTotalReviews
+  ).toFixed(1);
+  const newWifi = ((currentWifi + newReview.wifi) / newTotalReviews).toFixed(1);
+
+  return {
+    average_noise_level: parseFloat(newNoiseLevel),
+    average_pet_friendliness: parseFloat(newPetFriendliness),
+    average_wifi: parseFloat(newWifi),
+  };
+};

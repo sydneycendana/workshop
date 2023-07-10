@@ -48,7 +48,7 @@ def edit_review(review_id):
         review.noise_level = noise_level
 
         db.session.commit()
-        return jsonify({'message': 'Review updated successfully'}), 200
+        return jsonify(review.to_dict()), 200
 
     return jsonify({'error': 'Review not found'}), 404
 

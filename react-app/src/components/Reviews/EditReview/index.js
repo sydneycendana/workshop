@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { editReviewThunk } from "../../../store/reviews";
 import { useModal } from "../../../context/Modal";
@@ -8,13 +8,12 @@ const EditReview = ({ userReview }) => {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
 
-  console.log(userReview);
-
   const {
     description: initialDescription,
     wifi: initialWifi,
     pet_friendliness: initialPetFriendliness,
     noise_level: initialNoiseLevel,
+    id,
   } = userReview;
 
   const [description, setDescription] = useState(initialDescription || "");
@@ -26,10 +25,16 @@ const EditReview = ({ userReview }) => {
   const [images, setImages] = useState([]);
   const [errors, setErrors] = useState({});
 
+  const [reviewData, setReviewData] = useState(new FormData());
+
   const [wifiHoveredRating, setWifiHoveredRating] = useState(0);
   const [petFriendlinessHoveredRating, setPetFriendlinessHoveredRating] =
     useState(0);
   const [noiseLevelHoveredRating, setNoiseLevelHoveredRating] = useState(0);
+
+  useEffect(() => {
+    updateReviewData();
+  }, [description, wifi, petFriendliness, noiseLevel]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,14 +55,8 @@ const EditReview = ({ userReview }) => {
       return;
     }
 
-    const reviewData = new FormData();
-    reviewData.append("description", description);
-    reviewData.append("wifi", wifi);
-    reviewData.append("pet_friendliness", petFriendliness);
-    reviewData.append("noise_level", noiseLevel);
-
     try {
-      dispatch(editReviewThunk(reviewData, images));
+      dispatch(editReviewThunk(id, reviewData, images));
       closeModal();
     } catch (error) {
       if (error.response) {
@@ -71,7 +70,11 @@ const EditReview = ({ userReview }) => {
   const handleImageChange = (index, event) => {
     const selectedFile = event.target.files[0];
     const newImages = [...images];
-    newImages[index] = selectedFile;
+    if (selectedFile) {
+      newImages[index] = selectedFile;
+    } else {
+      newImages[index] = null;
+    }
     setImages(newImages);
   };
 
@@ -82,6 +85,15 @@ const EditReview = ({ userReview }) => {
   const handleStarClick = (ratingSetter, rating, ratingHoverSetter) => {
     ratingSetter(rating);
     ratingHoverSetter(0); // Reset the hovered rating after clicking
+  };
+
+  const updateReviewData = () => {
+    const updatedReviewData = new FormData();
+    updatedReviewData.append("description", description);
+    updatedReviewData.append("wifi", Number(wifi));
+    updatedReviewData.append("pet_friendliness", Number(petFriendliness));
+    updatedReviewData.append("noise_level", Number(noiseLevel));
+    setReviewData(updatedReviewData);
   };
 
   return (
@@ -216,19 +228,19 @@ const EditReview = ({ userReview }) => {
           />
         </div>
         <div className="preview-images-container">
-          {images[0] && (
+          {images[0] && images[0] !== null && (
             <img
               className="preview-image"
               src={URL.createObjectURL(images[0])}
             ></img>
           )}
-          {images[1] && (
+          {images[1] && images[1] !== null && (
             <img
               className="preview-image"
               src={URL.createObjectURL(images[1])}
             ></img>
           )}
-          {images[2] && (
+          {images[2] && images[2] !== null && (
             <img
               className="preview-image"
               src={URL.createObjectURL(images[2])}
