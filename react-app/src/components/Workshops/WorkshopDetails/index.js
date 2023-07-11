@@ -13,6 +13,7 @@ import DeleteWorkshop from "../DeleteWorkshop";
 import EditReview from "../../Reviews/EditReview";
 import AddReview from "../../Reviews/AddReview";
 import DeleteReview from "../../Reviews/DeleteReview";
+import MyCarousel from "../../Carousel";
 import { ReactComponent as Wifi } from "../../../assets/icons/wifi.svg";
 import { ReactComponent as Noise } from "../../../assets/icons/noise.svg";
 import { ReactComponent as Pet } from "../../../assets/icons/pet.svg";
@@ -32,7 +33,7 @@ const WorkshopDetails = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [isAdminDropdownVisible, setIsAdminDropdownVisible] = useState(false);
-  const [isWorkshopInfoHovered, setIsWorkshopInfoHovered] = useState(false);
+  // const [isWorkshopInfoHovered, setIsWorkshopInfoHovered] = useState(false);
 
   useEffect(() => {
     dispatch(fetchWorkshopById(workshopId))
@@ -58,21 +59,17 @@ const WorkshopDetails = () => {
     <div className="page-container">
       <div className="workshop-details-container">
         <div className="workshop-details-image-container">
-          <img
-            src={workshop.preview_image_url}
-            alt={workshop.name}
-            style={{ width: "400px", height: "400px" }}
-          />
+          <MyCarousel workshop={workshop} />
         </div>
         <div
           className="workshop-info-container"
-          onMouseEnter={() => setIsWorkshopInfoHovered(true)}
+          // onMouseEnter={() => setIsWorkshopInfoHovered(true)}
           onMouseLeave={() => {
-            setIsWorkshopInfoHovered(false);
+            // setIsWorkshopInfoHovered(false);
             setIsAdminDropdownVisible(false);
           }}
         >
-          {isAdmin && isWorkshopInfoHovered && (
+          {isAdmin && (
             <div className="review-actions-container">
               <button
                 className="dropdown-button"
@@ -250,7 +247,7 @@ const WorkshopDetails = () => {
             };
 
             return (
-              <>
+              <div key={review.id}>
                 <div key={review.id} className="review-wrapper">
                   <div className="review-container">
                     <p>
@@ -297,7 +294,7 @@ const WorkshopDetails = () => {
                   </div>
                 </div>
                 {/* <div className="line"></div> */}
-              </>
+              </div>
             );
           })}
     </div>

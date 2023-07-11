@@ -1,3 +1,5 @@
+import { RESET_STATE } from "./reset";
+
 // Constants
 const LOAD_AUTOCOMPLETE_SUGGESTIONS = "search/loadAutocompleteSuggestions";
 const LOAD_NEARBY_SUGGESTIONS = "search/loadNearbySuggestions";
@@ -78,12 +80,10 @@ export const fetchNearbyWorkshops = (lat, lng) => async (dispatch) => {
     if (!lat || !lng) {
       throw new Error("Latitude and longitude are required.");
     }
-    console.log(lat, lng);
 
     const response = await fetch(`/api/workshops/nearby?lat=${lat}&lng=${lng}`);
     if (response.ok) {
       const data = await response.json();
-      console.log("FETCHHHH", data);
       dispatch(loadNearbyWorkshops(data));
       return data;
     } else {
@@ -125,6 +125,8 @@ export default function searchReducer(state = initialState, action) {
         ...state,
         nearbyWorkshops: action.payload,
       };
+    case RESET_STATE:
+      return initialState;
     default:
       return state;
   }

@@ -20,32 +20,48 @@ export function calculateDistance(lat1, lng1, lat2, lng2) {
   return distance <= radius;
 }
 
-export const calculateNewAverages = (reviews, newReview) => {
-  const totalReviews = reviews.length;
-  const currentNoiseLevel = reviews.reduce(
-    (sum, review) => sum + review.noise_level,
-    0
-  );
-  const currentPetFriendliness = reviews.reduce(
-    (sum, review) => sum + review.pet_friendliness,
-    0
-  );
-  const currentWifi = reviews.reduce((sum, review) => sum + review.wifi, 0);
+export const calculateNewAverages = (
+  reviews,
+  updatedReview = null,
+  deletedReviewId = null
+) => {
+  let totalReviews = reviews.length;
+  let sumNoiseLevel = 0;
+  let sumPetFriendliness = 0;
+  let sumWifi = 0;
 
-  const newTotalReviews = totalReviews + 1;
-  const newNoiseLevel = (
-    (currentNoiseLevel + newReview.noise_level) /
-    newTotalReviews
-  ).toFixed(1);
-  const newPetFriendliness = (
-    (currentPetFriendliness + newReview.pet_friendliness) /
-    newTotalReviews
-  ).toFixed(1);
-  const newWifi = ((currentWifi + newReview.wifi) / newTotalReviews).toFixed(1);
+  if (updatedReview) {
+    // Review is added or edited
+    reviews = reviews.map((review) => {
+      if (review.id === updatedReview.id) {
+        // Update the existing review
+        return updatedReview;
+      }
+      return review;
+    });
+  } else if (deletedReviewId) {
+    // Review is deleted
+    reviews = reviews.filter((review) => review.id !== deletedReviewId);
+  }
+
+  // Calculate the sums of the different properties
+  for (const review of reviews) {
+    sumNoiseLevel += review.noise_level;
+    sumPetFriendliness += review.pet_friendliness;
+    sumWifi += review.wifi;
+  }
+
+  // Calculate the new averages
+  const averageNoiseLevel =
+    totalReviews > 0 ? (sumNoiseLevel / totalReviews).toFixed(1) : 0;
+  const averagePetFriendliness =
+    totalReviews > 0 ? (sumPetFriendliness / totalReviews).toFixed(1) : 0;
+  const averageWifi =
+    totalReviews > 0 ? (sumWifi / totalReviews).toFixed(1) : 0;
 
   return {
-    average_noise_level: parseFloat(newNoiseLevel),
-    average_pet_friendliness: parseFloat(newPetFriendliness),
-    average_wifi: parseFloat(newWifi),
+    average_noise_level: parseFloat(averageNoiseLevel),
+    average_pet_friendliness: parseFloat(averagePetFriendliness),
+    average_wifi: parseFloat(averageWifi),
   };
 };

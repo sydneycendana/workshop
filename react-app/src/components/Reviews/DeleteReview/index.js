@@ -1,20 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import React from "react";
+import { useDispatch } from "react-redux";
 import { useModal } from "../../../context/Modal";
 import { deleteReviewThunk } from "../../../store/reviews";
 import "../../Workshops/DeleteWorkshop/DeleteWorkshop.css";
 
 const DeleteReview = ({ userReview }) => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const { closeModal } = useModal();
 
-  console.log(userReview);
-
-  console.log(userReview.id);
-
-  const workshop = useSelector((state) => state.workshops.workshopDetails);
+  // const workshop = useSelector((state) => state.workshops.workshopDetails);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

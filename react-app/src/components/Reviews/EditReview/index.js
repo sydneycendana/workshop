@@ -33,7 +33,12 @@ const EditReview = ({ userReview }) => {
   const [noiseLevelHoveredRating, setNoiseLevelHoveredRating] = useState(0);
 
   useEffect(() => {
-    updateReviewData();
+    const updatedReviewData = new FormData();
+    updatedReviewData.append("description", description);
+    updatedReviewData.append("wifi", Number(wifi));
+    updatedReviewData.append("pet_friendliness", Number(petFriendliness));
+    updatedReviewData.append("noise_level", Number(noiseLevel));
+    setReviewData(updatedReviewData);
   }, [description, wifi, petFriendliness, noiseLevel]);
 
   const handleSubmit = async (e) => {
@@ -87,14 +92,14 @@ const EditReview = ({ userReview }) => {
     ratingHoverSetter(0); // Reset the hovered rating after clicking
   };
 
-  const updateReviewData = () => {
-    const updatedReviewData = new FormData();
-    updatedReviewData.append("description", description);
-    updatedReviewData.append("wifi", Number(wifi));
-    updatedReviewData.append("pet_friendliness", Number(petFriendliness));
-    updatedReviewData.append("noise_level", Number(noiseLevel));
-    setReviewData(updatedReviewData);
-  };
+  // const updateReviewData = () => {
+  //   const updatedReviewData = new FormData();
+  //   updatedReviewData.append("description", description);
+  //   updatedReviewData.append("wifi", Number(wifi));
+  //   updatedReviewData.append("pet_friendliness", Number(petFriendliness));
+  //   updatedReviewData.append("noise_level", Number(noiseLevel));
+  //   setReviewData(updatedReviewData);
+  // };
 
   return (
     <form onSubmit={handleSubmit} className="review-form-container">
@@ -231,18 +236,21 @@ const EditReview = ({ userReview }) => {
           {images[0] && images[0] !== null && (
             <img
               className="preview-image"
+              alt="place"
               src={URL.createObjectURL(images[0])}
             ></img>
           )}
           {images[1] && images[1] !== null && (
             <img
               className="preview-image"
+              alt="place"
               src={URL.createObjectURL(images[1])}
             ></img>
           )}
           {images[2] && images[2] !== null && (
             <img
               className="preview-image"
+              alt="place"
               src={URL.createObjectURL(images[2])}
             ></img>
           )}

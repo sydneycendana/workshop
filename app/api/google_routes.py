@@ -16,7 +16,7 @@ def autocomplete():
         'key': API_KEY,
         'location': '34.0522,-118.2437',  # Los Angeles coordinates
         'radius': 160934,  # 100 miles in meters
-        'strictbounds': 'true',
+        # 'strictbounds': 'false',
         'types': 'establishment'
     }
 
@@ -47,7 +47,7 @@ def nearby():
         'key': API_KEY,
         'location': '34.0522,-118.2437',  # Los Angeles coordinates
         'radius': 160934,  # 100 miles in meters
-        'strictbounds': 'true',
+        # 'strictbounds': 'false',
         'types': '(regions)'
     }
 

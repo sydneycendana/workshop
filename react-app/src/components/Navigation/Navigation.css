@@ -105,6 +105,10 @@
     width: 200px;
     padding: 10px 10px;
   }
+
+  .autocomplete-results {
+    width: 200px;
+  }
 }
 
 @media (max-width: 768px) {

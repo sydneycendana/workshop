@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/session";
+import { resetState } from "../../store/reset";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormPage";
 import SignupFormModal from "../SignupFormPage";
@@ -19,7 +20,7 @@ function ProfileButton({ user }) {
     if (!showMenu) return;
 
     const closeMenu = (e) => {
-      if (!ulRef.current.contains(e.target)) {
+      if (!e.target.closest(".profile-dropdown")) {
         setShowMenu(false);
       }
     };
@@ -32,6 +33,7 @@ function ProfileButton({ user }) {
   const handleLogout = (e) => {
     e.preventDefault();
     dispatch(logout());
+    dispatch(resetState());
   };
 
   const getInitials = (name) => {

@@ -9,14 +9,21 @@ function Homepage() {
   const [location, setLocation] = useState(null);
   const [isLocationSet, setIsLocationSet] = useState(false);
   const [workshopsListKey, setWorkshopsListKey] = useState(Date.now());
+  const [noWorkshopsFound, setNoWorkshopsFound] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         if (location) {
-          await dispatch(
+          const response = await dispatch(
             fetchNearbyWorkshops(location.latitude, location.longitude)
           );
+
+          if (response.length === 0) {
+            setNoWorkshopsFound(true);
+          } else {
+            setNoWorkshopsFound(false);
+          }
         }
       } catch (error) {
         console.error(error);
@@ -30,12 +37,23 @@ function Homepage() {
     setLocation(locationDetails);
     setIsLocationSet(true);
     setWorkshopsListKey(Date.now());
+    setNoWorkshopsFound(false); // Reset noWorkshopsFound when a new suggestion is clicked
   };
+
+  useEffect(() => {
+    if (noWorkshopsFound) {
+      window.alert("No workshops found");
+    }
+  }, [noWorkshopsFound]);
 
   return (
     <>
       <NearbySearch onSuggestionClick={handleSuggestionClick} />
-      <WorkshopsList key={workshopsListKey} isLocationSet={isLocationSet} />
+      <WorkshopsList
+        key={workshopsListKey}
+        isLocationSet={isLocationSet}
+        location={location}
+      />
     </>
   );
 }

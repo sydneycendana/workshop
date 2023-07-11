@@ -18,6 +18,7 @@ function SearchBar() {
   const debounceTimeoutRef = useRef(null);
 
   const [inputText, setInputText] = useState("");
+
   const autocompleteSuggestions = useSelector(
     (state) => state.google.autocompleteSuggestions
   );
@@ -28,6 +29,8 @@ function SearchBar() {
       debounceTimeoutRef.current = setTimeout(() => {
         dispatch(fetchAutocompleteSuggestions(inputText));
       }, 300);
+    } else {
+      dispatch(fetchAutocompleteSuggestions(""));
     }
   }, [inputText, dispatch]);
 
@@ -61,7 +64,7 @@ function SearchBar() {
       </div>
       {inputText && (
         <ul ref={ulRef} className="autocomplete-results">
-          {autocompleteSuggestions &&
+          {autocompleteSuggestions.length > 0 &&
             autocompleteSuggestions.map((suggestion, index) => (
               <li
                 key={index}
