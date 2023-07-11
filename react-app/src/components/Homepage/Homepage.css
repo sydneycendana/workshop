@@ -27,6 +27,14 @@
 
 }
 
+.workshops-header {
+    text-align: center;
+    font-family: var(--font-oswald);
+    font-weight: 400;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
 .workshops-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

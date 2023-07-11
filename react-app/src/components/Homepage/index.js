@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import WorkshopsList from "./WorkshopsList/WorkshopsList";
 import NearbySearch from "./NearbySearch";
 import { fetchNearbyWorkshops } from "../../store/google";
@@ -9,18 +9,21 @@ function Homepage() {
   const [location, setLocation] = useState(null);
   const [isLocationSet, setIsLocationSet] = useState(false);
   const [workshopsListKey, setWorkshopsListKey] = useState(Date.now());
-
-  const nearbyWorkshops = useSelector((state) => state.google.nearbyWorkshops);
-
-  console.log(isLocationSet);
+  const [noWorkshopsFound, setNoWorkshopsFound] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         if (location) {
-          await dispatch(
+          const response = await dispatch(
             fetchNearbyWorkshops(location.latitude, location.longitude)
           );
+
+          if (response.length === 0) {
+            setNoWorkshopsFound(true);
+          } else {
+            setNoWorkshopsFound(false);
+          }
         }
       } catch (error) {
         console.error(error);
@@ -34,15 +37,23 @@ function Homepage() {
     setLocation(locationDetails);
     setIsLocationSet(true);
     setWorkshopsListKey(Date.now());
+    setNoWorkshopsFound(false); // Reset noWorkshopsFound when a new suggestion is clicked
   };
+
+  useEffect(() => {
+    if (noWorkshopsFound) {
+      window.alert("No workshops found");
+    }
+  }, [noWorkshopsFound]);
 
   return (
     <>
       <NearbySearch onSuggestionClick={handleSuggestionClick} />
-      {!nearbyWorkshops.length && isLocationSet && <p>No workshops found...</p>}
-      {!isLocationSet && (
-        <WorkshopsList key={workshopsListKey} isLocationSet={isLocationSet} />
-      )}
+      <WorkshopsList
+        key={workshopsListKey}
+        isLocationSet={isLocationSet}
+        location={location}
+      />
     </>
   );
 }

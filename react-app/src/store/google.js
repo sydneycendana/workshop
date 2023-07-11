@@ -1,3 +1,5 @@
+import { RESET_STATE } from "./reset";
+
 // Constants
 const LOAD_AUTOCOMPLETE_SUGGESTIONS = "search/loadAutocompleteSuggestions";
 const LOAD_NEARBY_SUGGESTIONS = "search/loadNearbySuggestions";
@@ -123,6 +125,8 @@ export default function searchReducer(state = initialState, action) {
         ...state,
         nearbyWorkshops: action.payload,
       };
+    case RESET_STATE:
+      return initialState;
     default:
       return state;
   }

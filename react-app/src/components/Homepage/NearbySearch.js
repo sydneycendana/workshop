@@ -14,11 +14,10 @@ function NearbySearch({ onSuggestionClick }) {
   const [inputText, setInputText] = useState("");
   const [suggestionClicked, setSuggestionClicked] = useState(false);
 
+  const user = useSelector((state) => state.session.user);
   const autocompleteSuggestions = useSelector(
     (state) => state.google.autocompleteSuggestions
   );
-
-  console.log(inputText.length);
 
   useEffect(() => {
     if (inputText.length > 2) {
@@ -28,6 +27,12 @@ function NearbySearch({ onSuggestionClick }) {
       }, 300);
     }
   }, [inputText, dispatch]);
+
+  useEffect(() => {
+    if (!user) {
+      setInputText("");
+    }
+  }, [user]);
 
   const handleChange = (event) => {
     setInputText(event.target.value);
@@ -51,7 +56,7 @@ function NearbySearch({ onSuggestionClick }) {
       <div>
         <div
           className="autocomplete-input"
-          style={{ width: "400px", marginTop: "50px" }}
+          style={{ width: "400px", marginTop: "10px" }}
         >
           <input
             type="text"

@@ -1,6 +1,7 @@
 import { calculateNewAverages } from "../utils";
 import { CREATE_REVIEW, EDIT_REVIEW, DELETE_REVIEW } from "./reviews";
 import { EDIT_VOTE, CREATE_VOTE, DELETE_VOTE } from "./votes";
+import { RESET_STATE } from "./reset";
 
 const CHECK_PLACE_EXISTENCE = "checkPlaceExistence";
 const GET_WORKSHOP_DETAILS = "getWorkshop";
@@ -196,7 +197,15 @@ const workshopReducer = (state = initialState, action) => {
         (review) => review.id !== reviewId
       );
 
+      const newAverages = calculateNewAverages(updatedReviews);
+
       updatedWorkshopDetails.reviews = updatedReviews;
+      updatedWorkshopDetails.average_noise_level =
+        newAverages.average_noise_level;
+      updatedWorkshopDetails.average_pet_friendliness =
+        newAverages.average_pet_friendliness;
+      updatedWorkshopDetails.average_wifi = newAverages.average_wifi;
+      updatedWorkshopDetails.total_reviews = newAverages.total_reviews;
 
       return {
         ...state,
@@ -286,6 +295,9 @@ const workshopReducer = (state = initialState, action) => {
         workshopDetails: updatedWorkshopDetails,
       };
     }
+
+    case RESET_STATE:
+      return initialState;
 
     default:
       return state;
