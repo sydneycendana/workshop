@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFeaturedWorkshops } from "../../../store/workshops";
@@ -6,10 +6,15 @@ import { ReactComponent as Wifi } from "../../../assets/icons/wifi.svg";
 import { ReactComponent as Pet } from "../../../assets/icons/pet.svg";
 import { ReactComponent as Noise } from "../../../assets/icons/noise.svg";
 import LoadingSpinner from "../../LoadingSpinner";
+import { WorkshopContext } from "../../../context/WorkshopContext";
 
 import "../Homepage.css";
 
-const WorkshopsList = ({ isLocationSet, location }) => {
+const WorkshopsList = () => {
+  const { isLocationSet, location } = useContext(WorkshopContext);
+
+  console.log(location);
+
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(true);
@@ -21,10 +26,7 @@ const WorkshopsList = ({ isLocationSet, location }) => {
 
   const user = useSelector((state) => state.session.user);
 
-  console.log("User value:", user);
-
   useEffect(() => {
-    console.log("User changed:", user);
     if (nearbyWorkshops.length === 0 && featuredWorkshops.length === 0) {
       dispatch(fetchFeaturedWorkshops())
         .then(() => {
