@@ -130,3 +130,12 @@ a {
     color: gray;
     font-size: 12px;
 }
+
+.arrow-button {
+    border: none;
+    background-color: transparent;
+}
+
+.arrow-button svg path {
+    fill: var(--color-blue);
+}

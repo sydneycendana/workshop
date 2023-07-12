@@ -1,5 +1,6 @@
 import React from "react";
 import AliceCarousel from "react-alice-carousel";
+import { ReactComponent as Left } from "../assets/icons/left.svg";
 import "react-alice-carousel/lib/alice-carousel.css";
 
 const MyCarousel = ({ workshop }) => {
@@ -8,13 +9,14 @@ const MyCarousel = ({ workshop }) => {
       style={{
         position: "absolute",
         top: "50%",
-        left: "20px",
-        transform: "translateY(-50%)",
-        zIndex: 1,
+        left: "-30px",
+        transform: "translateY(-50%) rotate(180deg)",
+        // zIndex: 1,
       }}
+      className="arrow-button"
       disabled={isDisabled}
     >
-      Previous
+      <Left />
     </button>
   );
 
@@ -23,35 +25,48 @@ const MyCarousel = ({ workshop }) => {
       style={{
         position: "absolute",
         top: "50%",
-        right: "20px",
+        right: "-30px",
         transform: "translateY(-50%)",
-        zIndex: 1,
+        // zIndex: 1,
       }}
+      className="arrow-button"
       disabled={isDisabled}
     >
-      Next
+      <Left />
     </button>
   );
 
+  const renderReviewImages = () => {
+    if (workshop.reviews && workshop.reviews.length > 0) {
+      return workshop.reviews.flatMap((review) =>
+        review.images
+          ? review.images.map((image) => (
+              <img
+                key={image.id}
+                src={image.url}
+                alt={review.description}
+                style={{ width: "400px", height: "400px" }}
+              />
+            ))
+          : []
+      );
+    } else {
+      return null;
+    }
+  };
+
+  const carouselItems = [
+    <img
+      src={workshop.preview_image_url}
+      alt={workshop.name}
+      style={{ width: "400px", height: "400px" }}
+    />,
+    ...(renderReviewImages() || []),
+  ];
+
   return (
     <AliceCarousel
-      items={[
-        <img
-          src={workshop.preview_image_url}
-          alt={workshop.name}
-          style={{ width: "400px", height: "400px" }}
-        />,
-        ...workshop.reviews.flatMap((review) =>
-          review.images.map((image) => (
-            <img
-              key={image.id}
-              src={image.url}
-              alt={review.description}
-              style={{ width: "400px", height: "400px" }}
-            />
-          ))
-        ),
-      ]}
+      items={carouselItems}
       autoPlay={false}
       //   autoPlayInterval={3000}
       infinite={true}
