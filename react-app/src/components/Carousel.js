@@ -11,7 +11,7 @@ const MyCarousel = ({ workshop }) => {
         top: "50%",
         left: "-30px",
         transform: "translateY(-50%) rotate(180deg)",
-        // zIndex: 1,
+        zIndex: 1,
       }}
       className="arrow-button"
       disabled={isDisabled}
@@ -27,7 +27,7 @@ const MyCarousel = ({ workshop }) => {
         top: "50%",
         right: "-30px",
         transform: "translateY(-50%)",
-        // zIndex: 1,
+        zIndex: 1,
       }}
       className="arrow-button"
       disabled={isDisabled}

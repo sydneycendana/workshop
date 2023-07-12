@@ -214,7 +214,7 @@ const workshopReducer = (state = initialState, action) => {
     }
 
     case CREATE_VOTE: {
-      const { review_id, vote_type } = action.payload;
+      const { review_id, vote_type, id } = action.payload;
 
       const reviewIndex = state.workshopDetails.reviews.findIndex(
         (review) => review.id === review_id
@@ -231,6 +231,7 @@ const workshopReducer = (state = initialState, action) => {
       updatedReview.votes = updatedReview.votes || {};
 
       updatedReview.votes.userVoteType = vote_type;
+      updatedReview.votes.voteId = id;
 
       updatedWorkshopDetails.reviews[reviewIndex] = updatedReview;
 
