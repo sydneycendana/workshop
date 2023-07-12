@@ -16,19 +16,34 @@ function SignupFormPage() {
   const [first_name, setFirstName] = useState("");
   const [last_name, setLastName] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState([]);
+  const [emailError, setEmailError] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const [errors, setErrors] = useState({});
 
   if (sessionUser) return <Redirect to="/" />;
 
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setEmailError("Invalid email address");
+      return false;
+    }
+    setEmailError("");
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password) {
-      const data = await dispatch(
-        signUp(first_name, last_name, email, password)
-      );
-      if (data) {
-        setErrors(data);
-      }
+
+    setIsSubmitted(true);
+
+    if (!validateEmail(email)) {
+      return;
+    }
+    const data = await dispatch(signUp(first_name, last_name, email, password));
+    if (data) {
+      setErrors(data);
     } else {
       closeModal();
     }
@@ -39,9 +54,13 @@ function SignupFormPage() {
       <h1 className="modal-title">Sign Up</h1>
       <form onSubmit={handleSubmit}>
         <ul>
-          {errors.map((error, idx) => (
-            <li key={idx}>{error}</li>
-          ))}
+          {isSubmitted && emailError && (
+            <li className="error-message">{emailError}</li>
+          )}
+          {errors &&
+            Object.values(errors).map((error, idx) => (
+              <li key={idx}>{error}</li>
+            ))}
         </ul>
         <div className="signup-login-input-container">
           <input

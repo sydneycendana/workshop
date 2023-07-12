@@ -28,11 +28,11 @@ function NearbySearch({ onSuggestionClick }) {
     }
   }, [inputText, dispatch]);
 
-  useEffect(() => {
-    if (!user) {
-      setInputText("");
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (!user) {
+  //     setInputText("");
+  //   }
+  // }, [user]);
 
   const handleChange = (event) => {
     setInputText(event.target.value);

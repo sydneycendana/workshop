@@ -7,15 +7,15 @@ from flask_login import current_user, login_user, logout_user, login_required
 auth_routes = Blueprint('auth', __name__)
 
 
-def validation_errors_to_error_messages(validation_errors):
+def validation_errors_to_error_messages(errors):
     """
-    Simple function that turns the WTForms validation errors into a simple list
+    Convert the WTForms validation errors into a simple list.
     """
-    errorMessages = []
-    for field in validation_errors:
-        for error in validation_errors[field]:
-            errorMessages.append(f'{field} : {error}')
-    return errorMessages
+    error_messages = []
+    for field, field_errors in errors.items():
+        for error in field_errors:
+            error_messages.append(error)
+    return error_messages
 
 
 @auth_routes.route('/')
@@ -60,10 +60,11 @@ def sign_up():
     Creates a new user and logs them in
     """
     form = SignUpForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
+    form.csrf_token.data = request.cookies['csrf_token']
     if form.validate_on_submit():
         user = User(
-            username=form.data['username'],
+            first_name=form.data['first_name'],
+            last_name=form.data['last_name'],
             email=form.data['email'],
             password=form.data['password']
         )

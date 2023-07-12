@@ -53,7 +53,7 @@ const MyCarousel = ({ workshop }) => {
         ),
       ]}
       autoPlay={false}
-      autoPlayInterval={3000}
+      //   autoPlayInterval={3000}
       infinite={true}
       stagePadding={{
         paddingLeft: 20,

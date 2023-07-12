@@ -8,6 +8,7 @@ import WorkshopDetails from "./components/Workshops/WorkshopDetails";
 import CreateWorkshopForm from "./components/Workshops/CreateWorkshop";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
+import { WorkshopProvider } from "./context/WorkshopContext";
 
 function App() {
   const dispatch = useDispatch();
@@ -22,7 +23,9 @@ function App() {
       {isLoaded && (
         <Switch>
           <Route exact path="/">
-            <Homepage />
+            <WorkshopProvider>
+              <Homepage />
+            </WorkshopProvider>
           </Route>
           <Route path="/login">
             <LoginFormPage />
