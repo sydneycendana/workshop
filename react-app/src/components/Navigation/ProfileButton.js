@@ -35,6 +35,7 @@ function ProfileButton({ user }) {
 
   const handleLogout = (e) => {
     e.preventDefault();
+    localStorage.removeItem("location");
     dispatch(logout());
     dispatch(resetState());
     history.push("/");
