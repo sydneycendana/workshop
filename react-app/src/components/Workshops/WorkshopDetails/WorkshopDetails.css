@@ -103,6 +103,16 @@
     margin: 0 auto;
 }
 
+.review-images-container {
+    display: flex;
+    gap: 20px;
+}
+
+.review-image-container {
+    width: 150px;
+    height: 150px;
+}
+
 .dropdown-button {
     border: none;
     background-color: transparent;
@@ -147,6 +157,8 @@
     align-items: center;
     gap: 3px;
 }
+
+
 
 /* Votes */
 .votes-container {

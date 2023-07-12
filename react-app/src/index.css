@@ -134,6 +134,7 @@ a {
 .arrow-button {
     border: none;
     background-color: transparent;
+    cursor: pointer;
 }
 
 .arrow-button svg path {

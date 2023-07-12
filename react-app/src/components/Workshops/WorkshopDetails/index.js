@@ -176,8 +176,25 @@ const WorkshopDetails = () => {
                     <p>{userReview.wifi}</p>
                   </div>
                 </div>
-                <p>Description: {userReview.description}</p>
-                {/* Render images here if available */}
+                <p>{userReview.description}</p>
+                <div className="review-images-container">
+                  {userReview.images &&
+                    userReview.images.map((image) => (
+                      <div className="review-image-container">
+                        <img
+                          key={image.id}
+                          src={image.url}
+                          alt="Review Image"
+                          style={{
+                            width: "150px",
+                            height: "150px",
+                            objectFit: "cover",
+                            objectPosition: "center",
+                          }}
+                        />
+                      </div>
+                    ))}
+                </div>
               </div>
               <div className="votes-container">
                 <Upvote />
@@ -272,8 +289,25 @@ const WorkshopDetails = () => {
                         <p>{review.wifi}</p>
                       </div>
                     </div>
-                    <p>Description: {review.description}</p>
-                    {/* Render images here if available */}
+                    <p>{review.description}</p>
+                    <div className="review-images-container">
+                      {review.images &&
+                        review.images.map((image) => (
+                          <div className="review-image-container">
+                            <img
+                              key={image.id}
+                              src={image.url}
+                              alt="Review Image"
+                              style={{
+                                width: "150px",
+                                height: "150px",
+                                objectFit: "cover",
+                                objectPosition: "center",
+                              }}
+                            />
+                          </div>
+                        ))}
+                    </div>
                   </div>
                   <div className="votes-container">
                     <Upvote
@@ -293,7 +327,6 @@ const WorkshopDetails = () => {
                     />
                   </div>
                 </div>
-                {/* <div className="line"></div> */}
               </div>
             );
           })}
