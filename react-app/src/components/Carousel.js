@@ -76,6 +76,7 @@ const MyCarousel = ({ workshop }) => {
       }}
       renderPrevButton={renderPrevButton}
       renderNextButton={renderNextButton}
+      dotsDisabled={true}
     />
   );
 };

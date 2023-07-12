@@ -112,7 +112,7 @@ def add_review_images(review_id):
         review_images.append(review_image)
 
     db.session.commit()
-    return jsonify({'message': 'Review images added successfully', 'images': {image.id : image.to_dict() for image in review_images}}), 200
+    return jsonify({image.id : image.to_dict() for image in review_images}), 200
 
 
 # ------------------------ ADD VOTE TO REVIEW ------------------------

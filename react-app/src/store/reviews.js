@@ -18,10 +18,10 @@ const deleteReview = (payload) => ({
 });
 
 export const createReviewThunk =
-  (workshopId, review, images) => async (dispatch) => {
+  (workshopId, reviewData, images) => async (dispatch) => {
     const reviewResponse = await fetch(`/api/workshops/${workshopId}/reviews`, {
       method: "POST",
-      body: review,
+      body: reviewData,
     });
 
     if (reviewResponse.ok) {
@@ -38,11 +38,10 @@ export const createReviewThunk =
           method: "POST",
           body: imagesForm,
         });
-        console.log(imagesForm);
 
         if (res.ok) {
           const newImageData = await res.json();
-          reviewData.images = newImageData[images];
+          reviewData.images = newImageData;
         }
       }
 

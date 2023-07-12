@@ -49,9 +49,10 @@ const WorkshopDetails = () => {
   }
 
   const hasReviews = workshop.reviews && workshop.reviews.length > 0;
-  const userReview = workshop.reviews.find(
-    (review) => user && user.id && review.user_id === user.id
-  );
+  const userReview =
+    user &&
+    user.id &&
+    workshop.reviews.find((review) => review.user_id === user.id);
 
   const isAdmin = user?.email === "admin@example.com";
 
@@ -141,7 +142,7 @@ const WorkshopDetails = () => {
 
       {/* ------------ CURRENT USERS REVIEW ------------ */}
 
-      {userReview && (
+      {userReview ? (
         <div
           key={userReview.id}
           className="user-review-container"
@@ -186,8 +187,8 @@ const WorkshopDetails = () => {
                           src={image.url}
                           alt="Review Image"
                           style={{
-                            width: "150px",
-                            height: "150px",
+                            width: "125px",
+                            height: "125px",
                             objectFit: "cover",
                             objectPosition: "center",
                           }}
@@ -230,6 +231,8 @@ const WorkshopDetails = () => {
             </div>
           </div>
         </div>
+      ) : (
+        <div></div>
       )}
 
       {/* ------------ OTHER REVIEWS ------------ */}
@@ -299,8 +302,8 @@ const WorkshopDetails = () => {
                               src={image.url}
                               alt="Review Image"
                               style={{
-                                width: "150px",
-                                height: "150px",
+                                width: "125px",
+                                height: "125px",
                                 objectFit: "cover",
                                 objectPosition: "center",
                               }}

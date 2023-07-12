@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { logout } from "../../store/session";
 import { resetState } from "../../store/reset";
 import OpenModalButton from "../OpenModalButton";
@@ -8,6 +9,8 @@ import SignupFormModal from "../SignupFormPage";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 
@@ -34,6 +37,7 @@ function ProfileButton({ user }) {
     e.preventDefault();
     dispatch(logout());
     dispatch(resetState());
+    history.push("/");
   };
 
   const getInitials = (name) => {
