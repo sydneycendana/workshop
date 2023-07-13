@@ -14,6 +14,7 @@ import EditReview from "../../Reviews/EditReview";
 import AddReview from "../../Reviews/AddReview";
 import DeleteReview from "../../Reviews/DeleteReview";
 import MyCarousel from "../../Carousel";
+import ImageModal from "../../ImageModal";
 import { ReactComponent as Wifi } from "../../../assets/icons/wifi.svg";
 import { ReactComponent as Noise } from "../../../assets/icons/noise.svg";
 import { ReactComponent as Pet } from "../../../assets/icons/pet.svg";
@@ -34,6 +35,7 @@ const WorkshopDetails = () => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [isAdminDropdownVisible, setIsAdminDropdownVisible] = useState(false);
   // const [isWorkshopInfoHovered, setIsWorkshopInfoHovered] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     dispatch(fetchWorkshopById(workshopId))
@@ -55,6 +57,10 @@ const WorkshopDetails = () => {
     workshop.reviews.find((review) => review.user_id === user.id);
 
   const isAdmin = user?.email === "admin@example.com";
+
+  const handleImageClick = (imageURL) => {
+    setSelectedImage(imageURL);
+  };
 
   return (
     <div className="page-container">
@@ -182,16 +188,23 @@ const WorkshopDetails = () => {
                   {userReview.images &&
                     userReview.images.map((image) => (
                       <div className="review-image-container">
-                        <img
-                          key={image.id}
-                          src={image.url}
-                          alt="Review Image"
-                          style={{
-                            width: "125px",
-                            height: "125px",
-                            objectFit: "cover",
-                            objectPosition: "center",
-                          }}
+                        <OpenModalButton
+                          buttonText={
+                            <img
+                              key={image.id}
+                              src={image.url}
+                              alt="review"
+                              style={{
+                                width: "125px",
+                                height: "125px",
+                                objectFit: "cover",
+                                objectPosition: "center",
+                              }}
+                            />
+                          }
+                          modalComponent={<ImageModal imageUrl={image.url} />}
+                          buttonClassName="review-image-button"
+                          onClick={() => handleImageClick(image.url)}
                         />
                       </div>
                     ))}
@@ -297,16 +310,25 @@ const WorkshopDetails = () => {
                       {review.images &&
                         review.images.map((image) => (
                           <div className="review-image-container">
-                            <img
-                              key={image.id}
-                              src={image.url}
-                              alt="Review Image"
-                              style={{
-                                width: "125px",
-                                height: "125px",
-                                objectFit: "cover",
-                                objectPosition: "center",
-                              }}
+                            <OpenModalButton
+                              buttonText={
+                                <img
+                                  key={image.id}
+                                  src={image.url}
+                                  alt="review"
+                                  style={{
+                                    width: "125px",
+                                    height: "125px",
+                                    objectFit: "cover",
+                                    objectPosition: "center",
+                                  }}
+                                />
+                              }
+                              modalComponent={
+                                <ImageModal imageUrl={image.url} />
+                              }
+                              buttonClassName="review-image-button"
+                              onClick={() => handleImageClick(image.url)}
                             />
                           </div>
                         ))}

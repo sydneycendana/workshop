@@ -46,6 +46,11 @@
     padding: 20px;
     border: .25px solid var(--color-red);
     height: max-content;
+    transition: transform 0.2s ease;
+}
+
+.workshop-card:hover {
+    transform: scale(1.025);
 }
 
 .image-container {

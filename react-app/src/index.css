@@ -116,6 +116,11 @@ a {
     overflow-x: hidden;
 }
 
+.autocomplete-result:hover {
+    background-color: #B7DFF5;
+    cursor: pointer;
+}
+
 .autocomplete-result {
     /* border: 1px solid gray; */
     padding: 5px;
@@ -145,4 +150,9 @@ a {
 
 .alice-carousel__dots {
     display: none !important;
+}
+
+.image-modal {
+    width: 400px;
+    height: 400px;
 }
