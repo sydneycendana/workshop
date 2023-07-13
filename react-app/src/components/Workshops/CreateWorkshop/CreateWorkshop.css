@@ -1,5 +1,5 @@
 .create-workshop-container {
-    border: 2px solid var(--color-red);
+    /* border: 2px solid var(--color-red); */
     width: 75%;
     margin: 0 auto;
     padding: 10px;
@@ -9,13 +9,33 @@
 .create-workshop-form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 40px;
     margin: 10px 0;
 }
 
 .create-workshop-container h5 {
-    font-family: var(--font-lobster);
-    font-size: 20px;
+    font-family: var(--font-oswald);
+    font-size: 30px;
+    font-weight: 400;
+}
+
+.create-workshop-container h6 {
+    font-family: var(--font-oswald);
+    font-size: 25px;
+    font-weight: 400;
+}
+
+.create-workshop-upload-image-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.create-workshop-image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
 }
 
 .custom-file-input {
@@ -35,6 +55,18 @@
 
 input[type="file"] {
     background-color: none;
+}
+
+.uploaded-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.workshop-image-preview {
+    width: 200px;
+    height: 200px;
 }
 
 .create-workshop-button {

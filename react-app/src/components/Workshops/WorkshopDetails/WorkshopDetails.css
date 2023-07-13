@@ -112,6 +112,18 @@
 .review-image-container {
     width: 125px;
     height: 125px;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
+.review-image-container:hover {
+    transform: scale(1.025);
+}
+
+.review-image-button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
 }
 
 .dropdown-button {

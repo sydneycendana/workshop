@@ -14,6 +14,7 @@ const CreateWorkshopForm = () => {
   const [errors, setErrors] = useState([]);
   const [image, setImage] = useState(null);
   const [selectedFileName, setSelectedFileName] = useState("");
+  const [imageUrl, setImageUrl] = useState(""); // New state to store the temporary image URL
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -32,6 +33,8 @@ const CreateWorkshopForm = () => {
       setErrors([]);
       setImage(file);
       setSelectedFileName(file.name);
+      const imageUrl = URL.createObjectURL(file);
+      setImageUrl(imageUrl);
     } else {
       setImage(null);
       setSelectedFileName("");
@@ -43,6 +46,14 @@ const CreateWorkshopForm = () => {
       history.push("/");
     }
   }, [placeDetails, history]);
+
+  useEffect(() => {
+    return () => {
+      if (imageUrl) {
+        URL.revokeObjectURL(imageUrl);
+      }
+    };
+  }, [imageUrl]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -73,29 +84,49 @@ const CreateWorkshopForm = () => {
   };
 
   return (
-    <div className="page-container">
+    <div className="page-container" style={{ margin: "50px auto" }}>
       <div className="create-workshop-container">
-        <h5>Found a new workshop?</h5>
         <form onSubmit={handleSubmit} className="create-workshop-form">
-          <div>Name: {placeDetails.name}</div>
-          <div>{placeDetails.formatted_address}</div>
-          <div>Phone Number: {placeDetails.phone_number}</div>
-          <label htmlFor="upload-file" className="create-workshop-button">
-            <input
-              type="file"
-              id="upload-file"
-              onChange={handleImageUpload}
-              className="hidden-file-input"
-            />
-            <Add className="add-button" />
-          </label>
-          <div>{selectedFileName}</div>
-          <div className="error-message">
-            {errors.map((error, index) => (
-              <p key={index}>{error}</p>
-            ))}
+          <h5>Want to add this place as a workshop?</h5>
+          <div className="create-workshop-details">
+            <div> {placeDetails.name}</div>
+            <div>{placeDetails.formatted_address}</div>
+            <div> {placeDetails.phone_number}</div>
           </div>
-          <button type="submit">Submit</button>
+          <div className="create-workshop-upload-image-container">
+            <h6>Just upload an image:</h6>
+            <div className="create-workshop-image-container">
+              <label htmlFor="upload-file" className="create-workshop-button">
+                <input
+                  type="file"
+                  id="upload-file"
+                  onChange={handleImageUpload}
+                  className="hidden-file-input"
+                />
+                <Add className="add-button" />
+              </label>
+
+              {imageUrl && (
+                <div className="workshop-image-preview">
+                  <img
+                    src={imageUrl}
+                    alt="Uploaded"
+                    className="uploaded-image"
+                  />
+                </div>
+              )}
+
+              <div>{selectedFileName}</div>
+            </div>
+            <div className="error-message">
+              {errors.map((error, index) => (
+                <p key={index}>{error}</p>
+              ))}
+            </div>
+          </div>
+          <button type="submit" className="add-review-submit">
+            Submit
+          </button>
         </form>
       </div>
     </div>
