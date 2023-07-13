@@ -2,9 +2,9 @@ export const CREATE_VOTE = "createVote";
 export const EDIT_VOTE = "editVote";
 export const DELETE_VOTE = "deleteVote";
 
-const createVote = (review_id, vote_type) => ({
+const createVote = (review_id, vote_type, id) => ({
   type: CREATE_VOTE,
-  payload: { review_id, vote_type },
+  payload: { review_id, vote_type, id },
 });
 
 const editVote = (payload) => ({
@@ -32,8 +32,8 @@ export const createVoteThunk = (reviewId, voteType) => async (dispatch) => {
 
   if (voteResponse.ok) {
     const voteData = await voteResponse.json();
-    const { review_id, vote_type } = voteData; // Extract review_id and vote_type from the response
-    dispatch(createVote(review_id, vote_type));
+    const { review_id, vote_type, id } = voteData; // Extract review_id and vote_type from the response
+    dispatch(createVote(review_id, vote_type, id));
     return voteData;
   }
 };

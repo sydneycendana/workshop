@@ -144,14 +144,22 @@ const workshopReducer = (state = initialState, action) => {
       };
 
     case CREATE_REVIEW: {
+      const { payload } = action;
+
       const updatedWorkshopDetails = {
         ...state.workshopDetails,
-        reviews: [...state.workshopDetails.reviews, action.payload],
+        reviews: [
+          ...state.workshopDetails.reviews,
+          {
+            ...payload,
+            images: Object.values(payload.images) || [],
+          },
+        ],
       };
 
       const newAverages = calculateNewAverages(
         updatedWorkshopDetails.reviews,
-        action.payload
+        payload
       );
       const updatedWorkshopDetailsWithAverages = {
         ...updatedWorkshopDetails,
@@ -214,7 +222,7 @@ const workshopReducer = (state = initialState, action) => {
     }
 
     case CREATE_VOTE: {
-      const { review_id, vote_type } = action.payload;
+      const { review_id, vote_type, id } = action.payload;
 
       const reviewIndex = state.workshopDetails.reviews.findIndex(
         (review) => review.id === review_id
@@ -231,6 +239,7 @@ const workshopReducer = (state = initialState, action) => {
       updatedReview.votes = updatedReview.votes || {};
 
       updatedReview.votes.userVoteType = vote_type;
+      updatedReview.votes.voteId = id;
 
       updatedWorkshopDetails.reviews[reviewIndex] = updatedReview;
 

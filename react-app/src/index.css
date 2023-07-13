@@ -130,3 +130,19 @@ a {
     color: gray;
     font-size: 12px;
 }
+
+/* Alice carousel */
+
+.arrow-button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.arrow-button svg path {
+    fill: var(--color-blue);
+}
+
+.alice-carousel__dots {
+    display: none !important;
+}

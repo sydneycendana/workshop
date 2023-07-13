@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { WorkshopContext } from "../../context/WorkshopContext";
 
 import { fetchNearbySuggestions, fetchPlaceDetails } from "../../store/google";
 import { ReactComponent as Arrow } from "../../assets/icons/arrow.svg";
@@ -7,9 +8,9 @@ import "./Homepage.css";
 
 function NearbySearch({ onSuggestionClick }) {
   const dispatch = useDispatch();
-
   const ulRef = useRef();
   const debounceTimeoutRef = useRef(null);
+  const { isLocationSet } = useContext(WorkshopContext);
 
   const [inputText, setInputText] = useState("");
   const [suggestionClicked, setSuggestionClicked] = useState(false);
@@ -20,6 +21,12 @@ function NearbySearch({ onSuggestionClick }) {
   );
 
   useEffect(() => {
+    if (!user || !isLocationSet) {
+      setInputText("");
+    }
+  }, [user, isLocationSet]);
+
+  useEffect(() => {
     if (inputText.length > 2) {
       clearTimeout(debounceTimeoutRef.current);
       debounceTimeoutRef.current = setTimeout(() => {
@@ -28,15 +35,8 @@ function NearbySearch({ onSuggestionClick }) {
     }
   }, [inputText, dispatch]);
 
-  // useEffect(() => {
-  //   if (!user) {
-  //     setInputText("");
-  //   }
-  // }, [user]);
-
   const handleChange = (event) => {
     setInputText(event.target.value);
-
     setSuggestionClicked(false);
   };
 

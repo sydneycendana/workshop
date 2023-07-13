@@ -30,7 +30,7 @@ function SearchBar() {
         dispatch(fetchAutocompleteSuggestions(inputText));
       }, 300);
     } else {
-      dispatch(fetchAutocompleteSuggestions(""));
+      // dispatch(fetchAutocompleteSuggestions(""));
     }
   }, [inputText, dispatch]);
 
