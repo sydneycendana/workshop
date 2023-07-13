@@ -43,8 +43,13 @@ const WorkshopsList = () => {
     }
   }, [nearbyWorkshops.length, featuredWorkshops.length]);
 
-  const workshopsData =
+  let workshopsData =
     nearbyWorkshops.length > 0 ? nearbyWorkshops : featuredWorkshops;
+
+  // Sort workshops by distance if nearby workshops exist
+  if (nearbyWorkshops.length > 0) {
+    workshopsData.sort((a, b) => a.distance - b.distance);
+  }
 
   const isAllRatingsNull = workshopsData.every(
     (workshop) =>
