@@ -101,7 +101,7 @@ def add_review_images(review_id):
             if 'url' in upload:
                 uploaded_image_urls.append(upload['url'])
             else:
-                return jsonify({'error': 'Failed to upload image'}), 500
+                return {'errors': [upload]}, 400
         else:
             return jsonify({'error': 'Invalid file'}), 400
 
