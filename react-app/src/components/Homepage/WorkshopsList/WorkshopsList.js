@@ -11,9 +11,7 @@ import { WorkshopContext } from "../../../context/WorkshopContext";
 import "../Homepage.css";
 
 const WorkshopsList = () => {
-  const { isLocationSet, location } = useContext(WorkshopContext);
-
-  console.log(location);
+  const { location } = useContext(WorkshopContext);
 
   const dispatch = useDispatch();
 

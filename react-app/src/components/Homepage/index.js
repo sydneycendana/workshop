@@ -7,7 +7,7 @@ import { WorkshopContext } from "../../context/WorkshopContext";
 
 function Homepage() {
   const dispatch = useDispatch();
-  const { isLocationSet, location, setIsLocationSet, setLocation } =
+  const { location, setIsLocationSet, setLocation } =
     useContext(WorkshopContext);
 
   // const [location, setLocation] = useState(null);
@@ -41,7 +41,7 @@ function Homepage() {
     setLocation(locationDetails);
     setIsLocationSet(true);
     setWorkshopsListKey(Date.now());
-    setNoWorkshopsFound(false); // Reset noWorkshopsFound when a new suggestion is clicked
+    setNoWorkshopsFound(false);
   };
 
   useEffect(() => {
@@ -53,11 +53,7 @@ function Homepage() {
   return (
     <>
       <NearbySearch onSuggestionClick={handleSuggestionClick} />
-      <WorkshopsList
-        key={workshopsListKey}
-        // isLocationSet={isLocationSet}
-        // location={location}
-      />
+      <WorkshopsList key={workshopsListKey} />
     </>
   );
 }
