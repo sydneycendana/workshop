@@ -1,14 +1,11 @@
 import React from "react";
 
-import { useModal } from "../context/Modal";
 const ImageModal = ({ imageUrl }) => {
-  const { closeModal } = useModal();
-
   return (
     <div className="image-modal">
       <img
         src={imageUrl}
-        alt="Review Image"
+        alt="Review"
         className="modal-image"
         style={{
           width: "400px",
@@ -17,7 +14,6 @@ const ImageModal = ({ imageUrl }) => {
           objectPosition: "center",
         }}
       />
-      <p>{imageUrl}</p>
     </div>
   );
 };

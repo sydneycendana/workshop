@@ -123,7 +123,7 @@ def add_review_vote(review_id):
     vote_type = request.json.get('vote_type')
 
     review = Review.query.get(review_id)
-    print(review)
+    print("---------------", review)
     if not review:
         return jsonify({'error': 'Review not found'}), 404
 

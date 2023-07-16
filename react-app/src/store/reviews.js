@@ -52,7 +52,6 @@ export const createReviewThunk =
 
 export const editReviewThunk = (id, reviewData) => async (dispatch) => {
   try {
-    console.log(reviewData);
     const reviewResponse = await fetch(`/api/reviews/${id}`, {
       method: "PUT",
       body: reviewData,
@@ -63,7 +62,6 @@ export const editReviewThunk = (id, reviewData) => async (dispatch) => {
     }
 
     const responseData = await reviewResponse.json();
-    console.log(responseData);
 
     dispatch(editReview(responseData));
     return responseData;

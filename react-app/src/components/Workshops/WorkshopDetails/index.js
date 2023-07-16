@@ -34,8 +34,6 @@ const WorkshopDetails = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [isAdminDropdownVisible, setIsAdminDropdownVisible] = useState(false);
-  // const [isWorkshopInfoHovered, setIsWorkshopInfoHovered] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     dispatch(fetchWorkshopById(workshopId))
@@ -57,10 +55,6 @@ const WorkshopDetails = () => {
     workshop.reviews.find((review) => review.user_id === user.id);
 
   const isAdmin = user?.email === "admin@example.com";
-
-  const handleImageClick = (imageURL) => {
-    setSelectedImage(imageURL);
-  };
 
   return (
     <div className="page-container">
@@ -204,7 +198,6 @@ const WorkshopDetails = () => {
                           }
                           modalComponent={<ImageModal imageUrl={image.url} />}
                           buttonClassName="review-image-button"
-                          onClick={() => handleImageClick(image.url)}
                         />
                       </div>
                     ))}
@@ -256,32 +249,40 @@ const WorkshopDetails = () => {
             let userVoteType = review.votes.userVoteType;
 
             const handleUpvote = () => {
+              if (!user) {
+                window.alert("You cannot vote if you are not logged in.");
+                return;
+              }
               if (userVoteType === 1) {
                 dispatch(deleteVoteThunk(review.id, review.votes.voteId));
               }
 
               if (userVoteType === -1) {
                 dispatch(editVoteThunk(review.votes.voteId, 1)); // User had previously downvoted, edit the vote
-              } else {
+              } else if (userVoteType === null) {
                 dispatch(createVoteThunk(review.id, 1)); // User hasn't voted, create a new upvote
               }
             };
 
             const handleDownvote = () => {
+              if (!user) {
+                window.alert("You cannot vote if you are not logged in.");
+                return;
+              }
               if (userVoteType === -1) {
                 dispatch(deleteVoteThunk(review.id, review.votes.voteId));
               }
 
               if (userVoteType === 1) {
                 dispatch(editVoteThunk(review.votes.voteId, -1)); // User had previously upvoted, edit the vote
-              } else {
-                dispatch(createVoteThunk(review.id, -1)); // User hasn't voted, create a new downvote
+              } else if (userVoteType === null) {
+                dispatch(createVoteThunk(review.id, -1)); // User hasn't voted, create a new upvote
               }
             };
 
             return (
               <div key={review.id}>
-                <div key={review.id} className="review-wrapper">
+                <div className="review-wrapper">
                   <div className="review-container">
                     <p>
                       By {review.user_first_name} on{" "}
@@ -328,7 +329,6 @@ const WorkshopDetails = () => {
                                 <ImageModal imageUrl={image.url} />
                               }
                               buttonClassName="review-image-button"
-                              onClick={() => handleImageClick(image.url)}
                             />
                           </div>
                         ))}

@@ -13,7 +13,6 @@ vote_routes = Blueprint('votes', __name__)
 @login_required
 def edit_vote(vote_id):
     vote = Vote.query.get(vote_id)
-    print("--------------------", vote_id)
     if not vote:
         return jsonify({'error': 'Vote not found'}), 404
 
@@ -25,7 +24,6 @@ def edit_vote(vote_id):
         return jsonify({'error': 'Invalid vote type. Vote type should be either 1 or -1'}), 400
 
     vote.vote_type = vote_type
-    print("--------------------", vote_type)
     db.session.commit()
 
     return jsonify(vote.to_dict()), 200
@@ -36,6 +34,7 @@ def edit_vote(vote_id):
 @login_required
 def delete_vote(vote_id):
     vote = Vote.query.get(vote_id)
+    print(vote)
     if not vote:
         return jsonify({'error': 'Vote not found'}), 404
 
