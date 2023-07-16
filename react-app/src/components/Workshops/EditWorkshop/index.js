@@ -12,12 +12,10 @@ const EditWorkshop = ({ workshopId }) => {
 
   const [errors, setErrors] = useState([]);
   const [image, setImage] = useState(null);
-  // const [selectedFileName, setSelectedFileName] = useState("");
   const [previewImageUrl, setPreviewImageUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    // Set the initial preview image URL when the component mounts
     if (workshop && workshop.preview_image_url) {
       setPreviewImageUrl(workshop.preview_image_url);
     }
@@ -33,13 +31,11 @@ const EditWorkshop = ({ workshopId }) => {
       if (!allowedExtensions.includes(fileExtension)) {
         setErrors(["Please upload a valid image file (jpg, jpeg, png, gif)"]);
         setImage(null);
-        // setSelectedFileName("");
         return;
       }
 
       setErrors([]);
       setImage(file);
-      // setSelectedFileName(file.name);
 
       const reader = new FileReader();
       reader.onload = () => {
@@ -48,7 +44,6 @@ const EditWorkshop = ({ workshopId }) => {
       reader.readAsDataURL(file);
     } else {
       setImage(null);
-      // setSelectedFileName("");
       setPreviewImageUrl("");
     }
   };
@@ -68,7 +63,7 @@ const EditWorkshop = ({ workshopId }) => {
       setIsLoading(true);
       dispatch(editWorkshopThunk(workshopId, formData));
       setTimeout(() => {
-        setIsLoading(false); // Stop loading
+        setIsLoading(false);
         closeModal();
       }, 1500);
     } catch (error) {
@@ -96,7 +91,6 @@ const EditWorkshop = ({ workshopId }) => {
 
       <input type="file" accept="image/*" onChange={handleImageUpload} />
 
-      {/* Render errors if any */}
       {errors.length > 0 && (
         <ul>
           {errors.map((error, index) => (
@@ -104,7 +98,9 @@ const EditWorkshop = ({ workshopId }) => {
           ))}
         </ul>
       )}
-      <button type="submit">Submit</button>
+      <button type="submit" className="add-review-submit">
+        Submit
+      </button>
     </form>
   );
 };

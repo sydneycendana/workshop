@@ -35,7 +35,7 @@ const WorkshopsList = () => {
           setLoading(false);
         });
     }
-  }, [dispatch, user]);
+  }, [dispatch, user, nearbyWorkshops.length, featuredWorkshops.length]);
 
   useEffect(() => {
     if (nearbyWorkshops.length > 0 || featuredWorkshops.length > 0) {

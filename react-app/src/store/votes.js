@@ -64,6 +64,7 @@ export const editVoteThunk = (voteId, voteType) => async (dispatch) => {
 
 export const deleteVoteThunk = (reviewId, voteId) => async (dispatch) => {
   try {
+    console.log(reviewId, voteId);
     const voteResponse = await fetch(`/api/votes/${voteId}`, {
       method: "DELETE",
     });

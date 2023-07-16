@@ -47,7 +47,7 @@ function LoginFormPage() {
   };
 
   const handleDemoUser = async () => {
-    const demoEmail = "johndoe@example.com";
+    const demoEmail = "admin@example.com";
     const demoPassword = "password";
     await dispatch(login(demoEmail, demoPassword));
     closeModal();

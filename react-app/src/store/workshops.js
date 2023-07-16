@@ -152,7 +152,7 @@ const workshopReducer = (state = initialState, action) => {
           ...state.workshopDetails.reviews,
           {
             ...payload,
-            images: Object.values(payload.images) || [],
+            images: payload.images ? Object.values(payload.images) : [],
           },
         ],
       };
@@ -186,12 +186,21 @@ const workshopReducer = (state = initialState, action) => {
           : review
       );
 
+      const newAverages = calculateNewAverages(updatedReviews);
+
+      const updatedWorkshopDetails = {
+        ...state.workshopDetails,
+        reviews: updatedReviews,
+      };
+
+      const updatedWorkshopDetailsWithAverages = {
+        ...updatedWorkshopDetails,
+        ...newAverages,
+      };
+
       return {
         ...state,
-        workshopDetails: {
-          ...state.workshopDetails,
-          reviews: updatedReviews,
-        },
+        workshopDetails: updatedWorkshopDetailsWithAverages,
       };
     }
 
