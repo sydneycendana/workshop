@@ -50,37 +50,26 @@ export const createReviewThunk =
     }
   };
 
-export const editReviewThunk = (id, review, images) => async (dispatch) => {
-  console.log(id);
-  const reviewResponse = await fetch(`/api/reviews/${id}`, {
-    method: "PUT",
-    body: review,
-  });
+export const editReviewThunk = (id, reviewData) => async (dispatch) => {
+  try {
+    console.log(reviewData);
+    const reviewResponse = await fetch(`/api/reviews/${id}`, {
+      method: "PUT",
+      body: reviewData,
+    });
 
-  if (reviewResponse.ok) {
-    const reviewData = await reviewResponse.json();
-
-    if (images && images.length > 0) {
-      const imagesForm = new FormData();
-
-      images.forEach((image) => {
-        imagesForm.append("images", image);
-      });
-
-      const res = await fetch(`/api/reviews/${id}/images`, {
-        method: "POST",
-        body: imagesForm,
-      });
-      console.log(imagesForm);
-
-      if (res.ok) {
-        const newImageData = await res.json();
-        reviewData.images = newImageData[images];
-      }
+    if (!reviewResponse.ok) {
+      throw new Error("Failed to update review");
     }
 
-    dispatch(editReview(reviewData));
-    return reviewData;
+    const responseData = await reviewResponse.json();
+    console.log(responseData);
+
+    dispatch(editReview(responseData));
+    return responseData;
+  } catch (error) {
+    console.error("Error updating review:", error);
+    throw error;
   }
 };
 

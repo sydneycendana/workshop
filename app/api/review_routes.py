@@ -19,13 +19,13 @@ def get_review(review_id):
 
     return jsonify(review.to_dict()), 200
 
-
 # ------------------------ EDIT REVIEW ------------------------
 @review_routes.route('/<int:review_id>', methods=['PUT'])
 @login_required
 def edit_review(review_id):
     review = Review.query.get(review_id)
     if review:
+        print(request.form)
         if review.user_id != current_user.id:
             return jsonify({'error': 'You are not authorized to edit this review'}), 403
 
@@ -48,10 +48,10 @@ def edit_review(review_id):
         review.noise_level = noise_level
 
         db.session.commit()
+
         return jsonify(review.to_dict()), 200
 
     return jsonify({'error': 'Review not found'}), 404
-
 
 # ------------------------ DELETE REVIEW ------------------------
 @review_routes.route('/<int:review_id>', methods=['DELETE'])

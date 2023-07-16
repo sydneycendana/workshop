@@ -174,26 +174,24 @@ const workshopReducer = (state = initialState, action) => {
 
     case EDIT_REVIEW: {
       const updatedReview = action.payload;
+      const { reviews } = state.workshopDetails;
 
-      const updatedWorkshopDetails = {
-        ...state.workshopDetails,
-        reviews: state.workshopDetails.reviews.map((review) =>
-          review.id === updatedReview.id ? updatedReview : review
-        ),
-      };
-
-      const newAverages = calculateNewAverages(
-        updatedWorkshopDetails.reviews,
-        updatedReview
+      const updatedReviews = reviews.map((review) =>
+        review.id === updatedReview.id
+          ? {
+              ...review,
+              ...updatedReview,
+              images: review.images || [], // Retain previous images
+            }
+          : review
       );
-      const updatedWorkshopDetailsWithAverages = {
-        ...updatedWorkshopDetails,
-        ...newAverages,
-      };
 
       return {
         ...state,
-        workshopDetails: updatedWorkshopDetailsWithAverages,
+        workshopDetails: {
+          ...state.workshopDetails,
+          reviews: updatedReviews,
+        },
       };
     }
 
@@ -259,7 +257,7 @@ const workshopReducer = (state = initialState, action) => {
       const updatedWorkshopDetails = { ...state.workshopDetails };
       const updatedReview = { ...updatedWorkshopDetails.reviews[reviewIndex] };
 
-      updatedReview.total_votes += vote_type;
+      updatedReview.total_votes += vote_type * 2;
 
       updatedReview.votes = updatedReview.votes || {};
 
