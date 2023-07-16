@@ -22,9 +22,7 @@ const EditReview = ({ userReview }) => {
     initialPetFriendliness || 0
   );
   const [noiseLevel, setNoiseLevel] = useState(initialNoiseLevel || 0);
-  const [images, setImages] = useState([]);
   const [errors, setErrors] = useState({});
-
   const [reviewData, setReviewData] = useState(new FormData());
 
   const [wifiHoveredRating, setWifiHoveredRating] = useState(0);
@@ -61,7 +59,7 @@ const EditReview = ({ userReview }) => {
     }
 
     try {
-      dispatch(editReviewThunk(id, reviewData, images));
+      dispatch(editReviewThunk(id, reviewData));
       closeModal();
     } catch (error) {
       if (error.response) {
@@ -72,17 +70,6 @@ const EditReview = ({ userReview }) => {
     }
   };
 
-  const handleImageChange = (index, event) => {
-    const selectedFile = event.target.files[0];
-    const newImages = [...images];
-    if (selectedFile) {
-      newImages[index] = selectedFile;
-    } else {
-      newImages[index] = null;
-    }
-    setImages(newImages);
-  };
-
   const handleStarHover = (rating, ratingSetter) => {
     ratingSetter(rating);
   };
@@ -91,15 +78,6 @@ const EditReview = ({ userReview }) => {
     ratingSetter(rating);
     ratingHoverSetter(0); // Reset the hovered rating after clicking
   };
-
-  // const updateReviewData = () => {
-  //   const updatedReviewData = new FormData();
-  //   updatedReviewData.append("description", description);
-  //   updatedReviewData.append("wifi", Number(wifi));
-  //   updatedReviewData.append("pet_friendliness", Number(petFriendliness));
-  //   updatedReviewData.append("noise_level", Number(noiseLevel));
-  //   setReviewData(updatedReviewData);
-  // };
 
   return (
     <form onSubmit={handleSubmit} className="review-form-container">
@@ -210,52 +188,7 @@ const EditReview = ({ userReview }) => {
           style={{ fontFamily: "var(--font-lato)" }}
         />
       </div>
-      <div className="add-reviews-images">
-        <div>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(event) => handleImageChange(0, event)}
-          />
-        </div>
-        <div>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(event) => handleImageChange(1, event)}
-          />
-        </div>
-        <div>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(event) => handleImageChange(2, event)}
-          />
-        </div>
-        <div className="preview-images-container">
-          {images[0] && images[0] !== null && (
-            <img
-              className="preview-image"
-              alt="place"
-              src={URL.createObjectURL(images[0])}
-            ></img>
-          )}
-          {images[1] && images[1] !== null && (
-            <img
-              className="preview-image"
-              alt="place"
-              src={URL.createObjectURL(images[1])}
-            ></img>
-          )}
-          {images[2] && images[2] !== null && (
-            <img
-              className="preview-image"
-              alt="place"
-              src={URL.createObjectURL(images[2])}
-            ></img>
-          )}
-        </div>
-      </div>
+
       <button type="submit" className="add-review-submit">
         Submit Review
       </button>
