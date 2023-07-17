@@ -25,7 +25,6 @@ def get_review(review_id):
 def edit_review(review_id):
     review = Review.query.get(review_id)
     if review:
-        print(request.form)
         if review.user_id != current_user.id:
             return jsonify({'error': 'You are not authorized to edit this review'}), 403
 
@@ -123,7 +122,6 @@ def add_review_vote(review_id):
     vote_type = request.json.get('vote_type')
 
     review = Review.query.get(review_id)
-    print("---------------", review)
     if not review:
         return jsonify({'error': 'Review not found'}), 404
 

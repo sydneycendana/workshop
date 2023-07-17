@@ -34,7 +34,6 @@ def edit_vote(vote_id):
 @login_required
 def delete_vote(vote_id):
     vote = Vote.query.get(vote_id)
-    print(vote)
     if not vote:
         return jsonify({'error': 'Vote not found'}), 404
 

@@ -24,7 +24,6 @@ def autocomplete():
     data = response.json()
     predictions = data['predictions']
     results = []
-    print(data)
 
     for prediction in predictions:
         name = prediction['structured_formatting'].get('main_text', '')
