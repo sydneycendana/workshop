@@ -57,7 +57,6 @@ def create_workshop():
         )
         db.session.add(workshop)
         db.session.commit()
-        print(workshop.to_dict())
         return jsonify(workshop.to_dict()), 200
 
     errors = {}
