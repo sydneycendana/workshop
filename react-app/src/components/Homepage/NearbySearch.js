@@ -55,8 +55,8 @@ function NearbySearch({ onSuggestionClick }) {
       </div>
       <div>
         <div
-          className="autocomplete-input"
-          style={{ width: "400px", marginTop: "10px" }}
+          className="autocomplete-input nearby-autocomplete-input"
+          style={{ marginTop: "10px" }}
         >
           <input
             type="text"
@@ -67,24 +67,25 @@ function NearbySearch({ onSuggestionClick }) {
           <Arrow />
         </div>
         {inputText && !suggestionClicked && (
-          <ul
-            ref={ulRef}
-            className="autocomplete-results"
-            style={{ width: "400px" }}
-          >
-            {autocompleteSuggestions &&
-              autocompleteSuggestions.map((suggestion, index) => (
-                <li
-                  key={index}
-                  className="autocomplete-result"
-                  onClick={() => handleSuggestionClick(suggestion.place_id)}
-                >
-                  <div>
-                    {suggestion.name}, {suggestion.address}
-                  </div>
-                </li>
-              ))}
-          </ul>
+          <div className="results-container">
+            <ul
+              ref={ulRef}
+              className="autocomplete-results nearby-search-results"
+            >
+              {autocompleteSuggestions &&
+                autocompleteSuggestions.map((suggestion, index) => (
+                  <li
+                    key={index}
+                    className="autocomplete-result"
+                    onClick={() => handleSuggestionClick(suggestion.place_id)}
+                  >
+                    <div>
+                      {suggestion.name}, {suggestion.address}
+                    </div>
+                  </li>
+                ))}
+            </ul>
+          </div>
         )}
       </div>
     </div>
