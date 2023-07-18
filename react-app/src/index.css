@@ -112,10 +112,12 @@ a {
     background-color: #FFF3F3;
     z-index: 999;
     width: 300px;
-    /* height: 100px; */
     text-align: start;
-    /* overflow-y: scroll; */
     overflow-x: hidden;
+}
+
+.nearby-search-results {
+    width: 400px;
 }
 
 .autocomplete-result:hover {
@@ -157,4 +159,69 @@ a {
 .image-modal {
     width: 400px;
     height: 400px;
+}
+
+@media (max-width: 768px) {
+    .modal-container {
+        min-width: 300px;
+    }
+
+    .autocomplete-input {
+        margin: 0 auto;
+        min-width: 200px;
+    }
+
+    .page-container {
+        max-width: 768px;
+    }
+
+    .autocomplete-results {
+        min-width: 200px !important;
+        margin: 0 auto;
+    }
+
+    .results-container {
+        width: 300px;
+    }
+
+    .workshop-details-container {
+        flex-direction: column !important;
+        flex: 1;
+    }
+
+    .workshop-details-image-container {
+        order: 2;
+        margin-top: 20px;
+    }
+
+    .workshop-info-container {
+        width: 500px;
+        order: 1;
+    }
+
+}
+
+@media (max-width: 400px) {
+    .review-images-container {
+        flex-wrap: wrap;
+    }
+
+    .workshop-info-container {
+        width: 300px;
+    }
+
+    .review-wrapper {
+        width: 300px;
+    }
+
+    .workshop-details-image {
+        width: 250px !important;
+        height: 250px !important;
+    }
+
+    .workshop-details-image-container {
+        width: 250px !important;
+        height: 250px !important;
+        /* object-fit: fill; */
+    }
 }

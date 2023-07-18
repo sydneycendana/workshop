@@ -102,12 +102,11 @@
   }
 
   .autocomplete-input {
-    width: 200px;
     padding: 10px 10px;
   }
 
   .autocomplete-results {
-    width: 200px;
+    width: 300px;
   }
 }
 
@@ -129,8 +128,15 @@
     margin-top: 20px;
   }
 
-  .autocomplete-input {
-    margin: 0 auto;
+  .navbar-button {
+    margin-top: 10px;
+    text-align: center;
   }
 
+}
+
+@media (max-width: 350px) {
+  .search-heading-container {
+    max-width: 300px;
+  }
 }

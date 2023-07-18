@@ -64,9 +64,7 @@ const WorkshopDetails = () => {
         </div>
         <div
           className="workshop-info-container"
-          // onMouseEnter={() => setIsWorkshopInfoHovered(true)}
           onMouseLeave={() => {
-            // setIsWorkshopInfoHovered(false);
             setIsAdminDropdownVisible(false);
           }}
         >

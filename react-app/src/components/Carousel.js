@@ -45,6 +45,7 @@ const MyCarousel = ({ workshop }) => {
                 key={image.id}
                 src={image.url}
                 alt={review.description}
+                className="workshop-details-image"
                 style={{ width: "400px", height: "400px" }}
               />
             ))
@@ -59,6 +60,7 @@ const MyCarousel = ({ workshop }) => {
     <img
       src={workshop.preview_image_url}
       alt={workshop.name}
+      className="workshop-details-image"
       style={{ width: "400px", height: "400px" }}
     />,
     ...(renderReviewImages() || []),
