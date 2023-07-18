@@ -17,6 +17,10 @@ function SignupFormPage() {
   const [last_name, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [firstNameError, setFirstNameError] = useState("");
+  const [lastNameError, setLastNameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const [errors, setErrors] = useState({});
@@ -24,12 +28,44 @@ function SignupFormPage() {
   if (sessionUser) return <Redirect to="/" />;
 
   const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setEmailError("Invalid email address");
+    if (email.trim() === "") {
+      setEmailError("Email is required");
       return false;
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        setEmailError("Invalid email address");
+        return false;
+      }
     }
     setEmailError("");
+    return true;
+  };
+
+  const validateFirstName = (firstName) => {
+    if (firstName.trim() === "") {
+      setFirstNameError("First name is required");
+      return false;
+    }
+    setFirstNameError("");
+    return true;
+  };
+
+  const validateLastName = (lastName) => {
+    if (lastName.trim() === "") {
+      setLastNameError("Last name is required");
+      return false;
+    }
+    setLastNameError("");
+    return true;
+  };
+
+  const validatePassword = (password) => {
+    if (password.trim() === "") {
+      setPasswordError("Password is required");
+      return false;
+    }
+    setPasswordError("");
     return true;
   };
 
@@ -38,9 +74,20 @@ function SignupFormPage() {
 
     setIsSubmitted(true);
 
-    if (!validateEmail(email)) {
+    const isEmailValid = validateEmail(email);
+    const isFirstNameValid = validateFirstName(first_name);
+    const isLastNameValid = validateLastName(last_name);
+    const isPasswordValid = validatePassword(password);
+
+    if (
+      !isEmailValid ||
+      !isFirstNameValid ||
+      !isLastNameValid ||
+      !isPasswordValid
+    ) {
       return;
     }
+
     const data = await dispatch(signUp(first_name, last_name, email, password));
     if (data) {
       setErrors(data);
@@ -53,15 +100,6 @@ function SignupFormPage() {
     <div className="modal-container">
       <h1 className="modal-title">Sign Up</h1>
       <form onSubmit={handleSubmit}>
-        <ul>
-          {isSubmitted && emailError && (
-            <li className="error-message">{emailError}</li>
-          )}
-          {errors &&
-            Object.values(errors).map((error, idx) => (
-              <li key={idx}>{error}</li>
-            ))}
-        </ul>
         <div className="signup-login-input-container">
           <input
             type="text"
@@ -70,6 +108,10 @@ function SignupFormPage() {
             onChange={(e) => setFirstName(e.target.value)}
             required
           />
+          {isSubmitted && firstNameError && (
+            <div className="error-message">{firstNameError}</div>
+          )}
+
           <input
             type="text"
             value={last_name}
@@ -77,6 +119,9 @@ function SignupFormPage() {
             onChange={(e) => setLastName(e.target.value)}
             required
           />
+          {isSubmitted && lastNameError && (
+            <div className="error-message">{lastNameError}</div>
+          )}
 
           <input
             type="text"
@@ -85,6 +130,9 @@ function SignupFormPage() {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
+          {isSubmitted && emailError && (
+            <div className="error-message">{emailError}</div>
+          )}
 
           <input
             type="password"
@@ -93,7 +141,16 @@ function SignupFormPage() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          {isSubmitted && passwordError && (
+            <div className="error-message">{passwordError}</div>
+          )}
         </div>
+        {errors &&
+          Object.values(errors).map((error, idx) => (
+            <div key={idx} className="error-message">
+              {error}
+            </div>
+          ))}
         <div className="button-container">
           <button type="submit" className="modal-submit">
             <Arrow />

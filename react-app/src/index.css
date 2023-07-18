@@ -59,7 +59,7 @@ a {
 .signup-login-input-container {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    /* gap: 30px; */
     margin: 20px 0;
     border-radius: 3px;
 }
@@ -69,6 +69,7 @@ a {
     background-color: #FFF3F3;
     border-radius: 3px;
     border: 1px solid gray;
+    margin: 10px 0;
 }
 
 .signup-login-input-container input:focus {
@@ -79,6 +80,7 @@ a {
 .button-container {
     display: flex;
     justify-content: center;
+    margin-top: 10px;
 }
 
 .modal-submit {
