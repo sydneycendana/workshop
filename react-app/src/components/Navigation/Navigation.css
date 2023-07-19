@@ -108,6 +108,10 @@
   .autocomplete-results {
     width: 300px;
   }
+
+  .nearby-search-results {
+    width: 400px !important;
+  }
 }
 
 @media (max-width: 768px) {
@@ -126,6 +130,10 @@
   .navbar-search {
     order: 2;
     margin-top: 20px;
+  }
+
+  .nearby-search-results {
+    width: 300px !important;
   }
 
   .navbar-button {
