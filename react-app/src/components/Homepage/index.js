@@ -10,10 +10,8 @@ function Homepage() {
   const { location, setIsLocationSet, setLocation } =
     useContext(WorkshopContext);
 
-  // const [location, setLocation] = useState(null);
-  // const [isLocationSet, setIsLocationSet] = useState(false);
   const [workshopsListKey, setWorkshopsListKey] = useState(Date.now());
-  const [noWorkshopsFound, setNoWorkshopsFound] = useState(false);
+  const [alertShown, setAlertShown] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,9 +22,13 @@ function Homepage() {
           );
 
           if (response.length === 0) {
-            setNoWorkshopsFound(true);
-          } else {
-            setNoWorkshopsFound(false);
+            setLocation(null);
+            setAlertShown(false);
+            if (!alertShown) {
+              window.alert("No workshops found");
+              setAlertShown(true);
+              setLocation(null);
+            }
           }
         }
       } catch (error) {
@@ -41,14 +43,7 @@ function Homepage() {
     setLocation(locationDetails);
     setIsLocationSet(true);
     setWorkshopsListKey(Date.now());
-    setNoWorkshopsFound(false);
   };
-
-  useEffect(() => {
-    if (noWorkshopsFound) {
-      window.alert("No workshops found");
-    }
-  }, [noWorkshopsFound]);
 
   return (
     <>
