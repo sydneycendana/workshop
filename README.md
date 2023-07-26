@@ -1,5 +1,4 @@
-# workshop
-# Fullstack Airbnb Clone
+# Workshop
 
 Welcome to Workshop! I built this idea with the frustrating experience I had when moving to a new city. As a fully remote worker and student, I struggled to find the best places to work from to get out of my house. Yelp was too overwhelming and not giving me the information I was looking for. With Workshop, you can search for places near you and see what they are rated in terms of wifi quality, pet-friendliness, and noise level. Here is the link to the <a href="https://sc-workshop.onrender.com/" target="_blank">live site</a>.
 
