@@ -34,30 +34,27 @@ To run the application locally, follow these steps:
 1. Clone the repository to your local machine:
 
 ```bash
-git clone https://github.com/sydneycendana/home-hopper.git
+git clone https://github.com/sydneycendana/workshop.git
 ```
 
 2. Navigate to the root directory of the project and install the dependencies:
 ```
-cd home-hopper
-npm install
+cd workshop
+pip install -r requirements.txt
 ```
 
-3. Next, go to the backend folder and start the server:
+3. Next, go into the shell to start the backend server:
 ```
-cd backend
-npm start
+pipenv shell
+flask run
 ```
 
 4. Finally, open a new terminal window, go to the frontend folder, and start the frontend application:
 ```
-cd frontend
+cd react-app
 npm start
 ```
 
 ## Introduction
 
-Creating my first fullstack application was a thrilling undertaking for me as a new developer. This project challenged me to push my skills to the limit and learn new technologies and techniques. I spent countless hours debugging and reading documentation, and encountered many mishaps that I can now look back on with pride.
-
-The end result is an engaging application that I'm excited to share with the world. With Home Hopper, users can browse and interact with different homes as if through a familiar and intuitive interface.
 
