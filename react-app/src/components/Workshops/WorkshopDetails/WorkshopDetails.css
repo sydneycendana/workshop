@@ -68,6 +68,12 @@
     border: 1px solid black;
     cursor: pointer;
     margin: 0 auto;
+    transition: transform 0.2s ease;
+}
+
+.add-review-button:hover {
+    /* background-color: #B7DFF5; */
+    transform: scale(1.025);
 }
 
 .user-review-container {
@@ -192,16 +198,18 @@
     cursor: pointer;
 }
 
+.upvote-icon:hover path[fill="gray"] {
+    fill: green;
+}
+
+.downvote-icon:hover path[fill="gray"] {
+    fill: #8B0000;
+}
+
 .highlighted-thumbs-up-icon,
 .highlighted-thumbs-down-icon {
     cursor: pointer;
 }
-
-
-/* .admin-dropdown-container {
-    position: absolute;
-    right: 50%;
-} */
 
 .admin-info-button {
     cursor: pointer;

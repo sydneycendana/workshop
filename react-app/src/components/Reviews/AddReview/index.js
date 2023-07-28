@@ -83,104 +83,115 @@ const AddReview = ({ workshopId }) => {
     <form onSubmit={handleSubmit} className="review-form-container">
       <h3 className="review-form-title">How was your visit?</h3>
       <div className="ratings-container">
-        <div className="rating-container">
-          <h5>Wifi</h5>
-          <div className="stars-container">
-            {[1, 2, 3, 4, 5].map((rating) => (
-              <svg
-                key={rating}
-                className={`star ${
-                  wifiHoveredRating >= rating || wifi >= rating ? "yellow" : ""
-                }`}
-                onMouseEnter={() =>
-                  handleStarHover(rating, setWifiHoveredRating)
-                }
-                onMouseLeave={() => handleStarHover(0, setWifiHoveredRating)}
-                onClick={() =>
-                  handleStarClick(setWifi, rating, setWifiHoveredRating)
-                }
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-              >
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M12 2l3.09 6.32 6.91.96-5 4.86 1.18 6.88L12 17.25l-6.18 3.81 1.18-6.88-5-4.86 6.91-.96L12 2zm0 0" />
-              </svg>
-            ))}
+        <div className="add-rating-container">
+          <div className="rating-input">
+            <h5>Wifi</h5>
+            <div className="stars-container">
+              {[1, 2, 3, 4, 5].map((rating) => (
+                <svg
+                  key={rating}
+                  className={`star ${
+                    wifiHoveredRating >= rating || wifi >= rating
+                      ? "yellow"
+                      : ""
+                  }`}
+                  onMouseEnter={() =>
+                    handleStarHover(rating, setWifiHoveredRating)
+                  }
+                  onMouseLeave={() => handleStarHover(0, setWifiHoveredRating)}
+                  onClick={() =>
+                    handleStarClick(setWifi, rating, setWifiHoveredRating)
+                  }
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M0 0h24v24H0z" fill="none" />
+                  <path d="M12 2l3.09 6.32 6.91.96-5 4.86 1.18 6.88L12 17.25l-6.18 3.81 1.18-6.88-5-4.86 6.91-.96L12 2zm0 0" />
+                </svg>
+              ))}
+            </div>
           </div>
-          {errors.wifi && <div>{errors.wifi}</div>}
+          {errors.wifi && <div className="rating-error">{errors.wifi}</div>}
         </div>
-        <div className="rating-container">
-          <h5>Pet Friendliness</h5>
-          <div className="stars-container">
-            {[1, 2, 3, 4, 5].map((rating) => (
-              <svg
-                key={rating}
-                className={`star ${
-                  petFriendlinessHoveredRating >= rating ||
-                  petFriendliness >= rating
-                    ? "yellow"
-                    : ""
-                }`}
-                onMouseEnter={() =>
-                  handleStarHover(rating, setPetFriendlinessHoveredRating)
-                }
-                onMouseLeave={() =>
-                  handleStarHover(0, setPetFriendlinessHoveredRating)
-                }
-                onClick={() =>
-                  handleStarClick(
-                    setPetFriendliness,
-                    rating,
-                    setPetFriendlinessHoveredRating
-                  )
-                }
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-              >
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M12 2l3.09 6.32 6.91.96-5 4.86 1.18 6.88L12 17.25l-6.18 3.81 1.18-6.88-5-4.86 6.91-.96L12 2zm0 0" />
-              </svg>
-            ))}
+        <div className="add-rating-container">
+          <div className="rating-input">
+            <h5>Pet Friendliness</h5>
+            <div className="stars-container">
+              {[1, 2, 3, 4, 5].map((rating) => (
+                <svg
+                  key={rating}
+                  className={`star ${
+                    petFriendlinessHoveredRating >= rating ||
+                    petFriendliness >= rating
+                      ? "yellow"
+                      : ""
+                  }`}
+                  onMouseEnter={() =>
+                    handleStarHover(rating, setPetFriendlinessHoveredRating)
+                  }
+                  onMouseLeave={() =>
+                    handleStarHover(0, setPetFriendlinessHoveredRating)
+                  }
+                  onClick={() =>
+                    handleStarClick(
+                      setPetFriendliness,
+                      rating,
+                      setPetFriendlinessHoveredRating
+                    )
+                  }
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M0 0h24v24H0z" fill="none" />
+                  <path d="M12 2l3.09 6.32 6.91.96-5 4.86 1.18 6.88L12 17.25l-6.18 3.81 1.18-6.88-5-4.86 6.91-.96L12 2zm0 0" />
+                </svg>
+              ))}
+            </div>
           </div>
-          {errors.petFriendliness && <div>{errors.petFriendliness}</div>}
+          {errors.petFriendliness && (
+            <div className="rating-error">{errors.petFriendliness}</div>
+          )}
         </div>
-        <div className="rating-container">
-          <h5>Noise Level</h5>
-          <div className="stars-container">
-            {[1, 2, 3, 4, 5].map((rating) => (
-              <svg
-                key={rating}
-                className={`star ${
-                  noiseLevelHoveredRating >= rating || noiseLevel >= rating
-                    ? "yellow"
-                    : ""
-                }`}
-                onMouseEnter={() =>
-                  handleStarHover(rating, setNoiseLevelHoveredRating)
-                }
-                onMouseLeave={() =>
-                  handleStarHover(0, setNoiseLevelHoveredRating)
-                }
-                onClick={() =>
-                  handleStarClick(
-                    setNoiseLevel,
-                    rating,
-                    setNoiseLevelHoveredRating
-                  )
-                }
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-              >
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M12 2l3.09 6.32 6.91.96-5 4.86 1.18 6.88L12 17.25l-6.18 3.81 1.18-6.88-5-4.86 6.91-.96L12 2zm0 0" />
-              </svg>
-            ))}
+        <div className="add-rating-container">
+          <div className="rating-input">
+            <h5>Noise Level</h5>
+            <div className="stars-container">
+              {[1, 2, 3, 4, 5].map((rating) => (
+                <svg
+                  key={rating}
+                  className={`star ${
+                    noiseLevelHoveredRating >= rating || noiseLevel >= rating
+                      ? "yellow"
+                      : ""
+                  }`}
+                  onMouseEnter={() =>
+                    handleStarHover(rating, setNoiseLevelHoveredRating)
+                  }
+                  onMouseLeave={() =>
+                    handleStarHover(0, setNoiseLevelHoveredRating)
+                  }
+                  onClick={() =>
+                    handleStarClick(
+                      setNoiseLevel,
+                      rating,
+                      setNoiseLevelHoveredRating
+                    )
+                  }
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M0 0h24v24H0z" fill="none" />
+                  <path d="M12 2l3.09 6.32 6.91.96-5 4.86 1.18 6.88L12 17.25l-6.18 3.81 1.18-6.88-5-4.86 6.91-.96L12 2zm0 0" />
+                </svg>
+              ))}
+            </div>
           </div>
-          {errors.noiseLevel && <div>{errors.noiseLevel}</div>}
+          {errors.noiseLevel && (
+            <div className="rating-error">{errors.noiseLevel}</div>
+          )}
         </div>
       </div>
       <div className="add-review-description-container">
-        {/* <label>Tell us more:</label> */}
         <textarea
           value={description}
           placeholder="tell us some more"
