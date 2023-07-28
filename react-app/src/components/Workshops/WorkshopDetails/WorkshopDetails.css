@@ -192,16 +192,18 @@
     cursor: pointer;
 }
 
+.upvote-icon:hover path[fill="gray"] {
+    fill: green;
+}
+
+.downvote-icon:hover path[fill="gray"] {
+    fill: #8B0000;
+}
+
 .highlighted-thumbs-up-icon,
 .highlighted-thumbs-down-icon {
     cursor: pointer;
 }
-
-
-/* .admin-dropdown-container {
-    position: absolute;
-    right: 50%;
-} */
 
 .admin-info-button {
     cursor: pointer;
