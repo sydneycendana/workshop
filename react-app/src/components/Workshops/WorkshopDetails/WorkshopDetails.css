@@ -68,6 +68,12 @@
     border: 1px solid black;
     cursor: pointer;
     margin: 0 auto;
+    transition: transform 0.2s ease;
+}
+
+.add-review-button:hover {
+    /* background-color: #B7DFF5; */
+    transform: scale(1.025);
 }
 
 .user-review-container {
