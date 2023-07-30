@@ -9,13 +9,23 @@ import CreateWorkshopForm from "./components/Workshops/CreateWorkshop";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 import { WorkshopProvider } from "./context/WorkshopContext";
+import { ModalProvider, useModal } from "./context/Modal";
+import WelcomeModal from "./components/WelcomeModal";
 
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
+  const { setModalContent } = useModal();
+
   useEffect(() => {
     dispatch(authenticate()).then(() => setIsLoaded(true));
-  }, [dispatch]);
+
+    const hasModalBeenShown = localStorage.getItem("modalShown");
+    if (!hasModalBeenShown) {
+      setModalContent(<WelcomeModal />);
+      localStorage.setItem("modalShown", "true");
+    }
+  }, [dispatch, setModalContent]);
 
   return (
     <>
