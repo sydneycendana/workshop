@@ -1,0 +1,18 @@
+.welcome-modal-container {
+    max-width: 800px;
+}
+
+.welcome-modal-text-wrapper {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.welcome-modal-text-wrapper h1 {
+    text-align: center;
+}
+
+.welcome-modal-text-wrapper h3 {
+    text-align: center;
+}
