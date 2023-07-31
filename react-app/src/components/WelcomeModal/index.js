@@ -15,8 +15,8 @@ function WelcomeModal() {
         <p>
           This application was born out of a personal challenge I encountered
           when I moved to a new city and started remote work. The task of
-          finding suitable work and study spaces efficiently proved to be a
-          challenge. I tried various options, and although Yelp provided some
+          finding suitable work and study spaces efficiently proved to be pretty
+          difficult. I tried various options, and although Yelp provided some
           help, it wasn't customized to cater specifically to the need for
           conducive workspaces. Hence, I decided to develop this app to address
           this specific problem.
