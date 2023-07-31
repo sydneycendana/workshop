@@ -35,13 +35,13 @@ function WelcomeModal() {
         </p>
         <p>
           From there, feel free to create reviews, add images, upvote or
-          downvote other reviews, etc! Please not that you can only edit or
+          downvote other reviews, etc! Please note that you can only edit or
           delete a workshop from the Demo User (admin) login.
         </p>
         <h3>Connect with me!</h3>
         <p>
           If you enjoyed this, please follow me on socials and check out my
-          portfolio for other fun projects!{" "}
+          portfolio for other fun projects!
         </p>
         <div className="personal-links">
           <div className="social-icons">
