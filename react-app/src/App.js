@@ -9,7 +9,7 @@ import CreateWorkshopForm from "./components/Workshops/CreateWorkshop";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 import { WorkshopProvider } from "./context/WorkshopContext";
-import { ModalProvider, useModal } from "./context/Modal";
+import { useModal } from "./context/Modal";
 import WelcomeModal from "./components/WelcomeModal";
 
 function App() {
