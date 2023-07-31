@@ -13,12 +13,13 @@ function WelcomeModal() {
       <div className="welcome-modal-text-wrapper">
         <h1>Welcome to Workshop!</h1>
         <p>
-          I developed this application to address a personal challenge of mine.
-          Upon moving to a new city and transitioning to remote work, I faced
-          the task of discovering suitable places to work and study efficiently.
-          While I experimented with various options, I discovered that Yelp
-          offered a partial solution; however, it wasn't specifically tailored
-          to help find conducive workspaces.
+          This application was born out of a personal challenge I encountered
+          when I moved to a new city and started remote work. The task of
+          finding suitable work and study spaces efficiently proved to be a
+          challenge. I tried various options, and although Yelp provided some
+          help, it wasn't customized to cater specifically to the need for
+          conducive workspaces. Hence, I decided to develop this app to address
+          this specific problem.
         </p>
         <h3>How to use:</h3>
         <p>
