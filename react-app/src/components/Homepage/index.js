@@ -9,6 +9,7 @@ function Homepage() {
   const dispatch = useDispatch();
   const { location, setIsLocationSet, setLocation } =
     useContext(WorkshopContext);
+  const [radius, setRadius] = useState(5);
 
   const [workshopsListKey, setWorkshopsListKey] = useState(Date.now());
   const [alertShown, setAlertShown] = useState(true);
@@ -17,8 +18,9 @@ function Homepage() {
     const fetchData = async () => {
       try {
         if (location) {
+          console.log(radius);
           const response = await dispatch(
-            fetchNearbyWorkshops(location.latitude, location.longitude)
+            fetchNearbyWorkshops(location.latitude, location.longitude, radius)
           );
 
           if (response.length === 0) {
@@ -37,11 +39,12 @@ function Homepage() {
     };
 
     fetchData();
-  }, [dispatch, location]);
+  }, [dispatch, location, radius]);
 
-  const handleSuggestionClick = (locationDetails) => {
+  const handleSuggestionClick = (locationDetails, radius) => {
     setLocation(locationDetails);
     setIsLocationSet(true);
+    setRadius(radius);
     setWorkshopsListKey(Date.now());
   };
 

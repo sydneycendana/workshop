@@ -75,13 +75,19 @@ export const fetchPlaceDetails = (placeId) => async (dispatch) => {
   }
 };
 
-export const fetchNearbyWorkshops = (lat, lng) => async (dispatch) => {
+export const fetchNearbyWorkshops = (lat, lng, radius) => async (dispatch) => {
   try {
     if (!lat || !lng) {
       throw new Error("Latitude and longitude are required.");
     }
 
-    const response = await fetch(`/api/workshops/nearby?lat=${lat}&lng=${lng}`);
+    if (!radius) {
+      throw new Error("Radius required.");
+    }
+
+    const response = await fetch(
+      `/api/workshops/nearby?lat=${lat}&lng=${lng}&radius=${radius}`
+    );
     if (response.ok) {
       const data = await response.json();
       dispatch(loadNearbyWorkshops(data));
@@ -91,7 +97,6 @@ export const fetchNearbyWorkshops = (lat, lng) => async (dispatch) => {
     }
   } catch (error) {
     console.error(error);
-    // Handle error if needed
   }
 };
 
