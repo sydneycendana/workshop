@@ -9,7 +9,7 @@ function Homepage() {
   const dispatch = useDispatch();
   const { location, setIsLocationSet, setLocation } =
     useContext(WorkshopContext);
-  const [radius, setRadius] = useState(5);
+  const [radius, setRadius] = useState(10);
 
   const [workshopsListKey, setWorkshopsListKey] = useState(Date.now());
   const [alertShown, setAlertShown] = useState(true);
@@ -30,6 +30,7 @@ function Homepage() {
               window.alert("No workshops found");
               setAlertShown(true);
               setLocation(null);
+              setAlertShown(false);
             }
           }
         }

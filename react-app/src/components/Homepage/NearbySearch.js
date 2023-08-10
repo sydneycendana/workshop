@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { WorkshopContext } from "../../context/WorkshopContext";
-
 import { fetchNearbySuggestions, fetchPlaceDetails } from "../../store/google";
-import { ReactComponent as Arrow } from "../../assets/icons/arrow.svg";
 import "./Homepage.css";
 
 function NearbySearch({ onSuggestionClick }) {
@@ -13,7 +11,7 @@ function NearbySearch({ onSuggestionClick }) {
   const { isLocationSet } = useContext(WorkshopContext);
 
   const [inputText, setInputText] = useState("");
-  const [radius, setRadius] = useState(5);
+  const [radius, setRadius] = useState(10);
   const [suggestionClicked, setSuggestionClicked] = useState(false);
   const [placeDetails, setPlaceDetails] = useState({});
 
@@ -72,7 +70,6 @@ function NearbySearch({ onSuggestionClick }) {
               onChange={handleTextChange}
               placeholder="city, town or postcode"
             />
-            <Arrow />
           </div>
           {inputText && !suggestionClicked && (
             <div className="results-container">
@@ -97,17 +94,16 @@ function NearbySearch({ onSuggestionClick }) {
           )}
         </div>
         <div className="radius-input-wrapper">
-          <label htmlFor="number-dropdown">Radius</label>
           <select
             id="number-dropdown"
             value={radius}
             onChange={handleRadiusChange}
           >
-            <option value={5}>5</option>
-            <option value={10}>10</option>
-            <option value={15}>15</option>
-            <option value={20}>20</option>
-            <option value={25}>25</option>
+            <option value={5}>5 miles</option>
+            <option value={10}>10 miles</option>
+            <option value={15}>15 miles</option>
+            <option value={20}>20 miles</option>
+            <option value={25}>25 miles</option>
           </select>
         </div>
       </div>
