@@ -2,6 +2,7 @@ import React from "react";
 import AliceCarousel from "react-alice-carousel";
 import { ReactComponent as Left } from "../assets/icons/left.svg";
 import "react-alice-carousel/lib/alice-carousel.css";
+import "../index.css";
 
 const MyCarousel = ({ workshop }) => {
   const renderPrevButton = ({ isDisabled }) => (
@@ -46,7 +47,7 @@ const MyCarousel = ({ workshop }) => {
                 src={image.url}
                 alt={review.description}
                 className="workshop-details-image"
-                style={{ width: "400px", height: "400px" }}
+                style={{ width: "400px", height: "400px", objectFit: "cover" }}
               />
             ))
           : []
@@ -61,7 +62,7 @@ const MyCarousel = ({ workshop }) => {
       src={workshop.preview_image_url}
       alt={workshop.name}
       className="workshop-details-image"
-      style={{ width: "400px", height: "400px" }}
+      style={{ width: "400px", height: "400px", objectFit: "cover" }}
     />,
     ...(renderReviewImages() || []),
   ];
@@ -72,10 +73,10 @@ const MyCarousel = ({ workshop }) => {
       autoPlay={false}
       //   autoPlayInterval={3000}
       infinite={true}
-      stagePadding={{
-        paddingLeft: 20,
-        paddingRight: 20,
-      }}
+      // stagePadding={{
+      //   paddingLeft: 20,
+      //   paddingRight: 20,
+      // }}
       renderPrevButton={renderPrevButton}
       renderNextButton={renderNextButton}
       dotsDisabled={true}

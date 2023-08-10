@@ -127,7 +127,7 @@ const WorkshopDetails = () => {
         </div>
       </div>
       <h3 className="reviews-section-title">Reviews</h3>
-      {!userReview && (
+      {!userReview && user && (
         <div className="add-review-button-container">
           <OpenModalButton
             buttonText="Add review"
