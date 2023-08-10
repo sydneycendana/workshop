@@ -149,11 +149,15 @@ def get_featured_workshops():
 def get_nearby_workshops():
     lat = request.args.get("lat")
     lng = request.args.get("lng")
+    radius = request.args.get("radius")
 
     if not lat or not lng:
         return jsonify({"error": "Latitude and longitude are required."}), 400
 
-    workshops_within_radius = find_workshops_within_radius(lat, lng, 20)
+    if not radius:
+        return jsonify({"error": "Radius required."}), 400
+
+    workshops_within_radius = find_workshops_within_radius(lat, lng, radius)
 
     workshops_list = []
 

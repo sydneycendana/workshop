@@ -11,7 +11,7 @@ def find_workshops_within_radius(lat, lng, radius):
         workshop_lng = workshop.lng
         distance = calculate_distance(lat, lng, workshop_lat, workshop_lng)
 
-        if distance <= radius:
+        if distance <= float(radius):
             workshops_within_radius.append(workshop)
 
     return workshops_within_radius
