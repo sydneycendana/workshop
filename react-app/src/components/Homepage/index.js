@@ -18,7 +18,6 @@ function Homepage() {
     const fetchData = async () => {
       try {
         if (location) {
-          console.log(radius);
           const response = await dispatch(
             fetchNearbyWorkshops(location.latitude, location.longitude, radius)
           );
