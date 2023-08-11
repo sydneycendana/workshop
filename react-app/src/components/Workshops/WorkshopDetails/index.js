@@ -39,6 +39,7 @@ const WorkshopDetails = () => {
   }
 
   const hasReviews = workshop.reviews && workshop.reviews.length > 0;
+
   const userReview =
     user &&
     user.id &&

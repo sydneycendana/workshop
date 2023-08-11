@@ -79,7 +79,7 @@ const UserReview = ({ userReview }) => {
           </div>
         </div>
         <div>
-          <div className="review-actions-container">
+          <div className="actions-container">
             {isHovered && (
               <button
                 className="dropdown-button"

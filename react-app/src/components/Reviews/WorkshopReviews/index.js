@@ -14,12 +14,8 @@ import { ReactComponent as Noise } from "../../../assets/icons/noise.svg";
 import { ReactComponent as Pet } from "../../../assets/icons/pet.svg";
 
 const Review = ({ review, user }) => {
-  console.log(review);
-
   const dispatch = useDispatch();
   let userVoteType = review.votes.userVoteType;
-
-  console.log(review);
 
   const handleUpvote = () => {
     if (!user) {
