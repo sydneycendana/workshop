@@ -156,10 +156,6 @@ a {
     display: none !important;
 }
 
-.alice-carousel__stage-item {
-    width: 400px !important;
-}
-
 .image-modal {
     width: 400px;
     height: 400px;

@@ -9,10 +9,17 @@
     margin-bottom: 30px;
 }
 
+@media (max-width: 768px) {
+
+
+    .workshop-details-container {
+        flex-direction: column;
+    }
+}
+
 .workshop-details-image-container {
     width: 400px;
     height: 400px;
-    /* object-fit: cover; */
 }
 
 .workshop-info-container {

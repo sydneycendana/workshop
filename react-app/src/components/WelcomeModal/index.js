@@ -15,11 +15,10 @@ function WelcomeModal() {
         <p>
           This application was born out of a personal challenge I encountered
           when I moved to a new city and started remote work. The task of
-          finding suitable work and study spaces efficiently proved to be pretty
-          difficult. I tried various options, and although Yelp provided some
-          help, it wasn't customized to cater specifically to the need for
-          conducive workspaces. Hence, I decided to develop this app to address
-          this specific problem.
+          finding suitable work and study spaces proved to be pretty difficult.
+          Although Yelp provided some help, it wasn't customized to cater
+          specifically to the need for conducive workspaces. Hence, I decided to
+          develop this app to address this specific problem.
         </p>
         <h3>How to use:</h3>
         <p>
